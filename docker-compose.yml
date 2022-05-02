@@ -1,0 +1,20 @@
+version: '3.5'
+
+services:
+
+  rv86:
+    container_name: rv86
+    privileged: true
+    build:
+        context: .
+        dockerfile: Dockerfile
+    volumes:
+        - '~/port:/port'
+    dns:
+        - "1.1.1.1"
+    network_mode: "bridge"
+
+    environment:
+      - LANG=en_US.UTF-8
+      - LANGUAGE=en_US:en
+      - LC_ALL=en_US.UTF-8

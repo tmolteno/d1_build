@@ -18,9 +18,10 @@ COPY licheerv_linux_defconfig linux-build/arch/riscv/configs/licheerv_defconfig
 WORKDIR /kbuild/linux
 # RUN git checkout 06b026a8b7148f18356c5f809e51f013c2494587
 
+RUN apt-get install -y cpio
 WORKDIR /kbuild
 RUN make ARCH=riscv -C linux O=/kbuild/linux-build licheerv_defconfig
-RUN make -j `nproc` -C /kbuild/linux-build ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- V=1 Image modules dtbs
+RUN make -j `nproc` -C /kbuild/linux-build ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- V=0
 
 # Build oreboot
 

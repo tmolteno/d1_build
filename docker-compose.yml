@@ -9,7 +9,7 @@ services:
         context: .
         dockerfile: Dockerfile
     volumes:
-        - '~/port:/port'
+        - '~/port:/outport'
     dns:
         - "1.1.1.1"
     network_mode: "bridge"

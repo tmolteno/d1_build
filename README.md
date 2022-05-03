@@ -1,3 +1,17 @@
+# Build an Image for the Sipeed Lichee RV
+
+An attempt to automate the build of an image, mostly to be able to learn how to do this.
+
+Author: Tim Molteno (tim@molteno.net)
+
+## Links
+
+* https://manpages.ubuntu.com/manpages/bionic/man1/multistrap.1.html
+* https://linux-sunxi.org/Mainline_Debian_HowTo
+* https://linux-sunxi.org/Allwinner_Nezha#U-Boot
+
+## Old Thread from Telegram
+
 Daniel Maslowski, [1/05/22 11:06 PM]
 You can try this:
 - take smaeul's kernel

@@ -23,5 +23,5 @@ cat >>/etc/default/u-boot <<EOF
 U_BOOT_PARAMETERS="rw noquiet root=/dev/vda1"
 U_BOOT_FDT_DIR="noexist"
 EOF
-u-boot-update
+# u-boot-update
 exit

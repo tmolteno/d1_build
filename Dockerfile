@@ -14,34 +14,49 @@ RUN apt-get install -y multistrap systemd-container
 WORKDIR /kbuild
 RUN git clone https://github.com/smaeul/linux
 RUN mkdir -p linux-build/arch/riscv/configs
-COPY licheerv_linux_defconfig linux-build/arch/riscv/configs/licheerv_defconfig
+# COPY licheerv_linux_defconfig linux-build/arch/riscv/configs/licheerv_defconfig
 WORKDIR /kbuild/linux
-# RUN git checkout 06b026a8b7148f18356c5f809e51f013c2494587
+RUN git pull
+RUN git checkout riscv/d1-wip
 
 RUN apt-get install -y cpio
 WORKDIR /kbuild
-RUN make ARCH=riscv -C linux O=/kbuild/linux-build licheerv_defconfig
+RUN make ARCH=riscv -C linux O=/kbuild/linux-build nezha_defconfig
 RUN make -j `nproc` -C /kbuild/linux-build ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- V=0
 
-# Build oreboot
+# Build u-boot
 
 WORKDIR /uboot
 RUN git clone https://github.com/smaeul/u-boot.git
 WORKDIR /uboot/u-boot
 RUN git checkout d1-wip
+RUN apt-get install -y python3-setuptools
 RUN make CROSS_COMPILE=riscv64-linux-gnu- nezha_defconfig
 RUN make -j `nproc` ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- all V=1
+
+# Build opensbi
+
+WORKDIR /uboot
+RUN git clone https://github.com/smaeul/opensbi
+WORKDIR /uboot/opensbi
+RUN git checkout d1-wip
+RUN make CROSS_COMPILE=riscv64-linux-gnu- PLATFORM=generic FW_PIC=y FW_OPTIONS=0x2
+
+WORKDIR /uboot
+COPY licheerv_toc1.cfg .
+RUN ./u-boot/tools/mkimage -T sunxi_toc1 -d licheerv_toc1.cfg u-boot.toc1
 
 # Build the root filesystem
 WORKDIR /build
 COPY multistrap.conf .
 COPY multistrap_config.sh .
 COPY multistrap_setup.sh .
+
+RUN multistrap -f multistrap.conf
+
+# Set everything up.
+
 COPY build.sh .
-
-
-
-# RUN multistrap -f multistrap.conf
 CMD /build/build.sh
 # RUN multistrap -f multistrap.conf
 # RUN

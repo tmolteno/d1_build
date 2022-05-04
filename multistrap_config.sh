@@ -7,6 +7,7 @@ dpkg --configure -a
 umount /proc
 # Needed because we get permissions problems for some reason
 chmod 0666 /dev/null
+#
 # Add a new user rv:lichee
 mkdir -p /home/rv
 useradd --password lichee -G cdrom,floppy,sudo,audio,dip,video,plugdev,netdev --home-dir /home/rv --shell /bin/bash rv

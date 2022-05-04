@@ -46,6 +46,15 @@ WORKDIR /uboot
 COPY licheerv_toc1.cfg .
 RUN ./u-boot/tools/mkimage -T sunxi_toc1 -d licheerv_toc1.cfg u-boot.toc1
 
+# Create a BSP boot0 SPL
+
+RUN git clone https://github.com/smaeul/sun20i_d1_spl -b mainline
+WORKDIR /uboot/sun20i_d1_spl
+RUN make CROSS_COMPILE=riscv64-linux-gnu- p=sun20iw1p1 mmc
+# The copying needs to be done when the image is created
+# sudo dd if=/uboot/sun20i_d1_spl/nboot/boot0_sdcard_sun20iw1p1.bin of=/dev/sdX bs=8192 seek=1
+
+
 # Build the root filesystem
 WORKDIR /build
 COPY multistrap.conf .

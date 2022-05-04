@@ -10,10 +10,6 @@ services:
         dockerfile: Dockerfile
     volumes:
         - '~/port:/outport'
-    dns:
-        - "1.1.1.1"
-    network_mode: "bridge"
-
     environment:
       - LANG=en_US.UTF-8
       - LANGUAGE=en_US:en

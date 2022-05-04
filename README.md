@@ -21,6 +21,14 @@ There is a Makefile that automates this, and you can just type
 
 And the image will be built.
 
+### Clean Build
+
+Just issue,
+
+    docker-compose build --no-cache
+
+And everything will be rebulid (new kernel download e.t.c.). This is very slow (on my laptop)
+
 ## WORK-IN-PROGRESS
 
 Caution. This is a work in progress and is not fully working yet. Help is appreciated.

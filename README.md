@@ -4,6 +4,27 @@ An attempt to automate the build of an image, mostly to be able to learn how to 
 
 Author: Tim Molteno (tim@molteno.net)
 
+## How to use
+
+This is intended to be used on a debian system with docker, and docker-compose installed.
+
+    docker-compose build
+    docker-compose up
+
+The build stage does a lot of the work (compiling kernels e.t.c and takes quite a bit of time). Once this is done it will be cached by Docker, so should run faster. The execution stage (docker-compose up) runs a script that does more of the image building using a series of scripts (build.sh, create_image.sh).
+
+This should produce a disk image in the directory ~/port/ of the user that ran the script.
+
+There is a Makefile that automates this, and you can just type
+
+    make
+
+And the image will be built.
+
+## WORK-IN-PROGRESS
+
+Caution. This is a work in progress and is not fully working yet. Help is appreciated.
+
 ## Links
 
 * https://manpages.ubuntu.com/manpages/bionic/man1/multistrap.1.html

@@ -1,4 +1,10 @@
-# Update package information
+#!/bin/sh
+# Author. Tim Molteno tim@molteno.net
+# (C) 2022.
+#
+# Prepare the system for booting properly.
+# NOTE This script IS NOT CALLED YET.
+#
 apt-get update
 # Set up basic networking
 cat >>/etc/network/interfaces <<EOF
@@ -9,7 +15,7 @@ auto eth0
 iface eth0 inet dhcp
 EOF
 # Set root password
-passwd
+sed -i -e "s/^root:[^:]\+:/root:`openssl passwd -1 -salt root licheerv`:/" /etc/shadow
 # Disable the getty on hvc0 as hvc0 and ttyS0 share the same console device in qemu.
 ln -sf /dev/null /etc/systemd/system/serial-getty@hvc0.service
 # Install kernel and bootloader infrastructure

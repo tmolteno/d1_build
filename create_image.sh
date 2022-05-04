@@ -1,10 +1,14 @@
 #!/bin/sh
+#
+# Author. Tim Molteno tim@molteno.net
+# (C) 2022.
 # http://www.orangepi.org/Docs/Makingabootable.html
 
-# Make Image
+# Make Image the first parameter of this script is the directory containing all the files needed
+# This is done to allow the script to be run outside of Docker for testing.
 OUTPORT=$1
 
-IMG=${OUTPORT}/licheerv.img}
+IMG=${OUTPORT}/licheerv.img
 dd if=/dev/zero of=${IMG} bs=1M count=3500
 
 # Setup Loopback device
@@ -33,7 +37,7 @@ dd if=${OUTPORT}/u-boot.toc1 of=${LOOP} bs=512 seek=24576
 
 
 mount /dev/mapper/loop0p2 /mnt
-cp ${OUTPORT}/rv64-port/* /mnt
+cp -a ${OUTPORT}/rv64-port/* /mnt
 umount /mnt
 
 # Clean Up

@@ -65,10 +65,10 @@ RUN multistrap -f multistrap.conf
 
 # Set everything up.
 
-RUN apt-get install -y kpartx openssl
+RUN apt-get install -y kpartx openssl fdisk dosfstools e2fsprogs
 
 COPY build.sh .
-# COPY create_image.sh .
+COPY create_image.sh .
 COPY disk_layout.sfdisk .
 CMD /build/build.sh
 # RUN multistrap -f multistrap.conf

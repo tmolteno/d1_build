@@ -35,7 +35,7 @@ RUN git clone https://github.com/lwfinger/rtl8723ds.git
 WORKDIR /kbuild/rtl8723ds
 RUN make -j `nproc` ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- KSRC=/kbuild/linux-build modules
 RUN ls -l
-# Module resides in rtl8723ds/8723ds.ko
+# Module resides in /kbuild/rtl8723ds/8723ds.ko
 
 # Build u-boot
 

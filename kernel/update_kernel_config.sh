@@ -1,9 +1,11 @@
 #!/bin/bash
 # Author Tim Molteno
 # Update the mainline kernel nezha_defconfig
+
+CONF_FILE=/kbuild/linux/arch/riscv/configs/nezha_defconfig
 function add_config() {
-    grep $1 /kbuild/linux/arch/riscv/configs/nezha_defconfig
-    echo $1 >> /kbuild/linux/arch/riscv/configs/nezha_defconfig
+    grep $1 ${CONF_FILE}
+    echo $1 >> ${CONF_FILE}
 }
 
 # enable WiFi
@@ -62,3 +64,5 @@ add_config 'CONFIG_SYSVIPC_SYSCTL=y'
 # enable swap
 add_config 'CONFIG_SWAP=y'
 add_config 'CONFIG_ZSWAP=y'
+
+cat ${CONF_FILE}

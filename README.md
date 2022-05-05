@@ -1,6 +1,6 @@
 # Build an Image for the Sipeed Lichee RV
 
-An attempt to automate the build of an image, mostly to be able to learn how to do this.
+An attempt to use Docker to automate the building of a Debian image for the Sipeed Lichee RV Risc-V single board computer, mostly to be able to learn how to do this.
 
 Author: Tim Molteno (tim@molteno.net)
 

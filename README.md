@@ -39,6 +39,7 @@ Caution. This is a work in progress and is not fully working yet. Help is apprec
 * https://linux-sunxi.org/Mainline_Debian_HowTo
 * https://linux-sunxi.org/Allwinner_Nezha#U-Boot
 * https://andreas.welcomes-you.com/boot-sw-debian-risc-v-lichee-rv
+* https://github.com/sehraf/riscv-arch-image-builder/blob/main/1_compile.sh
 
 ## Old Thread from Telegram
 

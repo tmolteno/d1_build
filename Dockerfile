@@ -17,12 +17,20 @@ RUN mkdir -p linux-build/arch/riscv/configs
 # COPY licheerv_linux_defconfig linux-build/arch/riscv/configs/licheerv_defconfig
 WORKDIR /kbuild/linux
 RUN git pull
-RUN git checkout riscv/d1-wip
+#RUN git checkout riscv/d1-wip
+RUN git checkout  d1-wip-v5.18-rc4
 
 RUN apt-get install -y cpio
 WORKDIR /kbuild
 RUN make ARCH=riscv -C linux O=/kbuild/linux-build nezha_defconfig
 RUN make -j `nproc` -C /kbuild/linux-build ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- V=0
+
+# Build kernel modules
+RUN git clone https://github.com/lwfinger/rtl8723ds.git
+WORKDIR /kbuild/rtl8723ds
+RUN make -j `nproc` ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- KSRC=/kbuild/linux-build modules
+RUN ls -l
+# Module resides in rtl8723ds/8723ds.ko
 
 # Build u-boot
 
@@ -71,6 +79,3 @@ COPY build.sh .
 COPY create_image.sh .
 COPY disk_layout.sfdisk .
 CMD /build/build.sh
-# RUN multistrap -f multistrap.conf
-# RUN
-# RUN chroot /port/rv64-port /usr/bin/dpkg --configure -a

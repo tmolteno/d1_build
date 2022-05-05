@@ -38,6 +38,7 @@ Caution. This is a work in progress and is not fully working yet. Help is apprec
 * https://manpages.ubuntu.com/manpages/bionic/man1/multistrap.1.html
 * https://linux-sunxi.org/Mainline_Debian_HowTo
 * https://linux-sunxi.org/Allwinner_Nezha#U-Boot
+* https://andreas.welcomes-you.com/boot-sw-debian-risc-v-lichee-rv
 
 ## Old Thread from Telegram
 
@@ -84,9 +85,6 @@ this happened 🥳🥳
 TIm Molteno, [1/05/22 11:18 PM]
 Looking through the dts, the memory configuration seems to be included already via #include "sun20i-d1.dtsi" from #include "sun20i-d1-lichee-rv.dts".  What did you mean by add memory config to dts?
 
-Daniel Maslowski, [1/05/22 11:18 PM]
-Hang on
-
 Daniel Maslowski, [1/05/22 11:19 PM]
 (you'd only need it with oreboot because we don't have it yet 😅)
 
@@ -97,11 +95,6 @@ Daniel Maslowski, [1/05/22 11:21 PM]
 it'd look like this:
 https://github.com/orangecms/linux/commit/42363de415310c48cc4ed597fecfdabfc77402a1
 
-
-
-
-
-Following [https://andreas.welcomes-you.com/boot-sw-debian-risc-v-lichee-rv/#mcetoc_1ftmpkntlmpi]
 
 
 ## Full List of Packages

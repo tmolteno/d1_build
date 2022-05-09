@@ -78,7 +78,7 @@ RUN multistrap -f multistrap.conf
 
 # Set everything up.
 
-RUN apt-get install -y kpartx openssl fdisk dosfstools e2fsprogs
+RUN apt-get install -y kpartx openssl fdisk dosfstools e2fsprogs kmod
 
 COPY build.sh .
 COPY create_image.sh .

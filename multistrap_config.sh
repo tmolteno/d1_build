@@ -16,3 +16,10 @@ sed -i -e "s/^root:[^:]\+:/root:`openssl passwd -1 -salt root licheerv`:/" /etc/
 mkdir -p /home/rv
 useradd --password lichee -G cdrom,floppy,sudo,audio,dip,video,plugdev,netdev --home-dir /home/rv --shell /bin/bash rv
 chown rv:rv /home/rv
+
+cat >>/etc/fstab <<EOF
+# <device>        <dir>        <type>        <options>            <dump> <pass>
+/dev/mmcblk0p1    /boot        ext2          rw,defaults,noatime  1      1
+/dev/mmcblk0p2    /            ext4          rw,defaults,noatime  1      1
+/dev/mmcblk0p3    swap         swap          defaults,noatime     0      0
+EOF

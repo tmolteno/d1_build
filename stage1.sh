@@ -5,7 +5,6 @@
 # Prepare the system for booting properly.
 # NOTE This script IS NOT CALLED YET.
 #
-apt-get update
 # Set up basic networking
 cat >>/etc/network/interfaces <<EOF
 auto lo

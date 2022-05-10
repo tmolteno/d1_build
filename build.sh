@@ -7,6 +7,8 @@ PORT=/port/rv64-port
 cp /etc/resolv.conf ${PORT}/etc/resolv.conf
 chroot ${PORT} /multistrap_config.sh
 
+# cp stage1.sh ${PORT}/stage1.sh
+# chroot ${PORT} /stage1.sh
 
 #  Move files we'll need from inside the container to the users directory /outport
 #  These files will all be visible in ~/port/ after the script is finished.

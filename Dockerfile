@@ -12,15 +12,15 @@ RUN apt-get install -y multistrap systemd-container
 
 # Build the kernel
 WORKDIR /kbuild
-RUN git clone https://github.com/smaeul/linux
+RUN git clone --branch riscv/d1-wip https://github.com/smaeul/linux
 RUN mkdir -p linux-build/arch/riscv/configs
 # COPY licheerv_linux_defconfig linux-build/arch/riscv/configs/licheerv_defconfig
 
 
 WORKDIR /kbuild/linux
-RUN git pull
-#RUN git checkout riscv/d1-wip
-RUN git checkout  d1-wip-v5.18-rc4
+# RUN git pull
+# RUN git checkout riscv/d1-wip
+#RUN git checkout  d1-wip-v5.18-rc4
 
 COPY kernel/update_kernel_config.sh .
 RUN ./update_kernel_config.sh

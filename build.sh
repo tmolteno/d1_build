@@ -21,7 +21,7 @@ cd /kbuild/linux-build && make modules_install ARCH=riscv INSTALL_MOD_PATH=${POR
 
 MODDIR=`ls ${PORT}/lib/modules/`
 echo "Creating wireless module in ${MODDIR}"
-install -D -p -m 644 /kbuild/rtl8723ds/8723ds.ko ${MODDIR}/kernel/drivers/net/wireless/8723ds.ko
+install -v -D -p -m 644 /kbuild/rtl8723ds/8723ds.ko ${PORT}/lib/modules/${MODDIR}/kernel/drivers/net/wireless/8723ds.ko
 
 cp -a /uboot/sun20i_d1_spl/nboot/boot0_sdcard_sun20iw1p1.bin /outport/
 cp -a /uboot/u-boot.toc1 /outport/

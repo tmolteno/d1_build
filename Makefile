@@ -1,5 +1,5 @@
 all:
-	sudo rm -rf ~/port/rv64-port
+	sudo rm -rf ~/port/*
 	docker-compose build
 	docker-compose up
 

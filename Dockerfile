@@ -59,6 +59,9 @@ WORKDIR /uboot
 COPY licheerv_toc1.cfg .
 RUN ./u-boot/tools/mkimage -T sunxi_toc1 -d licheerv_toc1.cfg u-boot.toc1
 
+COPY bootscr.txt .
+RUN ./u-boot/tools/mkimage -T script -C none -O linux -A "riscv" -d bootscr.txt boot.scr
+
 # Create a BSP boot0 SPL
 
 RUN git clone https://github.com/smaeul/sun20i_d1_spl -b mainline

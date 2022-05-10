@@ -21,6 +21,7 @@ cd /kbuild/linux-build && make modules_install ARCH=riscv INSTALL_MOD_PATH=${POR
 
 cp -a /uboot/sun20i_d1_spl/nboot/boot0_sdcard_sun20iw1p1.bin /outport/
 cp -a /uboot/u-boot.toc1 /outport/
+cp -a /uboot/boot.scr /outport/
 cp -a ${PORT} /outport/
 
 # Run the script to create the disk image

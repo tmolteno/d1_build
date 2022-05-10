@@ -35,6 +35,7 @@ dd if=${OUTPORT}/boot0_sdcard_sun20iw1p1.bin of=${LOOP} bs=8192 seek=16
 dd if=${OUTPORT}/u-boot.toc1 of=${LOOPDEV} bs=512 seek=32800
 dd if=${OUTPORT}/u-boot.toc1 of=${LOOPDEV} bs=512 seek=24576
 
+
 # Copy Files, first the boot partition
 echo "Copying files to boot partition ${LOOPDEV}"
 MNTPOINT=/rvmnt
@@ -49,7 +50,11 @@ echo "Copying files to main partition ${LOOPDEV}"
 
 mkdir -p ${MNTPOINT}
 mount /dev/mapper/${LOOP}p2 ${MNTPOINT}
+
 cp -a ${OUTPORT}/rv64-port/* ${MNTPOINT}
+# install U-Boot
+cp "${OUTPORT}/boot.scr" "${MNTPOINT}/boot/"
+
 umount ${MNTPOINT}
 
 # Clean Up

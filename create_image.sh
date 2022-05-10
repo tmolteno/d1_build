@@ -31,6 +31,8 @@ parted -s -a optimal -- ${LOOPDEV} mkpart primary ext2 40MiB 100MiB
 parted -s -a optimal -- ${LOOPDEV} mkpart primary ext4 100MiB -1GiB
 parted -s -a optimal -- ${LOOPDEV} mkpart primary linux-swap -1GiB 100%
 
+kpartx -av ${LOOPDEV}
+
 mkfs.ext2 /dev/mapper/${LOOP}p1
 mkfs.ext4 /dev/mapper/${LOOP}p2
 mkswap /dev/mapper/${LOOP}p3

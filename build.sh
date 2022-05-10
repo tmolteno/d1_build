@@ -19,6 +19,10 @@ cp /kbuild/linux-build/arch/riscv/boot/Image /outport/
 cd /kbuild/linux-build && make modules_install ARCH=riscv INSTALL_MOD_PATH=${PORT}
 # KERNELRELEASE=5.17.0-rc2-379425-g06b026a8b714
 
+MODDIR=`ls ${PORT}/lib/modules/`
+echo "Creating wireless module in ${MODDIR}"
+install -D -p -m 644 /kbuild/rtl8723ds/8723ds.ko ${MODDIR}/kernel/drivers/net/wireless/8723ds.ko
+
 cp -a /uboot/sun20i_d1_spl/nboot/boot0_sdcard_sun20iw1p1.bin /outport/
 cp -a /uboot/u-boot.toc1 /outport/
 cp -a ${PORT} /outport/

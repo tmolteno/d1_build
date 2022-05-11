@@ -52,7 +52,7 @@ dd if=${OUTPORT}/u-boot.toc1 of=${LOOPDEV} bs=512 seek=24576
 echo "Copying files to boot partition ${LOOPDEV}"
 MNTPOINT=/sdcard_boot
 mkdir -p ${MNTPOINT}
-mount /dev/mapper/loop0p1 ${MNTPOINT}
+mount /dev/mapper/${LOOP}p1 ${MNTPOINT}
 cp ${OUTPORT}/Image.gz ${MNTPOINT}
 # install U-Boot
 cp ${OUTPORT}/boot.scr "${MNTPOINT}"

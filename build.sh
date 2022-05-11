@@ -15,19 +15,19 @@ chroot ${PORT} /multistrap_config.sh
 cp disk_layout.sfdisk /outport/
 cp create_image.sh /outport/
 
-cp /kbuild/linux-build/arch/riscv/boot/Image.gz /outport/
-cp /kbuild/linux-build/arch/riscv/boot/Image /outport/
+cp /build/linux-build/arch/riscv/boot/Image.gz /outport/
+cp /build/linux-build/arch/riscv/boot/Image /outport/
 
-cd /kbuild/linux-build && make modules_install ARCH=riscv INSTALL_MOD_PATH=${PORT}
+cd /build/linux-build && make modules_install ARCH=riscv INSTALL_MOD_PATH=${PORT}
 # KERNELRELEASE=5.17.0-rc2-379425-g06b026a8b714
 
 MODDIR=`ls ${PORT}/lib/modules/`
 echo "Creating wireless module in ${MODDIR}"
-install -v -D -p -m 644 /kbuild/rtl8723ds/8723ds.ko ${PORT}/lib/modules/${MODDIR}/kernel/drivers/net/wireless/8723ds.ko
+install -v -D -p -m 644 /build/rtl8723ds/8723ds.ko ${PORT}/lib/modules/${MODDIR}/kernel/drivers/net/wireless/8723ds.ko
 
-cp -a /uboot/sun20i_d1_spl/nboot/boot0_sdcard_sun20iw1p1.bin /outport/
-cp -a /uboot/u-boot.toc1 /outport/
-cp -a /uboot/boot.scr /outport/
+cp -a /build/sun20i_d1_spl/nboot/boot0_sdcard_sun20iw1p1.bin /outport/
+cp -a /build/u-boot.toc1 /outport/
+cp -a /build/boot.scr /outport/
 cp -a ${PORT} /outport/
 
 # Run the script to create the disk image

@@ -41,6 +41,20 @@ Caution. This is a work in progress and is not fully working yet. Help is apprec
 * https://andreas.welcomes-you.com/boot-sw-debian-risc-v-lichee-rv
 * https://github.com/sehraf/riscv-arch-image-builder/blob/main/1_compile.sh
 
+## Basic Flow
+
+* Use a device tree which speficies the hardware
+* Compile uboot & friends
+* Then compile the kernel using the same device tree (kernel defconfig)
+
+The device tree is first found in the U-boot compile, and the Kernel compile should use this same device tree. In our case there are two of interest. These are found in uboot/configs/xxx
+
+    lichee_rv_86_panel_defconfig
+    lichee_rv_defconfig
+
+These are for the RV 86 Panel (with built-in screen) and the dock/board respectively.
+
+
 ## Old Thread from Telegram
 
 Daniel Maslowski, [1/05/22 11:06 PM]

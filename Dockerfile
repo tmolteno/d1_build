@@ -43,39 +43,42 @@ WORKdIR /uboot
 RUN git clone https://github.com/smaeul/sun20i_d1_spl -b mainline
 WORKDIR /uboot/sun20i_d1_spl
 RUN make CROSS_COMPILE=riscv64-linux-gnu- p=sun20iw1p1 mmc
-# The copying needs to be done when the image is created
-# sudo dd if=/uboot/sun20i_d1_spl/nboot/boot0_sdcard_sun20iw1p1.bin of=/dev/sdX bs=8192 seek=1
+# The file resides in /uboot/sun20i_d1_spl/nboot/boot0_sdcard_sun20iw1p1.bin
 
+#
 # Build opensbi
-
+#
 WORKDIR /uboot
 RUN git clone https://github.com/smaeul/opensbi
 WORKDIR /uboot/opensbi
 RUN git checkout d1-wip
 RUN make CROSS_COMPILE=riscv64-linux-gnu- PLATFORM=generic FW_PIC=y FW_OPTIONS=0x2
+# The binary is located here: opensbi/build/platform/generic/firmware/fw_dynamic.bin
 
+#
 # Build u-boot
-
+#
 WORKDIR /uboot
 RUN git clone --depth 1 --branch d1-wip https://github.com/smaeul/u-boot.git
 WORKDIR /uboot/u-boot
 RUN apt-get install -y python3-setuptools
-RUN make CROSS_COMPILE=riscv64-linux-gnu- nezha_defconfig
+RUN make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- nezha_defconfig
 RUN make -j `nproc` ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- all V=0
+# The binary is located here: u-boot/arch/riscv/dts/sun20i-d1-lichee-rv-dock.dtb
 
 # Generate u-boot TOC
 # Requires uboot, opensbi to have been built and run in the same directory.
 WORKDIR /uboot
 COPY licheerv_toc1.cfg .
 RUN ./u-boot/tools/mkimage -A riscv -T sunxi_toc1 -d licheerv_toc1.cfg u-boot.toc1
+# The u-boot toc is here: u-boot.toc1
 
-
-# Build kernel in here...
 
 ## Create a boot script...
 
 COPY bootscr.txt .
 RUN ./u-boot/tools/mkimage -T script -C none -O linux -A riscv -d bootscr.txt boot.scr
+# The boot script is here: boot.scr
 
 
 

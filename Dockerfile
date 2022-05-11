@@ -62,9 +62,11 @@ WORKDIR /uboot
 RUN git clone --depth 1 --branch d1-wip https://github.com/smaeul/u-boot.git
 WORKDIR /uboot/u-boot
 RUN apt-get install -y python3-setuptools
-RUN make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- nezha_defconfig
+RUN make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- lichee_rv_defconfig
 RUN make -j `nproc` ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- all V=0
+RUN ls -l arch/riscv/dts/
 # The binary is located here: u-boot/arch/riscv/dts/sun20i-d1-lichee-rv-dock.dtb
+# and is used in the next step of the build
 
 # Generate u-boot TOC
 # Requires uboot, opensbi to have been built and run in the same directory.

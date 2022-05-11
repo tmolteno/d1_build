@@ -25,7 +25,7 @@ echo "Using loopback device ${LOOPDEV}"
 # mkfs.vfat /dev/mapper/${LOOP}p1
 # mkfs.ext4 /dev/mapper/${LOOP}p2
 
-dd if=/dev/zero of=${LOOPDEV} bs=1k count=1023 seek=1
+dd if=/dev/zero of=${LOOPDEV} bs=1M count=100
 parted -s -a optimal -- ${LOOPDEV} mklabel gpt
 parted -s -a optimal -- ${LOOPDEV} mkpart primary ext2 40MiB 100MiB
 parted -s -a optimal -- ${LOOPDEV} mkpart primary ext4 100MiB -1GiB

@@ -49,28 +49,37 @@ dd if=${OUTPORT}/u-boot.toc1 of=${LOOPDEV} bs=512 seek=24576
 
 
 # Copy Files, first the boot partition
-echo "Copying files to boot partition ${LOOPDEV}"
-MNTPOINT=/sdcard_boot
-mkdir -p ${MNTPOINT}
-mount /dev/mapper/${LOOP}p1 ${MNTPOINT}
-cp ${OUTPORT}/Image.gz ${MNTPOINT}
-# install U-Boot
-cp ${OUTPORT}/boot.scr "${MNTPOINT}"
-umount ${MNTPOINT}
-rm -rf ${MNTPOINT}
-
-echo "Copying files to main partition ${LOOPDEV}"
-
-MNTPOINT=/sdcard_root
+echo "Mounting  partitions ${LOOPDEV}"
+MNTPOINT=/sdcard
 mkdir -p ${MNTPOINT}
 mount /dev/mapper/${LOOP}p2 ${MNTPOINT}
+mkdir -p ${MNTPOINT}/boot
+mount /dev/mapper/${LOOP}p1 ${MNTPOINT}/boot/
 
+# Copy the rootfs
 cp -a ${OUTPORT}/rv64-port/* ${MNTPOINT}
 
-umount ${MNTPOINT}
-rm -rf ${MNTPOINT}
+
+# install kernel and modules
+cp ${OUTPORT}/Image ${MNTPOINT}/boot
+cp ${OUTPORT}/Image.gz ${MNTPOINT}/boot
+
+
+cd /build/linux-build && make ARCH=riscv INSTALL_MOD_PATH=${MNTPOINT} modules_install
+
+MODDIR=`ls ${MNTPOINT}/lib/modules/`
+echo "Creating wireless module in ${MODDIR}"
+install -v -D -p -m 644 /build/rtl8723ds/8723ds.ko ${MNTPOINT}/lib/modules/${MODDIR}/kernel/drivers/net/wireless/8723ds.ko
+
+
+# install U-Boot
+cp ${OUTPORT}/boot.scr "${MNTPOINT}/boot/"
+
 
 # Clean Up
+umount ${MNTPOINT}/boot
+umount ${MNTPOINT}
+rm -rf ${MNTPOINT}
 
 kpartx -d ${LOOPDEV}
 losetup -d ${LOOPDEV}

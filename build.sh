@@ -2,33 +2,27 @@
 # Author. Tim Molteno tim@molteno.net
 # (C) 2022.
 
-PORT=/port/rv64-port
+ROOT_FS=/port/rv64-port
 
-cp /etc/resolv.conf ${PORT}/etc/resolv.conf
-chroot ${PORT} /multistrap_config.sh
+cp /etc/resolv.conf ${ROOT_FS}/etc/resolv.conf
+chroot ${ROOT_FS} /multistrap_config.sh
 
-# cp stage1.sh ${PORT}/stage1.sh
-# chroot ${PORT} /stage1.sh
+# cp stage1.sh ${ROOT_FS}/stage1.sh
+# chroot ${ROOT_FS} /stage1.sh
 
 #  Move files we'll need from inside the container to the users directory /outport
 #  These files will all be visible in ~/port/ after the script is finished.
-cp disk_layout.sfdisk /outport/
+# cp disk_layout.sfdisk /outport/
 cp create_image.sh /outport/
 
 cp /build/linux-build/arch/riscv/boot/Image.gz /outport/
 cp /build/linux-build/arch/riscv/boot/Image /outport/
 
-cd /build/linux-build && make modules_install ARCH=riscv INSTALL_MOD_PATH=${PORT}
-# KERNELRELEASE=5.17.0-rc2-379425-g06b026a8b714
-
-MODDIR=`ls ${PORT}/lib/modules/`
-echo "Creating wireless module in ${MODDIR}"
-install -v -D -p -m 644 /build/rtl8723ds/8723ds.ko ${PORT}/lib/modules/${MODDIR}/kernel/drivers/net/wireless/8723ds.ko
 
 cp -a /build/sun20i_d1_spl/nboot/boot0_sdcard_sun20iw1p1.bin /outport/
 cp -a /build/u-boot.toc1 /outport/
 cp -a /build/boot.scr /outport/
-cp -a ${PORT} /outport/
+cp -a ${ROOT_FS} /outport/
 
 # Run the script to create the disk image
 /build/create_image.sh /outport

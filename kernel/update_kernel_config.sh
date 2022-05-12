@@ -2,7 +2,7 @@
 # Author Tim Molteno
 # Update the mainline kernel nezha_defconfig
 
-CONF_FILE=/kbuild/linux/arch/riscv/configs/nezha_defconfig
+CONF_FILE=/build/linux/arch/riscv/configs/nezha_defconfig
 function add_config() {
     grep $1 ${CONF_FILE}
     echo $1 >> ${CONF_FILE}

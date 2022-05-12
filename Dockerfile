@@ -58,7 +58,7 @@ RUN ls -l arch/riscv/dts/
 # Generate u-boot TOC
 #
 WORKDIR /build
-COPY licheerv_toc1.cfg .
+COPY config/licheerv_toc1.cfg .
 RUN ./u-boot/tools/mkimage -A riscv -T sunxi_toc1 -d licheerv_toc1.cfg u-boot.toc1
 RUN ls -l
 # The u-boot toc is here: u-boot.toc1
@@ -66,7 +66,7 @@ RUN ls -l
 #
 # Create a boot script...
 #
-COPY bootscr.txt .
+COPY config/bootscr.txt .
 RUN ./u-boot/tools/mkimage -T script -C none -O linux -A riscv -d bootscr.txt boot.scr
 # The boot script is here: boot.scr
 # Image Name:   
@@ -115,9 +115,9 @@ RUN ls -l
 
 # Build the root filesystem
 WORKDIR /build
-COPY multistrap.conf .
-COPY multistrap_config.sh .
-COPY multistrap_setup.sh .
+COPY rootfs/multistrap.conf .
+COPY rootfs/multistrap_config.sh .
+COPY rootfs/multistrap_setup.sh .
 
 RUN multistrap -f multistrap.conf
 
@@ -128,5 +128,4 @@ RUN apt-get install -y kpartx openssl fdisk dosfstools e2fsprogs kmod parted
 COPY build.sh .
 COPY create_image.sh .
 COPY stage1.sh .
-COPY disk_layout.sfdisk .
 CMD /build/build.sh

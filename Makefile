@@ -10,6 +10,5 @@ clean:
 zip:
 	7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on ~/port/licheerv.img.7z ~/port/glicheerv.img
 
-create_image:
-	sudo cp create_image.sh ~/port/
-	cd ~/port/ && sudo ./create_image.sh `pwd`
+flash:
+	sudo dd if=~/port/licheerv.img of=/dev/mmcblk0 bs=8M

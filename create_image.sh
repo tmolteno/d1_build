@@ -17,13 +17,8 @@ dd if=/dev/zero of=${IMG} bs=1M count=3500
 # Setup Loopback device
 LOOP=`losetup -f --show ${IMG} | cut -d'/' -f3`
 LOOPDEV=/dev/${LOOP}
-echo "Using loopback device ${LOOPDEV}"
+echo "Partitioning loopback device ${LOOPDEV}"
 
-# Create partitions
-# sfdisk ${LOOPDEV} < ${OUTPORT}/disk_layout.sfdisk
-# kpartx -av ${LOOPDEV}
-# mkfs.vfat /dev/mapper/${LOOP}p1
-# mkfs.ext4 /dev/mapper/${LOOP}p2
 
 dd if=/dev/zero of=${LOOPDEV} bs=1M count=100
 parted -s -a optimal -- ${LOOPDEV} mklabel gpt
@@ -54,15 +49,15 @@ MNTPOINT=/sdcard
 mkdir -p ${MNTPOINT}
 mount /dev/mapper/${LOOP}p2 ${MNTPOINT}
 mkdir -p ${MNTPOINT}/boot
-mount /dev/mapper/${LOOP}p1 ${MNTPOINT}/boot/
+mount /dev/mapper/${LOOP}p1 ${MNTPOINT}/boot
 
 # Copy the rootfs
 cp -a ${OUTPORT}/rv64-port/* ${MNTPOINT}
 
 
 # install kernel and modules
-cp ${OUTPORT}/Image ${MNTPOINT}/boot
-cp ${OUTPORT}/Image.gz ${MNTPOINT}/boot
+cp ${OUTPORT}/Image "${MNTPOINT}/boot/"
+cp ${OUTPORT}/Image.gz "${MNTPOINT}/boot/"
 
 
 cd /build/linux-build && make ARCH=riscv INSTALL_MOD_PATH=${MNTPOINT} modules_install
@@ -71,6 +66,14 @@ MODDIR=`ls ${MNTPOINT}/lib/modules/`
 echo "Creating wireless module in ${MODDIR}"
 install -v -D -p -m 644 /build/rtl8723ds/8723ds.ko ${MNTPOINT}/lib/modules/${MODDIR}/kernel/drivers/net/wireless/8723ds.ko
 
+rm "${MNTPOINT}/lib/modules/${MODDIR}/build"
+rm "${MNTPOINT}/lib/modules/${MODDIR}/source"
+
+depmod -a -b "${MNTPOINT}" "${MODDIR}"
+echo '8723ds' >> 8723ds.conf
+mkdir -p "${MNTPOINT}/etc/modules-load.d/"
+cp 8723ds.conf "${MNTPOINT}/etc/modules-load.d/"
+rm 8723ds.conf
 
 # install U-Boot
 cp ${OUTPORT}/boot.scr "${MNTPOINT}/boot/"

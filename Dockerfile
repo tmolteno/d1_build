@@ -86,7 +86,7 @@ RUN ./u-boot/tools/mkimage -T script -C none -O linux -A riscv -d bootscr.txt bo
 WORKDIR /build/linux
 # RUN git pull
 # RUN git checkout riscv/d1-wip
-# RUN git checkout d1-wip-v5.18-rc4
+RUN git checkout d1-wip-v5.18-rc4
 
 COPY kernel/update_kernel_config.sh .
 RUN ./update_kernel_config.sh

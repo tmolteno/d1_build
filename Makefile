@@ -12,3 +12,6 @@ zip:
 
 flash:
 	sudo dd if=~/port/licheerv.img of=/dev/mmcblk0 bs=8M
+
+serial:
+	cu -s 115200 -l /dev/ttyUSB0

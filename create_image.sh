@@ -20,7 +20,7 @@ LOOPDEV=/dev/${LOOP}
 echo "Partitioning loopback device ${LOOPDEV}"
 
 
-dd if=/dev/zero of=${LOOPDEV} bs=1M count=100
+dd if=/dev/zero of=${LOOPDEV} bs=1M count=200
 parted -s -a optimal -- ${LOOPDEV} mklabel gpt
 parted -s -a optimal -- ${LOOPDEV} mkpart primary ext2 40MiB 100MiB
 parted -s -a optimal -- ${LOOPDEV} mkpart primary ext4 100MiB -1GiB
@@ -35,29 +35,39 @@ mkswap /dev/mapper/${LOOP}p3
 # Burn U-boot
 echo "Burning u-boot to ${LOOPDEV}"
 
-# dd if=/dev/zero of=${LOOPDEV} bs=1k count=1023 seek=1
-dd if=${OUTPORT}/boot0_sdcard_sun20iw1p1.bin of=${LOOP} bs=8192 seek=16
+dd if=${OUTPORT}/boot0_sdcard_sun20iw1p1.bin of=${LOOPDEV} bs=8192 seek=16
 
 # Copy files https://linux-sunxi.org/Allwinner_Nezha
 dd if=${OUTPORT}/u-boot.toc1 of=${LOOPDEV} bs=512 seek=32800
-dd if=${OUTPORT}/u-boot.toc1 of=${LOOPDEV} bs=512 seek=24576
 
 
 # Copy Files, first the boot partition
 echo "Mounting  partitions ${LOOPDEV}"
-MNTPOINT=/sdcard
+MNTPOINT=/sdcard_rootfs
+BOOTPOINT=/sdcard_boot
+
+mkdir -p ${BOOTPOINT}
+mount /dev/mapper/${LOOP}p1 ${BOOTPOINT}
+
+# Boot partition
+cp ${OUTPORT}/Image.gz "${BOOTPOINT}/"
+cp ${OUTPORT}/Image "${BOOTPOINT}/"
+# install U-Boot
+cp ${OUTPORT}/boot.scr "${BOOTPOINT}/"
+
+umount ${BOOTPOINT}
+rm -rf ${BOOTPOINT}
+
+
+
 mkdir -p ${MNTPOINT}
 mount /dev/mapper/${LOOP}p2 ${MNTPOINT}
-mkdir -p ${MNTPOINT}/boot
-mount /dev/mapper/${LOOP}p1 ${MNTPOINT}/boot
 
 # Copy the rootfs
 cp -a ${OUTPORT}/rv64-port/* ${MNTPOINT}
 
 
 # install kernel and modules
-cp ${OUTPORT}/Image "${MNTPOINT}/boot/"
-cp ${OUTPORT}/Image.gz "${MNTPOINT}/boot/"
 
 
 cd /build/linux-build && make ARCH=riscv INSTALL_MOD_PATH=${MNTPOINT} modules_install
@@ -70,17 +80,11 @@ rm "${MNTPOINT}/lib/modules/${MODDIR}/build"
 rm "${MNTPOINT}/lib/modules/${MODDIR}/source"
 
 depmod -a -b "${MNTPOINT}" "${MODDIR}"
-echo '8723ds' >> 8723ds.conf
-mkdir -p "${MNTPOINT}/etc/modules-load.d/"
-cp 8723ds.conf "${MNTPOINT}/etc/modules-load.d/"
-rm 8723ds.conf
+echo '8723ds' >> "${MNTPOINT}/etc/modules"
 
-# install U-Boot
-cp ${OUTPORT}/boot.scr "${MNTPOINT}/boot/"
 
 
 # Clean Up
-umount ${MNTPOINT}/boot
 umount ${MNTPOINT}
 rm -rf ${MNTPOINT}
 

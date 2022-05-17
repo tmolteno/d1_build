@@ -61,10 +61,10 @@ add_config 'CONFIG_USB_NET_CH9200' 'm'
 add_config 'CONFIG_USB_NET_AQC111' 'm'
 add_config 'CONFIG_USB_RTL8153_ECM' 'm'
 # enable systemV IPC (needed by fakeroot during makepkg)
-add_config 'CONFIG_SYSVIPC' 'y'
-add_config 'CONFIG_SYSVIPC_SYSCTL' 'y'
+#add_config 'CONFIG_SYSVIPC' 'y'
+#add_config 'CONFIG_SYSVIPC_SYSCTL' 'y'
 # enable swap
-add_config 'CONFIG_SWAP' 'y'
-add_config 'CONFIG_ZSWAP' 'y'
+#add_config 'CONFIG_SWAP' 'y'
+#add_config 'CONFIG_ZSWAP' 'y'
 
 cat ${CONF_FILE}

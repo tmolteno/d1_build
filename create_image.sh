@@ -22,15 +22,15 @@ echo "Partitioning loopback device ${LOOPDEV}"
 
 dd if=/dev/zero of=${LOOPDEV} bs=1M count=200
 parted -s -a optimal -- ${LOOPDEV} mklabel gpt
-parted -s -a optimal -- ${LOOPDEV} mkpart primary ext2 40MiB 100MiB
-parted -s -a optimal -- ${LOOPDEV} mkpart primary ext4 100MiB -1GiB
+parted -s -a optimal -- ${LOOPDEV} mkpart primary ext2 40MiB 500MiB
+parted -s -a optimal -- ${LOOPDEV} mkpart primary ext4 540MiB -1GiB
 parted -s -a optimal -- ${LOOPDEV} mkpart primary linux-swap -1GiB 100%
 
 kpartx -av ${LOOPDEV}
 
 mkfs.ext2 /dev/mapper/${LOOP}p1
 mkfs.ext4 /dev/mapper/${LOOP}p2
-mkswap /dev/mapper/${LOOP}p3
+# mkswap /dev/mapper/${LOOP}p3
 
 # Burn U-boot
 echo "Burning u-boot to ${LOOPDEV}"
@@ -83,6 +83,13 @@ depmod -a -b "${MNTPOINT}" "${MODDIR}"
 echo '8723ds' >> "${MNTPOINT}/etc/modules"
 
 
+# Set up fstab
+
+cat >> "${MNTPOINT}/etc/fstab" <<EOF
+# <device>        <dir>        <type>        <options>            <dump> <pass>
+/dev/mmcblk0p1    /boot        ext2          rw,defaults,noatime  1      1
+/dev/mmcblk0p2    /            ext4          rw,defaults,noatime  1      1
+EOF
 
 # Clean Up
 umount ${MNTPOINT}

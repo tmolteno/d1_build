@@ -18,6 +18,8 @@ cp create_image.sh /outport/
 cp /build/linux-build/arch/riscv/boot/Image.gz /outport/
 cp /build/linux-build/arch/riscv/boot/Image /outport/
 
+COPY /build/linux/arch/riscv/configs/nezha_defconfig /outport/
+
 
 cp -a /build/sun20i_d1_spl/nboot/boot0_sdcard_sun20iw1p1.bin /outport/
 cp -a /build/u-boot.toc1 /outport/

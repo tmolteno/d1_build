@@ -59,6 +59,7 @@ umount ${BOOTPOINT}
 rm -rf ${BOOTPOINT}
 
 
+# Now create the root partition
 
 mkdir -p ${MNTPOINT}
 mount /dev/mapper/${LOOP}p2 ${MNTPOINT}
@@ -84,6 +85,7 @@ echo '8723ds' >> "${MNTPOINT}/etc/modules"
 
 
 # Set up fstab
+# Add the following line to enable swap
 
 cat >> "${MNTPOINT}/etc/fstab" <<EOF
 # <device>        <dir>        <type>        <options>            <dump> <pass>

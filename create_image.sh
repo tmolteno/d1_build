@@ -30,7 +30,7 @@ kpartx -av ${LOOPDEV}
 
 mkfs.ext2 /dev/mapper/${LOOP}p1
 mkfs.ext4 /dev/mapper/${LOOP}p2
-# mkswap /dev/mapper/${LOOP}p3
+mkswap /dev/mapper/${LOOP}p3
 
 # Burn U-boot
 echo "Burning u-boot to ${LOOPDEV}"
@@ -89,6 +89,7 @@ cat >> "${MNTPOINT}/etc/fstab" <<EOF
 # <device>        <dir>        <type>        <options>            <dump> <pass>
 /dev/mmcblk0p1    /boot        ext2          rw,defaults,noatime  1      1
 /dev/mmcblk0p2    /            ext4          rw,defaults,noatime  1      1
+/dev/mmcblk0p3    none         swap          sw                   0      0
 EOF
 
 # Clean Up

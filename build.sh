@@ -2,7 +2,7 @@
 # Author. Tim Molteno tim@molteno.net
 # (C) 2022.
 
-ROOT_FS=./rv64-port
+ROOT_FS=/build/rv64-port
 
 cp /etc/resolv.conf ${ROOT_FS}/etc/resolv.conf
 chroot ${ROOT_FS} /multistrap_config.sh

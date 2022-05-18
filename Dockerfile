@@ -96,6 +96,7 @@ RUN ./update_kernel_config.sh
 WORKDIR /build
 RUN make ARCH=riscv -C linux O=../linux-build nezha_defconfig
 RUN make -j `nproc` -C linux-build ARCH=riscv $CROSS V=0
+# Files reside in /build/linux-build/arch/riscv/boot/Image.gz
 
 #
 # Build wifi modules
@@ -128,17 +129,19 @@ RUN multistrap -f multistrap.conf
 FROM builder as build_image
 
 WORKDIR /build
+COPY --from=build_rootfs /port/rv64-port/ ./rv64-port/
 
-COPY --from=build_rootfs /port/rv64_port .
 COPY --from=build_kernel /build/linux-build/arch/riscv/boot/Image.gz .
 COPY --from=build_kernel /build/linux-build/arch/riscv/boot/Image .
 COPY --from=build_kernel /build/linux/arch/riscv/configs/nezha_defconfig .
-COPY --from=build_kernel /build/linux-build .
+COPY --from=build_kernel /build/linux-build/ ./linux-build/
 COPY --from=build_kernel /build/rtl8723ds/8723ds.ko .
 
 COPY --from=build_boot0 /build/sun20i_d1_spl/nboot/boot0_sdcard_sun20iw1p1.bin .
 COPY --from=build_uboot /build/u-boot.toc1 .
 COPY --from=build_uboot /build/boot.scr .
+
+RUN ls -l
 
 COPY build.sh .
 COPY create_image.sh .

@@ -2,13 +2,14 @@ FROM debian:bookworm
 MAINTAINER Tim Molteno "tim@molteno.net"
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN dpkg --add-architecture riscv64
+# RUN dpkg --add-architecture riscv64
 
 RUN apt-get update && apt-get install -y autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev swig libssl-dev python3-distutils python3-dev git
 
 # RUN apt-get install -y gcc-riscv64-linux-gnu g++-riscv64-linux-gnu
 RUN apt-get install -y mmdebstrap qemu-user-static binfmt-support debian-ports-archive-keyring
 RUN apt-get install -y multistrap systemd-container python3-setuptools
+RUN apt-get install -y kpartx openssl fdisk dosfstools e2fsprogs kmod parted
 RUN apt-get install -y cpio  # Required for kernel build
 
 
@@ -27,7 +28,7 @@ RUN git clone --recursive https://github.com/riscv/riscv-gnu-toolchain
 # Now build the GNU toolchain to get around an error in the debian packages
 #
 WORKDIR /build/riscv-gnu-toolchain
-# RUN git checkout 63f696c8f23f3eebf5f1af97fd8c66f6483a6393
+RUN git checkout 2022.05.15
 RUN ./configure --prefix=/build/riscv64-unknown-linux-gnu --with-arch=rv64imafdc --with-abi=lp64d
 RUN make linux -j `nproc`
 ENV PATH="/build/riscv64-unknown-linux-gnu/bin:$PATH"
@@ -144,7 +145,6 @@ RUN multistrap -f multistrap.conf
 
 # Set everything up.
 
-RUN apt-get install -y kpartx openssl fdisk dosfstools e2fsprogs kmod parted
 
 COPY build.sh .
 COPY create_image.sh .

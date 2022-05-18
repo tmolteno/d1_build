@@ -123,6 +123,24 @@ COPY rootfs/multistrap_setup.sh .
 
 RUN multistrap -f multistrap.conf
 
+WORKDIR /build
+COPY --from=build_kernel /build/linux-build/ ./linux-build/
+COPY --from=build_kernel /build/linux/ ./linux/
+COPY --from=build_kernel /build/rtl8723ds/8723ds.ko .
+
+WORKDIR /build/linux-build
+RUN make ARCH=riscv INSTALL_MOD_PATH=/port/rv64-port modules_install
+
+RUN echo "export MODDIR=$(ls /port/rv64-port/lib/modules/)" > /moddef
+RUN ls /port/rv64-port/lib/modules/
+RUN . /moddef; echo "Creating wireless module in ${MODDIR}"
+RUN . /moddef; install -v -D -p -m 644 /build/8723ds.ko /port/rv64-port/lib/modules/${MODDIR}/kernel/drivers/net/wireless/8723ds.ko
+
+RUN . /moddef; rm /port/rv64-port/lib/modules/${MODDIR}/build
+RUN . /moddef; rm /port/rv64-port/lib/modules/${MODDIR}/source
+
+RUN . /moddef; depmod -a -b /port/rv64-port "${MODDIR}"
+RUN echo '8723ds' >> /port/rv64-port/etc/modules
 #
 #   Now Build The Entire disk image
 #
@@ -136,8 +154,6 @@ COPY --from=build_rootfs /port/rv64-port/ ./rv64-port/
 COPY --from=build_kernel /build/linux-build/arch/riscv/boot/Image.gz .
 COPY --from=build_kernel /build/linux-build/arch/riscv/boot/Image .
 COPY --from=build_kernel /build/linux/arch/riscv/configs/nezha_defconfig .
-COPY --from=build_kernel /build/linux-build/ ./linux-build/
-COPY --from=build_kernel /build/rtl8723ds/8723ds.ko .
 
 COPY --from=build_boot0 /build/sun20i_d1_spl/nboot/boot0_sdcard_sun20iw1p1.bin .
 COPY --from=build_uboot /build/u-boot.toc1 .

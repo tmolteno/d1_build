@@ -69,19 +69,19 @@ cp -a ${OUTPORT}/rv64-port/* ${MNTPOINT}
 
 # install kernel and modules
 
-ls -l /build
-
-cd /build/linux-build && make ARCH=riscv INSTALL_MOD_PATH=${MNTPOINT} modules_install
-
-MODDIR=`ls ${MNTPOINT}/lib/modules/`
-echo "Creating wireless module in ${MODDIR}"
-install -v -D -p -m 644 /build/8723ds.ko ${MNTPOINT}/lib/modules/${MODDIR}/kernel/drivers/net/wireless/8723ds.ko
-
-rm "${MNTPOINT}/lib/modules/${MODDIR}/build"
-rm "${MNTPOINT}/lib/modules/${MODDIR}/source"
-
-depmod -a -b "${MNTPOINT}" "${MODDIR}"
-echo '8723ds' >> "${MNTPOINT}/etc/modules"
+# ls -l /build
+#
+# cd /build/linux-build && make ARCH=riscv INSTALL_MOD_PATH=${MNTPOINT} modules_install
+#
+# MODDIR=`ls ${MNTPOINT}/lib/modules/`
+# echo "Creating wireless module in ${MODDIR}"
+# install -v -D -p -m 644 /build/8723ds.ko ${MNTPOINT}/lib/modules/${MODDIR}/kernel/drivers/net/wireless/8723ds.ko
+#
+# rm "${MNTPOINT}/lib/modules/${MODDIR}/build"
+# rm "${MNTPOINT}/lib/modules/${MODDIR}/source"
+#
+# depmod -a -b "${MNTPOINT}" "${MODDIR}"
+# echo '8723ds' >> "${MNTPOINT}/etc/modules"
 
 
 # Set up fstab

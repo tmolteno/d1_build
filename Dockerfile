@@ -51,6 +51,7 @@ RUN make $CROSS PLATFORM=generic FW_PIC=y FW_OPTIONS=0x2
 # Build u-boot
 #
 FROM builder as build_uboot
+RUN apt-get install -y python3-setuptools
 WORKDIR /build
 RUN git clone --depth 1 --branch d1-wip https://github.com/smaeul/u-boot.git
 WORKDIR /build/u-boot
@@ -110,7 +111,7 @@ RUN ls -l
 FROM builder as build_rootfs
 
 RUN apt-get install -y mmdebstrap qemu-user-static binfmt-support debian-ports-archive-keyring
-RUN apt-get install -y multistrap systemd-container python3-setuptools
+RUN apt-get install -y multistrap systemd-container
 RUN apt-get install -y kpartx openssl fdisk dosfstools e2fsprogs kmod parted
 
 # Build the root filesystem

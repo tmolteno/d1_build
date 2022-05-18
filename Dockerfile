@@ -128,6 +128,8 @@ RUN multistrap -f multistrap.conf
 #
 FROM builder as build_image
 
+RUN apt-get install -y kpartx parted
+
 WORKDIR /build
 COPY --from=build_rootfs /port/rv64-port/ ./rv64-port/
 
@@ -142,6 +144,8 @@ COPY --from=build_uboot /build/u-boot.toc1 .
 COPY --from=build_uboot /build/boot.scr .
 
 RUN ls -l
+RUN apt-get install -y kpartx openssl fdisk dosfstools e2fsprogs kmod parted
+
 
 COPY build.sh .
 COPY create_image.sh .

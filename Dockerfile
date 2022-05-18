@@ -16,16 +16,16 @@ ENV PATH="/opt/riscv64-unknown-linux-gnu/bin:$PATH"
 # RUN apt-get install -y gcc-riscv64-linux-gnu g++-riscv64-linux-gnu
 # ARG CROSS="CROSS_COMPILE=riscv64-linux-gnu-"
 # ARG CROSS=CROSS_COMPILE=/build/riscv64-unknown-linux-gnu/bin/riscv64-unknown-linux-gnu-
-ARG CROSS=CROSS_COMPILE=riscv64-unknown-linux-gnu-
+ENV CROSS=CROSS_COMPILE=riscv64-unknown-linux-gnu-
 
-RUN echo $CROSS
-RUN echo 'Gcc version:'
-RUN riscv64-unknown-linux-gnu-gcc --version
 
 #
 # Create a BSP boot0 SPL
 #
 FROM builder as build_boot0
+RUN echo $CROSS
+RUN echo 'Gcc version:'
+RUN riscv64-unknown-linux-gnu-gcc --version
 WORKDIR /build
 RUN git clone           --branch mainline https://github.com/smaeul/sun20i_d1_spl
 WORKDIR /build/sun20i_d1_spl

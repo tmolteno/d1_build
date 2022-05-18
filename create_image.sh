@@ -43,7 +43,6 @@ dd if=${OUTPORT}/u-boot.toc1 of=${LOOPDEV} bs=512 seek=32800
 
 # Copy Files, first the boot partition
 echo "Mounting  partitions ${LOOPDEV}"
-MNTPOINT=/sdcard_rootfs
 BOOTPOINT=/sdcard_boot
 
 mkdir -p ${BOOTPOINT}
@@ -60,7 +59,7 @@ rm -rf ${BOOTPOINT}
 
 
 # Now create the root partition
-
+MNTPOINT=/sdcard_rootfs
 mkdir -p ${MNTPOINT}
 mount /dev/mapper/${LOOP}p2 ${MNTPOINT}
 
@@ -70,6 +69,7 @@ cp -a ${OUTPORT}/rv64-port/* ${MNTPOINT}
 
 # install kernel and modules
 
+ls -l /build
 
 cd /build/linux-build && make ARCH=riscv INSTALL_MOD_PATH=${MNTPOINT} modules_install
 

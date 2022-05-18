@@ -11,6 +11,8 @@ services:
     volumes:
         - '~/port:/outport'
     environment:
-      - LANG=en_US.UTF-8
-      - LANGUAGE=en_US:en
-      - LC_ALL=en_US.UTF-8
+      - GCC_TAG=2022.05.15
+      - KERNEL_VER=riscv/d1-wip
+      #- LANG=en_US.UTF-8
+      #- LANGUAGE=en_US:en
+      #- LC_ALL=en_US.UTF-8

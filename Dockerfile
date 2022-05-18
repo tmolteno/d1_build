@@ -93,8 +93,8 @@ RUN git checkout riscv/d1-wip
 #RUN git checkout d1-wip-v5.18-rc4
 COPY kernel/update_kernel_config.sh .
 RUN ./update_kernel_config.sh
-RUN make ARCH=riscv -C linux O=../linux-build nezha_defconfig
 WORKDIR /build
+RUN make ARCH=riscv -C linux O=../linux-build nezha_defconfig
 RUN make -j `nproc` -C linux-build ARCH=riscv $CROSS V=0
 
 #

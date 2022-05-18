@@ -19,8 +19,9 @@ ENV PATH="/opt/riscv64-unknown-linux-gnu/bin:$PATH"
 ENV CROSS=CROSS_COMPILE=riscv64-unknown-linux-gnu-
 
 
+############################################################################################
 #
-# Create a BSP boot0 SPL
+# Build a BSP boot0 SPL
 #
 FROM builder as build_boot0
 RUN echo $CROSS
@@ -35,6 +36,7 @@ RUN make $CROSS p=sun20iw1p1 mmc
 # The file resides in /build/sun20i_d1_spl/nboot/boot0_sdcard_sun20iw1p1.bin
 
 
+############################################################################################
 #
 # Build opensbi
 #
@@ -47,6 +49,10 @@ RUN git checkout d1-wip
 RUN make $CROSS PLATFORM=generic FW_PIC=y FW_OPTIONS=0x2
 # The binary is located here: /build/opensbi/build/platform/generic/firmware/fw_dynamic.bin
 
+
+
+
+############################################################################################
 #
 # Build u-boot
 #
@@ -81,6 +87,7 @@ RUN ./u-boot/tools/mkimage -T script -C none -O linux -A riscv -d bootscr.txt bo
 # The boot script is here: boot.scr
 
 
+############################################################################################
 #
 # Now build the Linux kernel
 #
@@ -98,6 +105,7 @@ RUN make ARCH=riscv -C linux O=../linux-build nezha_defconfig
 RUN make -j `nproc` -C linux-build ARCH=riscv $CROSS V=0
 # Files reside in /build/linux-build/arch/riscv/boot/Image.gz
 
+
 #
 # Build wifi modules
 #
@@ -109,13 +117,17 @@ RUN ls -l
 # Module resides in /build/rtl8723ds/8723ds.ko
 
 
+
+############################################################################################
+#
+#   Build the root filesystem
+#
 FROM builder as build_rootfs
 
 RUN apt-get install -y mmdebstrap qemu-user-static binfmt-support debian-ports-archive-keyring
 RUN apt-get install -y multistrap systemd-container
 RUN apt-get install -y kpartx openssl fdisk dosfstools e2fsprogs kmod parted
 
-# Build the root filesystem
 WORKDIR /build
 COPY rootfs/multistrap.conf .
 COPY rootfs/multistrap_config.sh .
@@ -123,6 +135,7 @@ COPY rootfs/multistrap_setup.sh .
 
 RUN multistrap -f multistrap.conf
 
+# Now install the kernel modules into the rootfs
 WORKDIR /build
 COPY --from=build_kernel /build/linux-build/ ./linux-build/
 COPY --from=build_kernel /build/linux/ ./linux/
@@ -141,14 +154,21 @@ RUN . /moddef; rm /port/rv64-port/lib/modules/${MODDIR}/source
 
 RUN . /moddef; depmod -a -b /port/rv64-port "${MODDIR}"
 RUN echo '8723ds' >> /port/rv64-port/etc/modules
+
+# This may not be needed as it should be done by the networking setup.
+RUN cp /etc/resolv.conf /port/rv64-port/etc/resolv.conf
+
+
+
+############################################################################################
 #
-#   Now Build The Entire disk image
+#   Now Build the disk image
 #
 FROM builder as build_image
 
 RUN apt-get install -y kpartx parted
 
-WORKDIR /build
+WORKDIR /builder
 COPY --from=build_rootfs /port/rv64-port/ ./rv64-port/
 
 COPY --from=build_kernel /build/linux-build/arch/riscv/boot/Image.gz .
@@ -166,4 +186,4 @@ RUN apt-get install -y kpartx openssl fdisk dosfstools e2fsprogs kmod parted
 COPY build.sh .
 COPY create_image.sh .
 COPY stage1.sh .
-CMD /build/build.sh
+CMD /builder/build.sh

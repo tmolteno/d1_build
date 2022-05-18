@@ -65,6 +65,8 @@ add_config 'CONFIG_SYSVIPC' 'y'
 add_config 'CONFIG_SYSVIPC_SYSCTL' 'y'
 # enable swap
 add_config 'CONFIG_SWAP' 'y'
-sadd_config 'CONFIG_ZSWAP' 'y'
+add_config 'CONFIG_ZSWAP' 'y'
+# Allow systemd getty service
+add_config 'CONFIG_FHANDLE' 'y'
 
 cat ${CONF_FILE}

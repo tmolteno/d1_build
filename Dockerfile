@@ -121,7 +121,9 @@ COPY rootfs/multistrap_setup.sh .
 
 RUN multistrap -f multistrap.conf
 
-
+#
+#   Now Build The Entire disk image
+#
 FROM builder as build_image
 
 WORKDIR /build

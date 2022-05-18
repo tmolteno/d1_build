@@ -18,6 +18,11 @@ ENV PATH="/opt/riscv64-unknown-linux-gnu/bin:$PATH"
 # ARG CROSS=CROSS_COMPILE=/build/riscv64-unknown-linux-gnu/bin/riscv64-unknown-linux-gnu-
 ENV CROSS=CROSS_COMPILE=riscv64-unknown-linux-gnu-
 
+# Clean up
+WORkDIR /build
+RUN rm -rf riscv-gnu-toolchain
+
+
 
 ############################################################################################
 #
@@ -34,6 +39,7 @@ RUN git checkout 0ad88bfdb723b1ac74cca96122918f885a4781ac
 RUN echo make $CROSS p=sun20iw1p1 mmc
 RUN make $CROSS p=sun20iw1p1 mmc
 # The file resides in /build/sun20i_d1_spl/nboot/boot0_sdcard_sun20iw1p1.bin
+
 
 
 ############################################################################################

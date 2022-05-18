@@ -19,7 +19,11 @@ There is a Makefile that automates this, and you can just type
 
     make
 
-And the image will be built.
+And the image will be built. This image can be transferred to an SD card using dd (on Linux)
+
+    sudo dd if=licheerv.img of=/dev/sdX bs=4M
+
+where /dev/sdX is the name of the sdcard device (check dmesg output).
 
 ### Clean Build
 

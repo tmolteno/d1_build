@@ -9,7 +9,7 @@ services:
         context: .
         dockerfile: Dockerfile
         args:
-            GNU_TOOLS: 2022.05.15
+            GNU_TOOLS_TAG: 2022.05.15
             OPENSBI_TAG: d1-wip
             UBOOT_TAG: d1-wip
             KERNEL_TAG: riscv/d1-wip

@@ -5,10 +5,11 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev swig libssl-dev python3-distutils python3-dev git
 
 WORKDIR /build
+ARG GNU_TOOLS_TAG
 RUN git config --global advice.detachedHead false
-RUN git clone --recursive --depth 1 --branch 2022.05.15 https://github.com/riscv/riscv-gnu-toolchain
+RUN git clone --recursive --depth 1 --branch ${GNU_TOOLS_TAG} https://github.com/riscv/riscv-gnu-toolchain
 WORKDIR /build/riscv-gnu-toolchain
-RUN git checkout 2022.05.15
+RUN git checkout ${GNU_TOOLS_TAG}
 RUN ./configure --prefix=/opt/riscv64-unknown-linux-gnu --with-arch=rv64imafdc --with-abi=lp64d
 RUN make linux -j `nproc`
 ENV PATH="/opt/riscv64-unknown-linux-gnu/bin:$PATH"
@@ -160,7 +161,7 @@ RUN . /moddef; depmod -a -b /port/rv64-port "${MODDIR}"
 RUN echo '8723ds' >> /port/rv64-port/etc/modules
 
 # This may not be needed as it should be done by the networking setup.
-RUN cp /etc/resolv.conf /port/rv64-port/etc/resolv.conf
+# RUN cp /etc/resolv.conf /port/rv64-port/etc/resolv.conf
 
 
 

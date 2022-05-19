@@ -3,7 +3,7 @@
 #
 #	Author: Tim Molteno tim@molteno.net
 #
-ROOTFS=~/port/
+ROOTFS=~/port
 DEVICE=/dev/mmcblk0
 
 all:
@@ -16,7 +16,7 @@ clean:
 	docker-compose up
 
 zip:
-	7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on ${ROOTFS}/licheerv.img.7z ${ROOTFS}/licheerv.img
+	7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on licheerv.img.7z ${ROOTFS}/licheerv.img
 
 flash:
 	cd ${ROOTFS} && sudo dd if=licheerv.img of=${DEVICE} bs=8M

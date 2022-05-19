@@ -25,6 +25,10 @@ And the image will be built. This image can be transferred to an SD card using d
 
 where /dev/sdX is the name of the sdcard device (check dmesg output).
 
+### User & Password
+
+The username is rv, with password lichee. The root password is licheerv.
+
 ### Clean Build
 
 Just issue,

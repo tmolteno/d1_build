@@ -21,3 +21,6 @@ useradd --password dummy \
 
 chown rv:rv /home/rv
 sed -i -e "s/^rv:[^:]\+:/rv:`openssl passwd -1 -salt rv lichee`:/" /etc/shadow
+
+# This may be needed
+service systemd-resolved start

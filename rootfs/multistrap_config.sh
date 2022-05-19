@@ -9,14 +9,15 @@ umount /proc
 chmod 0666 /dev/null
 #
 # Change Root Password
-# sed -i -e "s/^root:[^:]\+:/root:`openssl passwd -1 -salt root licheerv`:/" /etc/shadow
-usermod --password `openssl passwd -1 -salt root licheerv` root
+sed -i -e "s/^root:[^:]\+:/root:`openssl passwd -1 -salt root licheerv`:/" /etc/shadow
+# usermod --password `openssl passwd -1 -salt root licheerv` root
 #
 # Add a new user rv:lichee
 #
 mkdir -p /home/rv
-useradd --password `openssl passwd -1 -salt rv lichee` \
+useradd --password dummy \
     -G cdrom,floppy,sudo,audio,dip,video,plugdev \
     --home-dir /home/rv --shell /bin/bash rv
 
 chown rv:rv /home/rv
+sed -i -e "s/^rv:[^:]\+:/rv:`openssl passwd -1 -salt rv lichee`:/" /etc/shadow

@@ -135,8 +135,6 @@ RUN apt-get install -y kpartx openssl fdisk dosfstools e2fsprogs kmod parted
 
 WORKDIR /build
 COPY rootfs/multistrap.conf .
-COPY rootfs/multistrap_config.sh .
-COPY rootfs/multistrap_setup.sh .
 
 RUN multistrap -f multistrap.conf
 
@@ -187,6 +185,7 @@ COPY --from=build_uboot /build/boot.scr .
 RUN ls -l
 RUN apt-get install -y kpartx openssl fdisk dosfstools e2fsprogs kmod parted
 
+COPY rootfs/multistrap_config.sh ./rv64-port/multistrap_config.sh
 
 COPY build.sh .
 COPY create_image.sh .

@@ -8,11 +8,13 @@ services:
     build:
         context: .
         dockerfile: Dockerfile
+        args:
+            GNU_TOOLS: 2022.05.15
+            OPENSBI_TAG: d1-wip
+            UBOOT_TAG: d1-wip
+            KERNEL_TAG: riscv/d1-wip
+
     volumes:
         - '~/port:/outport'
     environment:
-      - GCC_TAG=2022.05.15
-      - KERNEL_VER=riscv/d1-wip
-      #- LANG=en_US.UTF-8
-      #- LANGUAGE=en_US:en
-      #- LC_ALL=en_US.UTF-8
+      - IMG=licheerv.img

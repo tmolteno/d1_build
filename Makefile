@@ -7,7 +7,7 @@ ROOTFS=~/port/
 DEVICE=/dev/mmcblk0
 
 all:
-	sudo rm -rf ${ROOTFS}
+	sudo rm -rf ${ROOTFS}/rv64-port
 	docker-compose build
 	docker-compose up
 

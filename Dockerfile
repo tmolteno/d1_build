@@ -47,11 +47,10 @@ RUN make $CROSS p=sun20iw1p1 mmc
 # Build opensbi
 #
 FROM builder as build_opensbi
+ARG OPENSBI_TAG
 WORKDIR /build
-RUN git clone --depth 1 --branch d1-wip https://github.com/smaeul/opensbi
+RUN git clone --depth 1 --branch ${OPENSBI_TAG}  https://github.com/smaeul/opensbi
 WORKDIR /build/opensbi
-RUN git pull
-RUN git checkout d1-wip
 RUN make $CROSS PLATFORM=generic FW_PIC=y FW_OPTIONS=0x2
 # The binary is located here: /build/opensbi/build/platform/generic/firmware/fw_dynamic.bin
 
@@ -63,12 +62,11 @@ RUN make $CROSS PLATFORM=generic FW_PIC=y FW_OPTIONS=0x2
 # Build u-boot
 #
 FROM builder as build_uboot
+ARG UBOOT_TAG
 RUN apt-get install -y python3-setuptools
 WORKDIR /build
-RUN git clone --depth 1 --branch d1-wip https://github.com/smaeul/u-boot.git
+RUN git clone --depth 1 --branch ${UBOOT_TAG}  https://github.com/smaeul/u-boot.git
 WORKDIR /build/u-boot
-RUN git pull
-RUN git checkout d1-wip
 #RUN make $CROSS lichee_rv_86_panel_defconfig
 RUN make $CROSS lichee_rv_defconfig
 RUN make -j `nproc` $CROSS all V=1

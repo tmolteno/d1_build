@@ -10,7 +10,7 @@ RUN git config --global advice.detachedHead false
 RUN git clone --recursive --depth 1 --branch ${GNU_TOOLS_TAG} https://github.com/riscv/riscv-gnu-toolchain
 WORKDIR /build/riscv-gnu-toolchain
 RUN git checkout ${GNU_TOOLS_TAG}
-RUN ./configure --prefix=/opt/riscv64-unknown-linux-gnu --with-arch=rv64imafdc --with-abi=lp64d
+RUN ./configure --prefix=/opt/riscv64-unknown-linux-gnu --with-arch=rv64gc --with-abi=lp64d
 RUN make linux -j `nproc`
 ENV PATH="/opt/riscv64-unknown-linux-gnu/bin:$PATH"
 

@@ -20,7 +20,7 @@ ENV PATH="/opt/riscv64-unknown-linux-gnu/bin:$PATH"
 ENV CROSS=CROSS_COMPILE=riscv64-unknown-linux-gnu-
 
 # Clean up
-WORkDIR /build
+WORKDIR /build
 RUN rm -rf riscv-gnu-toolchain
 
 

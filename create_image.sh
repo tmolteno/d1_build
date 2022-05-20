@@ -105,5 +105,4 @@ kpartx -d ${LOOPDEV}
 losetup -d ${LOOPDEV}
 
 # Now compress the image
-
-(cd ${OUTPORT}; gzip -9 ${IMG})
+(cd ${OUTPORT}; gzip -9 --force ${IMG})

@@ -64,12 +64,16 @@ RUN make $CROSS PLATFORM=generic FW_PIC=y FW_OPTIONS=0x2
 #
 FROM builder as build_uboot
 ARG UBOOT_TAG
+ARG BOARD
 RUN apt-get install -y python3-setuptools
 WORKDIR /build
 RUN git clone --depth 1 --branch ${UBOOT_TAG}  https://github.com/smaeul/u-boot.git
 WORKDIR /build/u-boot
-#RUN make $CROSS lichee_rv_86_panel_defconfig
-RUN make $CROSS lichee_rv_defconfig
+RUN if [ "$BOARD"  = "lichee_rv_86" ] ; then \
+      make $CROSS lichee_rv_86_panel_defconfig; \
+    else \
+      make $CROSS lichee_rv_defconfig; \
+    fi
 RUN make -j `nproc` $CROSS all V=1
 RUN ls -l arch/riscv/dts/
 # The binary is located here: u-boot/arch/riscv/dts/sun20i-d1-lichee-rv-dock.dtb
@@ -81,7 +85,13 @@ RUN ls -l arch/riscv/dts/
 WORKDIR /build
 COPY --from=build_opensbi /build/opensbi/build/platform/generic/firmware/fw_dynamic.bin ./
 COPY config/licheerv_toc1.cfg .
-RUN ./u-boot/tools/mkimage -A riscv -T sunxi_toc1 -d licheerv_toc1.cfg u-boot.toc1
+COPY config/licheerv_86_panel_toc1.cfg .
+
+RUN if [ "$BOARD"  = "lichee_rv_86" ] ; then \
+      ./u-boot/tools/mkimage -A riscv -T sunxi_toc1 -d licheerv_86_panel_toc1.cfg u-boot.toc1; \
+    else \
+      ./u-boot/tools/mkimage -A riscv -T sunxi_toc1 -d licheerv_toc1.cfg u-boot.toc1; \
+    fi
 RUN ls -l
 # The u-boot toc is here: u-boot.toc1
 #

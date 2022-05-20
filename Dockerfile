@@ -97,11 +97,12 @@ RUN ./u-boot/tools/mkimage -T script -C none -O linux -A riscv -d bootscr.txt bo
 # Now build the Linux kernel
 #
 FROM builder as build_kernel
+ARG KERNEL_TAG
 RUN apt-get install -y cpio  # Required for kernel build
 WORKDIR /build
-RUN git clone --depth 1 --branch riscv/d1-wip https://github.com/smaeul/linux
+RUN git clone --depth 1 --branch ${KERNEL_TAG} https://github.com/smaeul/linux
 WORKDIR /build/linux
-RUN git checkout riscv/d1-wip
+#RUN git checkout riscv/d1-wip
 #RUN git checkout d1-wip-v5.18-rc4
 COPY kernel/update_kernel_config.sh .
 RUN ./update_kernel_config.sh
@@ -147,6 +148,7 @@ COPY --from=build_kernel /build/rtl8723ds/8723ds.ko .
 WORKDIR /build/linux-build
 RUN make ARCH=riscv INSTALL_MOD_PATH=/port/rv64-port modules_install
 
+RUN ls /port/rv64-port/lib/modules/ > /kernel_ver
 RUN echo "export MODDIR=$(ls /port/rv64-port/lib/modules/)" > /moddef
 RUN ls /port/rv64-port/lib/modules/
 RUN . /moddef; echo "Creating wireless module in ${MODDIR}"
@@ -168,10 +170,15 @@ RUN echo '8723ds' >> /port/rv64-port/etc/modules
 #   Now Build the disk image
 #
 FROM builder as build_image
+ARG KERNEL_TAG
+ARG GNU_TOOLS_TAG
 
+ENV KERNEL_TAG=$KERNEL_TAG
+ENV GNU_TOOLS_TAG=$GNU_TOOLS_TAG
 RUN apt-get install -y kpartx parted
 
 WORKDIR /builder
+COPY --from=build_rootfs /kernel_ver ./kernel_ver
 COPY --from=build_rootfs /port/rv64-port/ ./rv64-port/
 
 COPY --from=build_kernel /build/linux-build/arch/riscv/boot/Image.gz .

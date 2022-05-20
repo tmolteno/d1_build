@@ -9,8 +9,8 @@ umount /proc
 chmod 0666 /dev/null
 #
 # Change Root Password
-sed -i -e "s/^root:[^:]\+:/root:`openssl passwd -1 -salt root licheerv`:/" /etc/shadow
-# usermod --password `openssl passwd -1 -salt root licheerv` root
+# sed -i -e "s/^root:[^:]\+:/root:`openssl passwd -1 -salt root licheerv`:/" /etc/shadow
+usermod --password $(echo licheerv | openssl passwd -1 -stdin) root
 #
 # Add a new user rv:lichee
 #
@@ -20,7 +20,7 @@ useradd --password dummy \
     --home-dir /home/rv --shell /bin/bash rv
 
 chown rv:rv /home/rv
-sed -i -e "s/^rv:[^:]\+:/rv:`openssl passwd -1 -salt rv lichee`:/" /etc/shadow
-
+# sed -i -e "s/^rv:[^:]\+:/rv:`openssl passwd -1 -salt rv lichee`:/" /etc/shadow
+usermod --password $(echo lichee | openssl passwd -1 -stdin) rv
 # This may be needed
 service systemd-resolved start

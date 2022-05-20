@@ -8,7 +8,10 @@
 # This is done to allow the script to be run outside of Docker for testing.
 OUTPORT=$1
 
-IMG=${OUTPORT}/licheerv.img
+export KERNEL_VER=$(cat ./kernel_ver)
+
+IMG_NAME="lichee_rv_gcc_${GNU_TOOLS_TAG}_kernel_${KERNEL_VER}.img"
+IMG=${OUTPORT}/${IMG_NAME}
 
 echo "Creating Blank Image ${IMG}"
 
@@ -100,3 +103,7 @@ rm -rf ${MNTPOINT}
 
 kpartx -d ${LOOPDEV}
 losetup -d ${LOOPDEV}
+
+# Now compress the image
+
+(cd ${OUTPORT}; gzip -9 ${IMG})

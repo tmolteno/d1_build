@@ -36,7 +36,7 @@ RUN riscv64-unknown-linux-gnu-gcc --version
 WORKDIR /build
 RUN git clone           --branch mainline https://github.com/smaeul/sun20i_d1_spl
 WORKDIR /build/sun20i_d1_spl
-RUN git checkout 0ad88bfdb723b1ac74cca96122918f885a4781ac
+# RUN git checkout 0ad88bfdb723b1ac74cca96122918f885a4781ac
 RUN echo make $CROSS p=sun20iw1p1 mmc
 RUN make $CROSS p=sun20iw1p1 mmc
 # The file resides in /build/sun20i_d1_spl/nboot/boot0_sdcard_sun20iw1p1.bin
@@ -70,8 +70,10 @@ WORKDIR /build
 RUN git clone --depth 1 --branch ${UBOOT_TAG}  https://github.com/smaeul/u-boot.git
 WORKDIR /build/u-boot
 RUN if [ "$BOARD"  = "lichee_rv_86" ] ; then \
+      echo "Building for the RV_86_Panel"; \
       make $CROSS lichee_rv_86_panel_defconfig; \
     else \
+      echo "Building for Lichee RV Dock"; \
       make $CROSS lichee_rv_defconfig; \
     fi
 RUN make -j `nproc` $CROSS all V=1

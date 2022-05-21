@@ -15,7 +15,7 @@ IMG=${OUTPORT}/${IMG_NAME}
 
 echo "Creating Blank Image ${IMG}"
 
-dd if=/dev/zero of=${IMG} bs=1M count=3500
+dd if=/dev/zero of=${IMG} bs=1M count=8192
 
 # Setup Loopback device
 LOOP=`losetup -f --show ${IMG} | cut -d'/' -f3`

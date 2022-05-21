@@ -9,8 +9,8 @@ services:
         context: .
         dockerfile: Dockerfile
         args:
-            BOARD: rv_dock
-            GNU_TOOLS_TAG: 2022.05.15
+            BOARD: lichee_rv
+            GNU_TOOLS_TAG: 2021.09.10
             OPENSBI_TAG: d1-wip
             UBOOT_TAG: d1-wip
             KERNEL_TAG: d1-wip-v5.18-rc4
@@ -19,4 +19,21 @@ services:
         - '~/port:/outport'
     environment:
       - IMG=licheerv.img
-# Use rv_86_panel to build for the panel
+
+  #rv86panel:
+    #container_name: rv86panel
+    #privileged: true
+    #build:
+        #context: .
+        #dockerfile: Dockerfile
+        #args:
+            #BOARD: lichee_rv_86
+            #GNU_TOOLS_TAG: 2021.09.10
+            #OPENSBI_TAG: d1-wip
+            #UBOOT_TAG: d1-wip
+            #KERNEL_TAG: d1-wip-v5.18-rc4
+
+    #volumes:
+        #- '~/port:/outport'
+    #environment:
+      #- IMG=licheerv.img

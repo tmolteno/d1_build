@@ -8,9 +8,8 @@
 # This is done to allow the script to be run outside of Docker for testing.
 OUTPORT=$1
 
-export KERNEL_VER=$(cat ./kernel_ver)
 
-IMG_NAME="lichee_rv_gcc_${GNU_TOOLS_TAG}_kernel_${KERNEL_VER}.img"
+IMG_NAME="${BOARD}_gcc_${GNU_TOOLS_TAG}_kernel_${KERNEL_TAG}.img"
 IMG=${OUTPORT}/${IMG_NAME}
 
 echo "Creating Blank Image ${IMG}"

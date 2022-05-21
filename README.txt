@@ -1,6 +1,6 @@
 The following image files are in this repository:
 
-* licheerv.img.xz : Compressed Debian disk image for the Lichee RV Dock
+* licheerv.img.xz : Compressed 8Gb Debian disk image for the Lichee RV Dock
 
 To flash this image use:
 

@@ -184,9 +184,12 @@ RUN echo '8723ds' >> /port/rv64-port/etc/modules
 FROM builder as build_image
 ARG KERNEL_TAG
 ARG GNU_TOOLS_TAG
+ARG DISK_MB
 
 ENV KERNEL_TAG=$KERNEL_TAG
 ENV GNU_TOOLS_TAG=$GNU_TOOLS_TAG
+ENV DISK_MB=$DISK_MB
+
 RUN apt-get install -y kpartx parted
 
 WORKDIR /builder

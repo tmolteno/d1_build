@@ -15,7 +15,7 @@ IMG=${OUTPORT}/${IMG_NAME}
 
 echo "Creating Blank Image ${IMG}"
 
-dd if=/dev/zero of=${IMG} bs=1M count=8000
+dd if=/dev/zero of=${IMG} bs=1M count=${DISK_MB}
 
 # Setup Loopback device
 LOOP=`losetup -f --show ${IMG} | cut -d'/' -f3`
@@ -69,27 +69,7 @@ mount /dev/mapper/${LOOP}p2 ${MNTPOINT}
 # Copy the rootfs
 cp -a ${OUTPORT}/rv64-port/* ${MNTPOINT}
 
-
-# install kernel and modules
-
-# ls -l /build
-#
-# cd /build/linux-build && make ARCH=riscv INSTALL_MOD_PATH=${MNTPOINT} modules_install
-#
-# MODDIR=`ls ${MNTPOINT}/lib/modules/`
-# echo "Creating wireless module in ${MODDIR}"
-# install -v -D -p -m 644 /build/8723ds.ko ${MNTPOINT}/lib/modules/${MODDIR}/kernel/drivers/net/wireless/8723ds.ko
-#
-# rm "${MNTPOINT}/lib/modules/${MODDIR}/build"
-# rm "${MNTPOINT}/lib/modules/${MODDIR}/source"
-#
-# depmod -a -b "${MNTPOINT}" "${MODDIR}"
-# echo '8723ds' >> "${MNTPOINT}/etc/modules"
-
-
 # Set up fstab
-# Add the following line to enable swap
-
 cat >> "${MNTPOINT}/etc/fstab" <<EOF
 # <device>        <dir>        <type>        <options>            <dump> <pass>
 /dev/mmcblk0p1    /boot        ext2          rw,defaults,noatime  1      1
@@ -105,4 +85,4 @@ kpartx -d ${LOOPDEV}
 losetup -d ${LOOPDEV}
 
 # Now compress the image
-(cd ${OUTPORT}; gzip -9 --force ${IMG})
+(cd ${OUTPORT}; gzip -9 --keep --force ${IMG})

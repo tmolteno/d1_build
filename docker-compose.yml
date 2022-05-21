@@ -10,6 +10,7 @@ services:
         dockerfile: Dockerfile
         args:
             BOARD: lichee_rv
+            DISK_MB: 8000
             GNU_TOOLS_TAG: 2021.09.10
             OPENSBI_TAG: d1-wip
             UBOOT_TAG: d1-wip

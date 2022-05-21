@@ -16,7 +16,7 @@ clean:
 	docker-compose up
 
 lichee_rv.img.xz:
-	xz ${ROOTFS}/lichee_rv*.img -9 --keep --stdout > lichee_rv.img.7z
+	xz ${ROOTFS}/lichee_rv*.img -9 --keep --stdout > lichee_rv.img.xz
 
 flash:
 	cd ${ROOTFS} && sudo dd status=progress if=lichee_rv.img of=${DEVICE} bs=8M

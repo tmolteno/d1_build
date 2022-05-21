@@ -14,7 +14,7 @@ function add_config() {
 add_config 'CONFIG_WIRELESS' 'y'
 add_config 'CONFIG_CFG80211' 'm'
 # enable /proc/config.gz
-# add_config 'CONFIG_IKCONFIG_PROC' 'y'
+add_config 'CONFIG_IKCONFIG_PROC' 'y'
 # There is no LAN. so let there be USB-LAN
 add_config 'CONFIG_USB_NET_DRIVERS' 'm'
 add_config 'CONFIG_USB_CATC' 'm'

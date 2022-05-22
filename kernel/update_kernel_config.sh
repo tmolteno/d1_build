@@ -70,17 +70,17 @@ add_config 'CONFIG_ZSWAP' 'y'
 # add_config 'CONFIG_FHANDLE' 'y'
 
 # The following from https://github.com/DongshanPI/NezhaSTU-ReleaseLinux/blob/master/nezhastu_linux_defconfig
-add_config 'CONFIG_ARM_SUN50I_R329_MBUS_DEVFREQ' 'y'
-add_config 'CONFIG_PM_DEVFREQ' 'y'
-
-add_config 'CONFIG_SUN50I_CPUFREQ_NVMEM' 'y'
-add_config 'CONFIG_CPU_FREQ' 'y'
-add_config 'CONFIG_CPU_FREQ_STAT' 'y'
-add_config 'CONFIG_CPU_FREQ_GOV_ONDEMAND' 'y'
-add_config 'CONFIG_CPUFREQ_DT' 'y'
-add_config 'CONFIG_SUN50I_CPUFREQ_NVMEM' 'y'
-add_config 'CONFIG_CPU_IDLE' 'y'
-add_config 'CONFIG_RISCV_SBI_CPUIDLE' 'y'
+# add_config 'CONFIG_ARM_SUN50I_R329_MBUS_DEVFREQ' 'y'
+# add_config 'CONFIG_PM_DEVFREQ' 'y'
+#
+# add_config 'CONFIG_SUN50I_CPUFREQ_NVMEM' 'y'
+# add_config 'CONFIG_CPU_FREQ' 'y'
+# add_config 'CONFIG_CPU_FREQ_STAT' 'y'
+# add_config 'CONFIG_CPU_FREQ_GOV_ONDEMAND' 'y'
+# add_config 'CONFIG_CPUFREQ_DT' 'y'
+# add_config 'CONFIG_SUN50I_CPUFREQ_NVMEM' 'y'
+# add_config 'CONFIG_CPU_IDLE' 'y'
+# add_config 'CONFIG_RISCV_SBI_CPUIDLE' 'y'
 
 add_config 'CONFIG_VIDEO_SUNXI' 'y'
 add_config 'CONFIG_VIDEO_SUNXI_CEDRUS' 'y'

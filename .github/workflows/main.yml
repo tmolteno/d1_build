@@ -7,18 +7,18 @@ jobs:
         - uses: actions/checkout@v2
 
         - name: Install depends
-            run: sudo apt install docker.io docker-compose qemu-user-static qemu-system qemu-utils qemu-system-misc binfmt-support
+          run: sudo apt install -y qemu-user-static qemu-system qemu-utils qemu-system-misc binfmt-support
 
         - name: Build
-            run: docker-compose build
+          run: docker-compose build
 
         - name: Create Image
-            run: docker-compose up
-
-        - run: bash ls -l ${{runner.workspace}}/port && echo ${{runner.workspace}}
+          run: |
+            docker-compose up
+            bash ls -l ${{runner.workspace}}/port && echo ${{runner.workspace}}
 
         - name: Upload asset to release
-            uses: csexton/release-asset-action@v2
-            with:
-                pattern: "${{runner.workspace}}/port/lichee*.img.xz"
-                github-token: ${{ secrets.GITHUB_TOKEN }}
+          uses: csexton/release-asset-action@v2
+          with:
+            pattern: "${{runner.workspace}}/port/lichee*.img.xz"
+            github-token: ${{ secrets.GITHUB_TOKEN }}

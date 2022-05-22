@@ -37,10 +37,10 @@ mkswap /dev/mapper/${LOOP}p3
 # Burn U-boot
 echo "Burning u-boot to ${LOOPDEV}"
 
-dd if=${OUTPORT}/boot0_sdcard_sun20iw1p1.bin of=${LOOPDEV} bs=8192 seek=16
+dd if=/builder/boot0_sdcard_sun20iw1p1.bin of=${LOOPDEV} bs=8192 seek=16
 
 # Copy files https://linux-sunxi.org/Allwinner_Nezha
-dd if=${OUTPORT}/u-boot.toc1 of=${LOOPDEV} bs=512 seek=32800
+dd if=/builder/u-boot.toc1 of=${LOOPDEV} bs=512 seek=32800
 
 
 # Copy Files, first the boot partition
@@ -51,10 +51,10 @@ mkdir -p ${BOOTPOINT}
 mount /dev/mapper/${LOOP}p1 ${BOOTPOINT}
 
 # Boot partition
-cp ${OUTPORT}/Image.gz "${BOOTPOINT}/"
-cp ${OUTPORT}/Image "${BOOTPOINT}/"
+cp /builder/Image.gz "${BOOTPOINT}/"
+# cp /builder/Image "${BOOTPOINT}/"
 # install U-Boot
-cp ${OUTPORT}/boot.scr "${BOOTPOINT}/"
+cp /builder/boot.scr "${BOOTPOINT}/"
 
 umount ${BOOTPOINT}
 rm -rf ${BOOTPOINT}
@@ -66,7 +66,7 @@ mkdir -p ${MNTPOINT}
 mount /dev/mapper/${LOOP}p2 ${MNTPOINT}
 
 # Copy the rootfs
-cp -a ${OUTPORT}/rv64-port/* ${MNTPOINT}
+cp -a /builder/rv64-port/* ${MNTPOINT}
 
 # Set up fstab
 cat >> "${MNTPOINT}/etc/fstab" <<EOF
@@ -84,4 +84,6 @@ kpartx -d ${LOOPDEV}
 losetup -d ${LOOPDEV}
 
 # Now compress the image
+echo "Compressing the image: ${IMG}"
+
 (cd ${OUTPORT}; xz -9 --keep ${IMG})

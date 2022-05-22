@@ -2,8 +2,8 @@ version: '3.5'
 
 services:
 
-  rv86:
-    container_name: rv86
+  lichee_rv:
+    container_name: lichee_rv
     privileged: true
     build:
         context: .
@@ -21,21 +21,21 @@ services:
     environment:
       - IMG=licheerv.img
 
-  #rv86panel:
-    #container_name: rv86panel
-    #privileged: true
-    #build:
-        #context: .
-        #dockerfile: Dockerfile
-        #args:
-            #BOARD: lichee_rv_86
-            #DISK_MB: 8000
-            #GNU_TOOLS_TAG: 2021.09.10
-            #OPENSBI_TAG: d1-wip
-            #UBOOT_TAG: d1-wip
-            #KERNEL_TAG: d1-wip-v5.18-rc4
+  rv86panel:
+    container_name: rv86panel
+    privileged: true
+    build:
+        context: .
+        dockerfile: Dockerfile
+        args:
+            BOARD: lichee_rv_86
+            DISK_MB: 8000
+            GNU_TOOLS_TAG: 2021.09.10
+            OPENSBI_TAG: d1-wip
+            UBOOT_TAG: d1-wip
+            KERNEL_TAG: d1-wip-v5.18-rc1
 
-    #volumes:
-        #- '~/port:/outport'
-    #environment:
-      #- IMG=licheerv.img
+    volumes:
+        - '~/port:/outport'
+    environment:
+      - IMG=licheerv.img

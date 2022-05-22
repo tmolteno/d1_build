@@ -9,7 +9,6 @@ chroot ${ROOT_FS} /multistrap_config.sh
 #  Move files we'll need from inside the container to the users directory /outport
 #  These files will all be visible in ~/port/ after the script is finished.
 
-cp -a ./ /outport/
 
 # Run the script to create the disk image
 ./create_image.sh /outport

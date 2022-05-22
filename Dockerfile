@@ -144,7 +144,7 @@ FROM builder as build_rootfs
 
 RUN apt-get install -y mmdebstrap qemu-user-static binfmt-support debian-ports-archive-keyring
 RUN apt-get install -y multistrap systemd-container
-RUN apt-get install -y kpartx openssl fdisk dosfstools e2fsprogs kmod parted
+RUN apt-get install -y kmod
 
 WORKDIR /build
 COPY rootfs/multistrap.conf .

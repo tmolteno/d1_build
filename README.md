@@ -4,6 +4,10 @@ We Docker to automate the building of a Debian image for the Sipeed Lichee RV Ri
 
 Author: Tim Molteno (tim@molteno.net)
 
+## Pre-build images
+
+These can be downloaded from [here](https://home.4i.nz/s/wF9mq5aZkn4JHxL), and installed using any standard disk imaging utility (dd on linux).
+
 ## How to use
 
 This is intended to be used on a debian system with docker, and docker-compose installed.

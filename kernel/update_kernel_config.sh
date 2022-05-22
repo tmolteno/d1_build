@@ -10,6 +10,7 @@ function add_config() {
     mv tmp_conf ${CONF_FILE}
 }
 
+add_config 'CONFIG_DEFAULT_HOSTNAME' '"lichee"'
 # enable WiFi
 add_config 'CONFIG_WIRELESS' 'y'
 add_config 'CONFIG_CFG80211' 'm'

@@ -14,7 +14,7 @@ services:
             GNU_TOOLS_TAG: 2021.09.10
             OPENSBI_TAG: d1-wip
             UBOOT_TAG: d1-wip
-            KERNEL_TAG: d1-wip-v5.18-rc4
+            KERNEL_TAG: d1-wip-v5.18-rc1
 
     volumes:
         - '~/port:/outport'
@@ -29,6 +29,7 @@ services:
         #dockerfile: Dockerfile
         #args:
             #BOARD: lichee_rv_86
+            #DISK_MB: 8000
             #GNU_TOOLS_TAG: 2021.09.10
             #OPENSBI_TAG: d1-wip
             #UBOOT_TAG: d1-wip

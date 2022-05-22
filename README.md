@@ -52,6 +52,7 @@ And everything will be rebulid (new kernel download e.t.c.). This is very slow (
 * https://linux-sunxi.org/Allwinner_Nezha#U-Boot
 * https://andreas.welcomes-you.com/boot-sw-debian-risc-v-lichee-rv
 * https://github.com/sehraf/riscv-arch-image-builder/blob/main/1_compile.sh
+* https://github.com/DongshanPI/NezhaSTU-ReleaseLinux/tree/master/.github/workflows
 
 ## Basic Flow
 

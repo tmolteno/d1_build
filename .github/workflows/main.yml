@@ -1,24 +1,28 @@
 name: Auto Build Lichee RV Debian Linux Bootable Image.
-on: workflow_dispatch
+#on: workflow_dispatch
+on:
+  push:
+    paths:
+      - 'CHANGES.md'
 jobs:
   build-all-os:
-    runs-on: debian-latest
+    runs-on: ubuntu-latest
     steps:
         - uses: actions/checkout@v2
 
         - name: Install depends
-            run: sudo apt install docker.io docker-compose qemu-user-static qemu-system qemu-utils qemu-system-misc binfmt-support
+          run: sudo apt install -y qemu-user-static qemu-system qemu-utils qemu-system-misc binfmt-support
 
         - name: Build
-            run: docker-compose build
+          run: docker-compose build
 
         - name: Create Image
-            run: docker-compose up
-
-        - run: ls -l ${{runner.workspace}}/port && echo ${{runner.workspace}}
+          run: |
+            docker-compose up
+            ls -l ${{runner.workspace}}/port && echo ${{runner.workspace}}
 
         - name: Upload asset to release
-            uses: csexton/release-asset-action@v2
-            with:
-                pattern: "${{runner.workspace}}/port/lichee*.img.xz"
-                github-token: ${{ secrets.GITHUB_TOKEN }}
+          uses: csexton/release-asset-action@v2
+          with:
+            pattern: "${{runner.workspace}}/port/lichee*.img.xz"
+            github-token: ${{ secrets.GITHUB_TOKEN }}

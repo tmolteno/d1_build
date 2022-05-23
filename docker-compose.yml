@@ -11,7 +11,7 @@ services:
         args:
             BOARD: lichee_rv
             DISK_MB: 8000
-            GNU_TOOLS_TAG: 2021.09.10
+            GNU_TOOLS_TAG: 10.2.1
             OPENSBI_TAG: d1-wip
             UBOOT_TAG: d1-wip
             KERNEL_TAG: d1-wip-v5.18-rc1
@@ -30,7 +30,7 @@ services:
         args:
             BOARD: lichee_rv_86
             DISK_MB: 8000
-            GNU_TOOLS_TAG: 2021.09.10
+            GNU_TOOLS_TAG: 10.2.1
             OPENSBI_TAG: d1-wip
             UBOOT_TAG: d1-wip
             KERNEL_TAG: d1-wip-v5.18-rc1

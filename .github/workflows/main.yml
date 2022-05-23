@@ -16,15 +16,16 @@ jobs:
           run: |
             echo ${{runner.workspace}}
             mkdir -p port
-        - name: Build
-          run: |
-            docker-compose build
+            echo "Hello World" > port/lichee1.img.xz
+        #- name: Build
+          #run: |
+            #docker-compose build
 
-        - name: Create Image
-          run: |
-            echo ${{runner.workspace}}
-            docker-compose up
-            ls -l ${{runner.workspace}}
+        #- name: Create Image
+          #run: |
+            #echo ${{runner.workspace}}
+            #docker-compose up
+            #ls -l ${{runner.workspace}}
         - name: release
           uses: actions/create-release@v1
           id: create_release
@@ -37,8 +38,10 @@ jobs:
           env:
               GITHUB_TOKEN: ${{ github.token }}
         - name: Upload asset to release
-          uses: csexton/release-asset-action@v2
+          uses: actions/upload-artifact@v3
           with:
-            release-url: ${{ steps.create_release.outputs.upload_url }}
-            pattern: "port/lichee*.img.xz"
-            github-token: ${{ secrets.GITHUB_TOKEN }}
+            name: sdcard-images
+            #release-url: ${{ steps.create_release.outputs.upload_url }}
+            path: "port/lichee*.img.xz"
+            if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
+            #github-token: ${{ secrets.GITHUB_TOKEN }}

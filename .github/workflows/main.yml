@@ -16,17 +16,15 @@ jobs:
           run: |
             echo ${{runner.workspace}}
             mkdir -p port
-            echo "Hello" > test.dat
-            echo "Hello2" > port/test2.dat
-        #- name: Build
-          #run: |
-            #docker-compose build
+        - name: Build
+          run: |
+            docker-compose build
 
-        #- name: Create Image
-          #run: |
-            #echo ${{runner.workspace}}
-            #docker-compose up
-            #ls -l ${{runner.workspace}}
+        - name: Create Image
+          run: |
+            echo ${{runner.workspace}}
+            docker-compose up
+            ls -l ${{runner.workspace}}
         - name: release
           uses: actions/create-release@v1
           id: create_release
@@ -42,6 +40,5 @@ jobs:
           uses: csexton/release-asset-action@v2
           with:
             release-url: ${{ steps.create_release.outputs.upload_url }}
-            #pattern: "port/lichee*.img.xz"
-            pattern: "port/*.dat"
+            pattern: "port/lichee*.img.xz"
             github-token: ${{ secrets.GITHUB_TOKEN }}

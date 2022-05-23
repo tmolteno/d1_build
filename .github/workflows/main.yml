@@ -12,12 +12,15 @@ jobs:
         - name: Install depends
           run: sudo apt install -y qemu-user-static qemu-system qemu-utils qemu-system-misc binfmt-support
 
-        - name: Build
+        - name: Prepare
           run: |
-            docker-compose build
             echo ${{runner.workspace}}
             mkdir -p port
-            touch test.dat
+            echo "Hello" > test.dat
+            echo "Hello2" > port/test2.dat
+        #- name: Build
+          #run: |
+            #docker-compose build
 
         #- name: Create Image
           #run: |
@@ -39,5 +42,6 @@ jobs:
           uses: csexton/release-asset-action@v2
           with:
             upload_url: ${{ steps.create_release.outputs.upload_url }}
-            pattern: "port/lichee*.img.xz"
+            #pattern: "port/lichee*.img.xz"
+            pattern: "port/*.dat"
             github-token: ${{ secrets.GITHUB_TOKEN }}

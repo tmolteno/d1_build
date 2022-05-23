@@ -17,37 +17,17 @@ jobs:
             echo ${{runner.workspace}}
             mkdir -p port
             echo "Hello World" > port/lichee1.img.xz
-        #- name: Build
-          #run: |
-            #docker-compose build
+        - name: Build
+          run: |
+            docker-compose build
 
-        #- name: Create Image
-          #run: |
-            #echo ${{runner.workspace}}
-            #docker-compose up
-            #ls -l ${{runner.workspace}}
+        - name: Create Image
+          run: |
+            echo ${{runner.workspace}}
+            docker-compose up
+            ls -l ${{runner.workspace}}
         - name: Release
           uses: softprops/action-gh-release@v1
           if: startsWith(github.ref, 'refs/tags/')
           with:
             files: "port/lichee*.img.xz"
-
-        #- name: release
-          #uses: actions/create-release@v1
-          #id: create_release
-          #with:
-              #draft: false
-              #prerelease: false
-              #body: Auto generated release
-              #release_name: Release  ${{ github.ref }}
-              #tag_name: ${{ github.ref }}
-          #env:
-              #GITHUB_TOKEN: ${{ github.token }}
-        #- name: Upload asset to release
-          #uses: actions/upload-artifact@v3
-          #with:
-            #name: sdcard-images
-            ##release-url: ${{ steps.create_release.outputs.upload_url }}
-            #path: "port/lichee*.img.xz"
-            #if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
-            ##github-token: ${{ secrets.GITHUB_TOKEN }}

@@ -1,9 +1,8 @@
 name: Auto Build Lichee RV Debian Linux Bootable Image.
-#on: workflow_dispatch
 on:
   push:
-    paths:
-      - 'CHANGES.md'
+    tags:
+      - '*'
 jobs:
   build-all-os:
     runs-on: ubuntu-latest
@@ -17,16 +16,27 @@ jobs:
           run: |
             docker-compose build
             echo ${{runner.workspace}}
-            mkdir port
+            mkdir -p port
 
         - name: Create Image
           run: |
             echo ${{runner.workspace}}
             docker-compose up
             ls -l ${{runner.workspace}}
-
+        - name: release
+            uses: actions/create-release@v1
+            id: create_release
+            with:
+              draft: false
+              prerelease: false
+              release_name: Release  ${{ github.ref }}
+              tag_name: ${{ github.ref }}
+            body_path: CHANGELOG.md
+            env:
+              GITHUB_TOKEN: ${{ github.token }}
         - name: Upload asset to release
           uses: csexton/release-asset-action@v2
           with:
-            pattern: "${{runner.workspace}}/port/lichee*.img.xz"
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            pattern: "/port/lichee*.img.xz"
             github-token: ${{ secrets.GITHUB_TOKEN }}

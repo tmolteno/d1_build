@@ -77,6 +77,7 @@ cat >> "${MNTPOINT}/etc/fstab" <<EOF
 EOF
 
 # Clean Up
+echo "Cleaning Up..."
 umount ${MNTPOINT}
 rm -rf ${MNTPOINT}
 

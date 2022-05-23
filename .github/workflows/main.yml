@@ -41,7 +41,7 @@ jobs:
         - name: Upload asset to release
           uses: csexton/release-asset-action@v2
           with:
-            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            release-url: ${{ steps.create_release.outputs.upload_url }}
             #pattern: "port/lichee*.img.xz"
             pattern: "port/*.dat"
             github-token: ${{ secrets.GITHUB_TOKEN }}

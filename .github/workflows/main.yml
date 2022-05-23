@@ -15,7 +15,7 @@ jobs:
         - name: Create Image
             run: docker-compose up
 
-        - run: bash ls -l ${{runner.workspace}}/port && echo ${{runner.workspace}}
+        - run: ls -l ${{runner.workspace}}/port && echo ${{runner.workspace}}
 
         - name: Upload asset to release
             uses: csexton/release-asset-action@v2

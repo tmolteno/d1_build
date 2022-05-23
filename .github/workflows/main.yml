@@ -31,7 +31,7 @@ jobs:
               prerelease: false
               release_name: Release  ${{ github.ref }}
               tag_name: ${{ github.ref }}
-              body_path: CHANGELOG.md
+              body_path: CHANGES.md
           env:
               GITHUB_TOKEN: ${{ github.token }}
         - name: Upload asset to release

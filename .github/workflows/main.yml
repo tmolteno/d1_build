@@ -1,5 +1,8 @@
 name: Auto Build Lichee RV Debian Linux Bootable Image.
-on: workflow_dispatch
+#on: workflow_dispatch
+on:
+  push:
+    tags  
 jobs:
   build-all-os:
     runs-on: ubuntu-latest

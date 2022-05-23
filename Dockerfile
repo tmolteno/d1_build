@@ -1,27 +1,28 @@
-FROM debian:bookworm as builder
+FROM debian:bullseye as builder
 MAINTAINER Tim Molteno "tim@molteno.net"
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev swig libssl-dev python3-distutils python3-dev git
 
-WORKDIR /build
-ARG GNU_TOOLS_TAG
-RUN git config --global advice.detachedHead false
-RUN git clone --recursive --depth 1 --branch ${GNU_TOOLS_TAG} https://github.com/riscv/riscv-gnu-toolchain
-WORKDIR /build/riscv-gnu-toolchain
-RUN git checkout ${GNU_TOOLS_TAG}
-RUN ./configure --prefix=/opt/riscv64-unknown-linux-gnu --with-arch=rv64gc --with-abi=lp64d
-RUN make linux -j `nproc`
-ENV PATH="/opt/riscv64-unknown-linux-gnu/bin:$PATH"
+RUN apt-get install -y gcc-riscv64-linux-gnu g++-riscv64-linux-gnu
+ENV CROSS="CROSS_COMPILE=riscv64-linux-gnu-"
+RUN riscv64-linux-gnu-gcc --version | grep gcc | cut -d')' -f2
+# WORKDIR /build
+# ARG GNU_TOOLS_TAG
+# RUN git config --global advice.detachedHead false
+# RUN git clone --recursive --depth 1 --branch ${GNU_TOOLS_TAG} https://github.com/riscv/riscv-gnu-toolchain
+# WORKDIR /build/riscv-gnu-toolchain
+# RUN git checkout ${GNU_TOOLS_TAG}
+# RUN ./configure --prefix=/opt/riscv64-unknown-linux-gnu --with-arch=rv64gc --with-abi=lp64d
+# RUN make linux -j `nproc`
+# ENV PATH="/opt/riscv64-unknown-linux-gnu/bin:$PATH"
 
-# RUN apt-get install -y gcc-riscv64-linux-gnu g++-riscv64-linux-gnu
-# ARG CROSS="CROSS_COMPILE=riscv64-linux-gnu-"
 # ARG CROSS=CROSS_COMPILE=/build/riscv64-unknown-linux-gnu/bin/riscv64-unknown-linux-gnu-
-ENV CROSS=CROSS_COMPILE=riscv64-unknown-linux-gnu-
+# ENV CROSS=CROSS_COMPILE=riscv64-unknown-linux-gnu-
 
 # Clean up
-WORKDIR /build
-RUN rm -rf riscv-gnu-toolchain
+# WORKDIR /build
+# RUN rm -rf riscv-gnu-toolchain
 
 
 
@@ -31,8 +32,6 @@ RUN rm -rf riscv-gnu-toolchain
 #
 FROM builder as build_boot0
 RUN echo $CROSS
-RUN echo 'Gcc version:'
-RUN riscv64-unknown-linux-gnu-gcc --version
 WORKDIR /build
 RUN git clone           --branch mainline https://github.com/smaeul/sun20i_d1_spl
 WORKDIR /build/sun20i_d1_spl

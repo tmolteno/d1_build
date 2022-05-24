@@ -16,16 +16,16 @@ jobs:
           run: |
             echo ${{runner.workspace}}
             mkdir -p port
-            echo "Hello World" > port/lichee_rv_86_foo.img.xz
-            echo "Hello World" > port/lichee_rv_dock_foo.img.xz
-        #- name: Build
-          #run: |
-            #docker-compose build
+            #echo "Hello World" > port/lichee_rv_86_foo.img.xz
+            #echo "Hello World" > port/lichee_rv_dock_foo.img.xz
+        - name: Build
+          run: |
+            docker-compose build
 
-        #- name: Create Lichee RV Dock Image
-          #run: docker-compose up lichee_rv
-        #- name: Create Lichee RV 86 panel Image
-          #run: docker-compose up rv86panel
+        - name: Create Lichee RV Dock Image
+          run: docker-compose up lichee_rv
+        - name: Create Lichee RV 86 panel Image
+          run: docker-compose up rv86panel
         - name: Release
           uses: softprops/action-gh-release@v1
           if: startsWith(github.ref, 'refs/tags/')

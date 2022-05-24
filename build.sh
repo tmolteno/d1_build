@@ -3,6 +3,7 @@
 # (C) 2022.
 
 ROOT_FS=/builder/rv64-port
+cp /etc/resolv.conf /builder/rv64-port/etc/resolv.conf
 
 chroot ${ROOT_FS} /multistrap_config.sh
 

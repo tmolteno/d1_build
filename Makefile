@@ -3,7 +3,7 @@
 #
 #	Author: Tim Molteno tim@molteno.net
 #
-ROOTFS=~/port
+ROOTFS=./port
 DEVICE=/dev/mmcblk0
 
 all: panel dock

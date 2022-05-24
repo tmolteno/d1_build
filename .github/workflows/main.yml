@@ -23,9 +23,13 @@ jobs:
             docker-compose build
 
         - name: Create Lichee RV Dock Image
-          run: docker-compose up lichee_rv
+          run: |
+            docker-compose up lichee_rv
+            ls -l port/*
         - name: Create Lichee RV 86 panel Image
-          run: docker-compose up rv86panel
+          run: |
+            docker-compose up rv86panel
+            ls -l port/*
         - name: Release
           uses: softprops/action-gh-release@v1
           if: startsWith(github.ref, 'refs/tags/')

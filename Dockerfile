@@ -210,7 +210,7 @@ RUN apt-get install -y kpartx openssl fdisk dosfstools e2fsprogs kmod parted
 
 COPY rootfs/multistrap_config.sh ./rv64-port/multistrap_config.sh
 
-COPY build.sh .
-COPY create_image.sh .
-COPY stage1.sh .
+COPY scripts/build.sh .
+COPY scripts/create_image.sh .
+COPY scripts/stage1.sh .
 CMD /builder/build.sh

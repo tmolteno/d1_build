@@ -6,17 +6,18 @@
 ROOTFS=~/port
 DEVICE=/dev/mmcblk0
 
+all: panel dock
+
 panel:
-	sudo rm -rf ${ROOTFS}/*
 	docker-compose build rv86panel
 	docker-compose up rv86panel
 
 dock:
-	sudo rm -rf ${ROOTFS}/*
 	docker-compose build lichee_rv
 	docker-compose up lichee_rv
 
 clean:
+	sudo rm -rf ${ROOTFS}/*
 	docker-compose build --no-cache
 	docker-compose up
 

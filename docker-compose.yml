@@ -9,7 +9,7 @@ services:
         context: .
         dockerfile: Dockerfile
         args:
-            BOARD: lichee_rv
+            BOARD: lichee_rv_dock
             DISK_MB: 8000
             GNU_TOOLS_TAG: 10.2.1
             OPENSBI_TAG: d1-wip

@@ -86,5 +86,10 @@ add_config 'CONFIG_ZSWAP' 'y'
 add_config 'CONFIG_VIDEO_SUNXI' 'y'
 add_config 'CONFIG_VIDEO_SUNXI_CEDRUS' 'y'
 
+add_config 'CONFIG_GPIOLIB' 'y'
+add_config 'CONFIG_FB' 'y'
+add_config 'CONFIG_FB_TFT' 'y'
+add_config 'CONFIG_FB_TFT_ST7789V' 'y'
+
 echo "Config File Follows #####################"
 cat ${CONF_FILE}

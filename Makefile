@@ -1,5 +1,5 @@
 #
-#	Build the bootable image
+#	Build bootable SDcard image for various Allwinner D1 boardss
 #
 #	Author: Tim Molteno tim@molteno.net
 #

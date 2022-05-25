@@ -25,6 +25,3 @@ usermod --password $(echo lichee | openssl passwd -1 -stdin) rv
 
 # This is needed
 systemctl enable systemd-resolved.service
-
-apt update
-apt upgrade

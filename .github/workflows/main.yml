@@ -37,3 +37,4 @@ jobs:
             files: |
               port/lichee_rv_86*.img.xz
               port/lichee_rv_dock*.img.xz
+              README.txt

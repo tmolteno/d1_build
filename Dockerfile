@@ -90,8 +90,10 @@ COPY config/licheerv_86_panel_toc1.cfg .
 
 RUN if [ "$BOARD"  = "lichee_rv_86" ] ; then \
       ./u-boot/tools/mkimage -A riscv -T sunxi_toc1 -d licheerv_86_panel_toc1.cfg u-boot.toc1; \
-    else \
+    elif [ "$BOARD"  = "lichee_rv_dock" ] ; then \
       ./u-boot/tools/mkimage -A riscv -T sunxi_toc1 -d licheerv_toc1.cfg u-boot.toc1; \
+    else \
+      echo "ERROR: Unknown BOARD $BOARD" ; \
     fi
 RUN ls -l
 # The u-boot toc is here: u-boot.toc1
@@ -140,13 +142,14 @@ RUN ls -l
 #   Build the root filesystem
 #
 FROM builder as build_rootfs
+ARG BOARD
 
 RUN apt-get install -y mmdebstrap qemu-user-static binfmt-support debian-ports-archive-keyring
 RUN apt-get install -y multistrap systemd-container
 RUN apt-get install -y kmod
 
 WORKDIR /build
-COPY rootfs/multistrap.conf .
+COPY rootfs/multistrap_$BOARD.conf multistrap.conf
 
 RUN multistrap -f multistrap.conf
 

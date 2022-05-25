@@ -3,32 +3,25 @@
 #
 #	Author: Tim Molteno tim@molteno.net
 #
-ROOTFS=./port
 DEVICE=/dev/mmcblk0
 
 all: panel dock
 
 panel:
+	sudo rm -rf ./port_86/*
 	docker-compose build rv86panel
 	docker-compose up rv86panel
 
 dock:
+	sudo rm -rf ./port_dock/*
 	docker-compose build lichee_rv
 	docker-compose up lichee_rv
 
 clean:
-	sudo rm -rf ${ROOTFS}/*
+	sudo rm -rf ./port_dock/*
+	sudo rm -rf ./port_86/*
 	docker-compose build --no-cache
 	docker-compose up
-
-lichee_rv.img.xz:
-	xz ${ROOTFS}/lichee_rv*.img -9 --keep --stdout > lichee_rv.img.xz
-
-flash:
-	cd ${ROOTFS} && sudo dd status=progress if=lichee_rv.img of=${DEVICE} bs=8M
-
-flash_7z: licheerv.img.7z
-	7z x licheerv.img.7z -so | less | sudo dd of=${DEVICE} status=progress
 
 serial:
 	cu -s 115200 -l /dev/ttyUSB0

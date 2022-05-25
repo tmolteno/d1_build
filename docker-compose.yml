@@ -17,7 +17,7 @@ services:
             KERNEL_TAG: d1-wip-v5.18-rc1
 
     volumes:
-        - './port:/outport'
+        - './port_dock:/outport'
     environment:
       - IMG=licheerv.img
 
@@ -36,6 +36,6 @@ services:
             KERNEL_TAG: d1-wip-v5.18-rc1
 
     volumes:
-        - './port:/outport'
+        - './port_86:/outport'
     environment:
       - IMG=licheerv.img

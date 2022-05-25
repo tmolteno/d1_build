@@ -15,25 +15,25 @@ jobs:
         - name: Prepare
           run: |
             echo ${{runner.workspace}}
-            mkdir -p port_86
-            mkdir -p port_dock
+            mkdir -p lichee_rv_86
+            mkdir -p lichee_rv_dock
         - name: Build
           run: |
             docker-compose build
 
         - name: Create Lichee RV Dock Image
           run: |
-            docker-compose up lichee_rv
-            ls -l port_dock/*
+            docker-compose up dock
+            ls -l lichee_rv_dock/*
         - name: Create Lichee RV 86 panel Image
           run: |
-            docker-compose up rv86panel
-            ls -l port_86/*
+            docker-compose up panel
+            ls -l lichee_rv_86/*
         - name: Release
           uses: softprops/action-gh-release@v1
           if: startsWith(github.ref, 'refs/tags/')
           with:
             files: |
-              port_86/lichee_rv_86*.img.xz
-              port_dock/lichee_rv_dock*.img.xz
+              lichee_rv_86/lichee_rv_86*.img.xz
+              lichee_rv_dock/lichee_rv_dock*.img.xz
               README.txt

@@ -8,18 +8,18 @@ DEVICE=/dev/mmcblk0
 all: panel dock
 
 panel:
-	sudo rm -rf ./port_86/*
-	docker-compose build rv86panel
-	docker-compose up rv86panel
+	sudo rm -rf ./lichee_rv_86/*
+	docker-compose build panel
+	docker-compose up panel
 
 dock:
-	sudo rm -rf ./port_dock/*
-	docker-compose build lichee_rv
-	docker-compose up lichee_rv
+	sudo rm -rf ./lichee_rv_dock/*
+	docker-compose build dock
+	docker-compose up dock
 
 clean:
-	sudo rm -rf ./port_dock/*
-	sudo rm -rf ./port_86/*
+	sudo rm -rf ./lichee_rv_dock/*
+	sudo rm -rf ./lichee_rv_86/*
 	docker-compose build --no-cache
 	docker-compose up
 

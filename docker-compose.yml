@@ -2,7 +2,7 @@ version: '3.5'
 
 services:
 
-  dock:
+  dock: # Build the Dock with HDMI out and USB in...
     privileged: true
     build:
         context: .
@@ -31,3 +31,18 @@ services:
             KERNEL_TAG: d1-wip-v5.18-rc1
     volumes:
         - './lichee_rv_86:/outport'
+
+  #lcd:  # Build the Dock with LCD display enabled 
+    #privileged: true
+    #build:
+        #context: .
+        #dockerfile: Dockerfile
+        #args:
+            #BOARD: lichee_rv_lcd
+            #DISK_MB: 8000
+            #GNU_TOOLS_TAG: 10.2.1
+            #OPENSBI_TAG: d1-wip
+            #UBOOT_TAG: d1-wip
+            #KERNEL_TAG: d1-wip-v5.18-rc1
+    #volumes:
+        #- './lichee_rv_lcd:/outport'

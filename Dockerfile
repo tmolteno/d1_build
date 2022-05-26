@@ -71,9 +71,11 @@ WORKDIR /build/u-boot
 RUN if [ "$BOARD"  = "lichee_rv_86" ] ; then \
       echo "Building for the RV_86_Panel"; \
       make $CROSS lichee_rv_86_panel_defconfig; \
-    else \
+    elif [ "$BOARD"  = "lichee_rv_dock" ] ; then \
       echo "Building for Lichee RV Dock"; \
       make $CROSS lichee_rv_defconfig; \
+    else \
+      echo "ERROR: unknown board"; \
     fi
 RUN make -j `nproc` $CROSS all V=1
 RUN ls -l arch/riscv/dts/
@@ -85,17 +87,9 @@ RUN ls -l arch/riscv/dts/
 #
 WORKDIR /build
 COPY --from=build_opensbi /build/opensbi/build/platform/generic/firmware/fw_dynamic.bin ./
-COPY config/licheerv_toc1.cfg .
-COPY config/licheerv_86_panel_toc1.cfg .
-
-RUN if [ "$BOARD"  = "lichee_rv_86" ] ; then \
-      ./u-boot/tools/mkimage -A riscv -T sunxi_toc1 -d licheerv_86_panel_toc1.cfg u-boot.toc1; \
-    elif [ "$BOARD"  = "lichee_rv_dock" ] ; then \
-      ./u-boot/tools/mkimage -A riscv -T sunxi_toc1 -d licheerv_toc1.cfg u-boot.toc1; \
-    else \
-      echo "ERROR: Unknown BOARD $BOARD" ; \
-    fi
+COPY config/toc1_${BOARD}.cfg .
 RUN ls -l
+RUN ./u-boot/tools/mkimage -A riscv -T sunxi_toc1 -d toc1_${BOARD}.cfg u-boot.toc1
 # The u-boot toc is here: u-boot.toc1
 #
 # Create a boot script...

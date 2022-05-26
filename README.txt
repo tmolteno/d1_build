@@ -15,4 +15,4 @@ Credentials:
 INSTRUCTIONS
 
 * Use the 'nmtui' command to set up a wifi connection.
-* Connect using a serial port, or an HDMI monitor (takes about a minute to appear)
+* Connect using a serial port, or an HDMI monitor (takes about a minute to appear), or by ssh

@@ -98,6 +98,13 @@ COPY config/bootscr.txt .
 RUN ./u-boot/tools/mkimage -T script -C none -O linux -A riscv -d bootscr.txt boot.scr
 # The boot script is here: boot.scr
 
+#
+# Try device tree FIT format
+#
+RUN apt-get install -y device-tree-compiler
+
+COPY config/${BOARD}_boot.its .
+RUN ./u-boot/tools/mkimage -f ${BOARD}_boot.its lichee_rv_boot.itb
 
 ############################################################################################
 #

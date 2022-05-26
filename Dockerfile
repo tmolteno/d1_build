@@ -201,7 +201,6 @@ COPY --from=build_rootfs /kernel_ver ./kernel_ver
 COPY --from=build_rootfs /port/rv64-port/ ./rv64-port/
 
 COPY --from=build_kernel /build/linux-build/arch/riscv/boot/Image.gz .
-COPY --from=build_kernel /build/linux-build/arch/riscv/boot/Image .
 COPY --from=build_kernel /build/linux/arch/riscv/configs/nezha_defconfig .
 
 COPY --from=build_boot0 /build/sun20i_d1_spl/nboot/boot0_sdcard_sun20iw1p1.bin .
@@ -215,5 +214,4 @@ COPY rootfs/setup_rootfs.sh ./rv64-port/setup_rootfs.sh
 
 COPY scripts/build.sh .
 COPY scripts/create_image.sh .
-COPY scripts/stage1.sh .
 CMD /builder/build.sh

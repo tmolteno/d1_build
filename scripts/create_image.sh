@@ -52,7 +52,7 @@ mount /dev/mapper/${LOOP}p1 ${BOOTPOINT}
 
 # Boot partition
 cp /builder/Image.gz "${BOOTPOINT}/"
-# cp /builder/Image "${BOOTPOINT}/"
+
 # install U-Boot
 cp /builder/boot.scr "${BOOTPOINT}/"
 

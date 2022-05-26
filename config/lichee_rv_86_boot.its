@@ -1,0 +1,61 @@
+/dts-v1/;
+
+/ {
+    description = "Lichee RV FIT Image";
+    #address-cells = <1>;
+
+    images {
+        uboot {
+            description = "U-Boot";
+            data = /incbin/("u-boot-nodtb.bin");
+            type = "standalone";
+            os = "U-Boot";
+            arch = "riscv";
+            compression = "none";
+            load = <0x4a000000>;
+        };
+        opensbi {
+            description = "RISC-V OpenSBI";
+            data = /incbin/("fw_dynamic.bin");
+            type = "firmware";
+            os = "opensbi";
+            arch = "riscv";
+            compression = "none";
+            load = <0x40000000>;
+            entry = <0x40000000>;
+        };
+        fdt {
+            description = "DTB";
+            data = /incbin/("u-boot/arch/riscv/dts/sun20i-d1-lichee-rv-86-panel.dtb");
+            type = "flat_dt";
+            arch = "riscv";
+            compression = "none";
+            load = <0x44000000>;
+            entry = <0x44000000>;
+            hash {
+                algo = "sha1";
+            };
+        };
+        initrd {
+            description = "Initrd";
+            data = /incbin/("core-image-minimal-nitrogen8m.ext2.gz");
+            type = "ramdisk";
+            arch = "riscv64";
+            os = "linux";
+            compression = "none";
+            hash {
+                algo = "sha1";
+            };
+        };
+    };
+
+    configurations {
+        default = "standard";
+        standard {
+            description = "Standard Boot";
+            description = "U-Boot FIT";
+            firmware = "opensbi";
+            loadables = "uboot";
+        };
+    };
+};

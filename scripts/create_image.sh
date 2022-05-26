@@ -68,6 +68,9 @@ mount /dev/mapper/${LOOP}p2 ${MNTPOINT}
 # Copy the rootfs
 cp -a /builder/rv64-port/* ${MNTPOINT}
 
+# Set up the rootfs
+chroot ${MNTPOINT} /setup_rootfs.sh
+
 # Set up fstab
 cat >> "${MNTPOINT}/etc/fstab" <<EOF
 # <device>        <dir>        <type>        <options>            <dump> <pass>

@@ -211,7 +211,7 @@ COPY --from=build_uboot /build/boot.scr .
 RUN ls -l
 RUN apt-get install -y kpartx openssl fdisk dosfstools e2fsprogs kmod parted
 
-COPY rootfs/multistrap_config.sh ./rv64-port/multistrap_config.sh
+COPY rootfs/setup_rootfs.sh ./rv64-port/setup_rootfs.sh
 
 COPY scripts/build.sh .
 COPY scripts/create_image.sh .

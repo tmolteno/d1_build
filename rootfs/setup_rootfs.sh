@@ -32,3 +32,8 @@ usermod --password $(echo lichee | openssl passwd -1 -stdin) rv
 # Enable system services
 #
 systemctl enable systemd-resolved.service
+
+#
+# Clean apt cache on the system
+#
+apt-get clean

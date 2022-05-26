@@ -70,6 +70,7 @@ cp -a /builder/rv64-port/* ${MNTPOINT}
 
 # Set up the rootfs
 chroot ${MNTPOINT} /setup_rootfs.sh
+rm ${MNTPOINT}/setup_rootfs.sh
 
 # Set up fstab
 cat >> "${MNTPOINT}/etc/fstab" <<EOF

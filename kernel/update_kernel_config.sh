@@ -86,6 +86,11 @@ add_config 'CONFIG_ZSWAP' 'y'
 add_config 'CONFIG_VIDEO_SUNXI' 'y'
 add_config 'CONFIG_VIDEO_SUNXI_CEDRUS' 'y'
 
+#
+#   Modules for the SPI display
+#   1.14" 135×240 SPI LCD screen.
+#   Sitronix ST7789V controller
+#
 add_config 'CONFIG_GPIOLIB' 'y'
 add_config 'CONFIG_FB' 'y'
 add_config 'CONFIG_FB_TFT' 'y'

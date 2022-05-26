@@ -37,3 +37,5 @@ systemctl enable systemd-resolved.service
 # Clean apt cache on the system
 #
 apt-get clean
+rm /var/lib/apt/lists/*
+

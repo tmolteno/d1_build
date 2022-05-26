@@ -31,7 +31,11 @@ where /dev/sdX is the name of the sdcard device (check dmesg output).
 
 ### User & Password
 
-The username is rv, with password lichee. The root password is licheerv.
+The username is rv, with password lichee. The root password is licheerv. In these images you can use nmcli or nmtui command line tools to set up a wifi connection
+
+    sudo nmcli dev wifi connect "MyWifi" password "my-password"
+
+This will connect to a notwork called "MyWifi", with password "my-password"
 
 ### Clean Build
 

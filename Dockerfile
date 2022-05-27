@@ -55,6 +55,35 @@ RUN make $CROSS PLATFORM=generic FW_PIC=y FW_OPTIONS=0x2
 # The binary is located here: /build/opensbi/build/platform/generic/firmware/fw_dynamic.bin
 
 
+############################################################################################
+#
+# Now build the Linux kernel
+#
+FROM builder as build_kernel
+ARG KERNEL_TAG
+RUN apt-get install -y cpio  # Required for kernel build
+WORKDIR /build
+RUN git clone --depth 1 --branch ${KERNEL_TAG} https://github.com/smaeul/linux
+WORKDIR /build/linux
+#RUN git checkout riscv/d1-wip
+#RUN git checkout d1-wip-v5.18-rc4
+COPY kernel/update_kernel_config.sh .
+RUN ./update_kernel_config.sh
+WORKDIR /build
+RUN make ARCH=riscv -C linux O=../linux-build nezha_defconfig
+RUN make -j `nproc` -C linux-build ARCH=riscv $CROSS V=0
+# Files reside in /build/linux-build/arch/riscv/boot/Image.gz
+
+
+#
+# Build wifi modules
+#
+WORKDIR /build
+RUN git clone --depth 1 https://github.com/lwfinger/rtl8723ds.git
+WORKDIR /build/rtl8723ds
+RUN make -j `nproc` ARCH=riscv $CROSS KSRC=../linux-build modules
+RUN ls -l
+# Module resides in /build/rtl8723ds/8723ds.ko
 
 
 ############################################################################################
@@ -106,35 +135,6 @@ RUN apt-get install -y device-tree-compiler
 COPY config/${BOARD}_boot.its .
 RUN ./u-boot/tools/mkimage -f ${BOARD}_boot.its lichee_rv_boot.itb
 
-############################################################################################
-#
-# Now build the Linux kernel
-#
-FROM builder as build_kernel
-ARG KERNEL_TAG
-RUN apt-get install -y cpio  # Required for kernel build
-WORKDIR /build
-RUN git clone --depth 1 --branch ${KERNEL_TAG} https://github.com/smaeul/linux
-WORKDIR /build/linux
-#RUN git checkout riscv/d1-wip
-#RUN git checkout d1-wip-v5.18-rc4
-COPY kernel/update_kernel_config.sh .
-RUN ./update_kernel_config.sh
-WORKDIR /build
-RUN make ARCH=riscv -C linux O=../linux-build nezha_defconfig
-RUN make -j `nproc` -C linux-build ARCH=riscv $CROSS V=0
-# Files reside in /build/linux-build/arch/riscv/boot/Image.gz
-
-
-#
-# Build wifi modules
-#
-WORKDIR /build
-RUN git clone --depth 1 https://github.com/lwfinger/rtl8723ds.git
-WORKDIR /build/rtl8723ds
-RUN make -j `nproc` ARCH=riscv $CROSS KSRC=../linux-build modules
-RUN ls -l
-# Module resides in /build/rtl8723ds/8723ds.ko
 
 
 

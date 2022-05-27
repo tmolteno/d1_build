@@ -2,12 +2,11 @@
 
 / {
     description = "Lichee RV FIT Image";
-    #address-cells = <1>;
 
     images {
         uboot {
             description = "U-Boot";
-            data = /incbin/("u-boot-nodtb.bin");
+            data = /incbin/("u-boot/u-boot-nodtb.bin");
             type = "standalone";
             os = "U-Boot";
             arch = "riscv";
@@ -32,20 +31,6 @@
             compression = "none";
             load = <0x44000000>;
             entry = <0x44000000>;
-            hash {
-                algo = "sha1";
-            };
-        };
-        initrd {
-            description = "Initrd";
-            data = /incbin/("core-image-minimal-nitrogen8m.ext2.gz");
-            type = "ramdisk";
-            arch = "riscv64";
-            os = "linux";
-            compression = "none";
-            hash {
-                algo = "sha1";
-            };
         };
     };
 
@@ -53,7 +38,6 @@
         default = "standard";
         standard {
             description = "Standard Boot";
-            description = "U-Boot FIT";
             firmware = "opensbi";
             loadables = "uboot";
         };

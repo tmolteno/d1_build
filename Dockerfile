@@ -93,7 +93,7 @@ RUN ls -l
 FROM builder as build_uboot
 ARG UBOOT_TAG
 ARG BOARD
-RUN apt-get install -y python3-setuptools
+RUN apt-get install -y python3-setuptools git
 WORKDIR /build
 RUN git clone --depth 1 --branch ${UBOOT_TAG}  https://github.com/smaeul/u-boot.git
 WORKDIR /build/u-boot

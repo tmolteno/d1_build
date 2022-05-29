@@ -8,6 +8,14 @@ Author: Tim Molteno (tim@molteno.net)
 
 These can be downloaded from [here](https://github.com/tmolteno/d1_build/releases), and installed using any standard disk imaging utility (dd on linux).
 
+### Username, Password and WiFi
+
+The username is rv, with password lichee. The root password is licheerv. In these images you can use nmcli or [nmtui](https://www.tecmint.com/nmtui-configure-network-connection/) command line tools to set up a wifi connection
+
+    sudo nmcli dev wifi connect "MyWifi" password "my-password"
+
+This will connect to a notwork called "MyWifi", with password "my-password"
+
 ## How to use
 
 This is intended to be used on a debian system with docker, and docker-compose installed.
@@ -29,13 +37,6 @@ And the image will be built. This image can be transferred to an SD card using d
 
 where /dev/sdX is the name of the sdcard device (check dmesg output).
 
-### Username, Password and WiFi
-
-The username is rv, with password lichee. The root password is licheerv. In these images you can use nmcli or nmtui command line tools to set up a wifi connection
-
-    sudo nmcli dev wifi connect "MyWifi" password "my-password"
-
-This will connect to a notwork called "MyWifi", with password "my-password"
 
 ### Clean Build
 

@@ -1,6 +1,6 @@
 # Build an Image for the Sipeed Lichee RV
 
-We Docker to automate the building of a Debian image for the Sipeed Lichee RV Risc-V single board computer. This means that bootable disk images can be created on any kind of OS (windows, mac or Linux).
+Automatic building of a Debian image for the Sipeed Lichee RV Risc-V single board computer. This project uses Docker for the heavy lifting. This means that bootable disk images can be created on any kind of OS (windows, mac or Linux).
 
 Author: Tim Molteno (tim@molteno.net)
 
@@ -17,7 +17,7 @@ This is intended to be used on a debian system with docker, and docker-compose i
 
 The build stage does a lot of the work (compiling kernels e.t.c and takes quite a bit of time). Once this is done it will be cached by Docker, so should run faster. The execution stage (docker-compose up) runs a script that does more of the image building using a series of scripts (build.sh, create_image.sh).
 
-This should produce a disk image in the directory ~/port/ of the user that ran the script.
+This should produce a disk image in the directory ./lichee_rv_dock/ located in the same folder as the repository.
 
 There is a Makefile that automates this, and you can just type
 
@@ -48,6 +48,8 @@ And everything will be rebulid (new kernel download e.t.c.). This is very slow (
 ## NOTES
 
 * Do NOT fix the GPT if you resize the root partition (second partition). This will cause boot errors.
+* WiFi on the RV 86 Panel does not work as the xr829 driver is missing. Issue here (https://github.com/tmolteno/d1_build/issues/7)
+* The tiny LCD screen is not going yet. (https://github.com/tmolteno/d1_build/issues/8)
 
 ## Links
 
@@ -70,15 +72,4 @@ The device tree is first found in the U-boot compile, and the Kernel compile sho
     lichee_rv_defconfig
 
 These are for the RV 86 Panel (with built-in screen) and the dock/board respectively.
-
-
-## Full List of Packages
-
-
-[DebianFull]
-packages=dash pciutils autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev wpasupplicant htop net-tools wireless-tools ntpdate openssh-client openssh-server sudo e2fsprogs git man-db lshw dbus wireless-regdb libsensors5 lm-sensors swig libssl-dev python3-distutils python3-dev alien fakeroot dkms libblkid-dev uuid-dev libudev-dev libaio-dev libattr1-dev libelf-dev python3-setuptools python3-cffi python3-packaging libffi-dev libcurl4-openssl-dev python3-ply iotop tmux psmisc
-source=http://ftp.ports.debian.org/debian-ports/
-keyring=debian-ports-archive-keyring
-suite=unstable
-omitdebsrc=true
 

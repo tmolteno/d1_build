@@ -6,7 +6,7 @@ Author: Tim Molteno (tim@molteno.net)
 
 ## Pre-built images
 
-These can be downloaded from [here](https://home.4i.nz/s/wF9mq5aZkn4JHxL), and installed using any standard disk imaging utility (dd on linux).
+These can be downloaded from [here](https://github.com/tmolteno/d1_build/releases), and installed using any standard disk imaging utility (dd on linux).
 
 ## How to use
 
@@ -29,7 +29,7 @@ And the image will be built. This image can be transferred to an SD card using d
 
 where /dev/sdX is the name of the sdcard device (check dmesg output).
 
-### User & Password
+### Username, Password and WiFi
 
 The username is rv, with password lichee. The root password is licheerv. In these images you can use nmcli or nmtui command line tools to set up a wifi connection
 

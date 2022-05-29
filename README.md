@@ -16,9 +16,9 @@ The username is rv, with password lichee. The root password is licheerv. In thes
 
 This will connect to a notwork called "MyWifi", with password "my-password"
 
-## How to use
+## How to build your own image
 
-This is intended to be used on a debian system with docker, and docker-compose installed.
+This is intended to be used on a debian system with docker, and docker-compose installed. Modify the parameters of the build in the file docker-compose.yml such as kernel version and board target. Then issue.
 
     docker-compose build
     docker-compose up

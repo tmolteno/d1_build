@@ -91,7 +91,7 @@ RUN ls -l
 WORKDIR /build
 COPY kernel/xradio/ ./xradio/
 WORKDIR /build/xradio
-RUN make ARCH=riscv $CROSS -C /build/linux-build M=$PWD KBUILD_MODPOST_WARN=Y modules
+RUN make ARCH=riscv $CROSS -C /build/linux-build M=$PWD modules
 RUN ls -l
 # Module resides in /build/xr829/xr829.ko
 

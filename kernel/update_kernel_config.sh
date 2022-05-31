@@ -13,7 +13,7 @@ function add_config() {
 add_config 'CONFIG_DEFAULT_HOSTNAME' '"lichee"'
 # enable WiFi
 add_config 'CONFIG_WIRELESS' 'y'
-add_config 'CONFIG_CFG80211' 'm'
+add_config 'CONFIG_CFG80211' 'y'
 # enable /proc/config.gz
 add_config 'CONFIG_IKCONFIG_PROC' 'y'
 # There is no LAN. so let there be USB-LAN
@@ -91,10 +91,15 @@ add_config 'CONFIG_VIDEO_SUNXI_CEDRUS' 'y'
 #   1.14" 135×240 SPI LCD screen.
 #   Sitronix ST7789V controller
 #
-add_config 'CONFIG_GPIOLIB' 'y'
-add_config 'CONFIG_FB' 'y'
-add_config 'CONFIG_FB_TFT' 'y'
-add_config 'CONFIG_FB_TFT_ST7789V' 'y'
+add_config 'DRM_PANEL_MIPI_DBI' 'y'
+add_config 'MAC80211' 'y'
+add_config 'CRYPTO' 'y'
+add_config 'CRYPTO_LIB_ARC4' 'y'
+add_config 'CRYPTO_AES' 'y'
+add_config 'CRYPTO_CCM' 'y'
+add_config 'CRYPTO_GCM' 'y'
+add_config 'CRYPTO_CMAC' 'y'
+add_config 'CRC32' 'y'
 
 echo "Config File Follows #####################"
 cat ${CONF_FILE}

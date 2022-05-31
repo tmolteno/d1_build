@@ -73,6 +73,9 @@ WORKDIR /build
 RUN make ARCH=riscv -C linux O=../linux-build nezha_defconfig
 RUN make -j `nproc` -C linux-build ARCH=riscv $CROSS V=0
 # Files reside in /build/linux-build/arch/riscv/boot/Image.gz
+RUN apt-get install -y kmod
+RUN make -j `nproc` -C linux-build ARCH=riscv $CROSS INSTALL_MOD_PATH=/build/modules modules_install
+
 
 
 #
@@ -84,6 +87,15 @@ WORKDIR /build/rtl8723ds
 RUN make -j `nproc` ARCH=riscv $CROSS KSRC=../linux-build modules
 RUN ls -l
 # Module resides in /build/rtl8723ds/8723ds.ko
+
+WORKDIR /build
+COPY kernel/xradio/ ./xradio/
+WORKDIR /build/xradio
+RUN make ARCH=riscv $CROSS -C /build/linux-build M=$PWD KBUILD_MODPOST_WARN=Y modules
+RUN ls -l
+# Module resides in /build/xr829/xr829.ko
+
+
 
 
 ############################################################################################
@@ -159,21 +171,27 @@ WORKDIR /build
 COPY --from=build_kernel /build/linux-build/ ./linux-build/
 COPY --from=build_kernel /build/linux/ ./linux/
 COPY --from=build_kernel /build/rtl8723ds/8723ds.ko .
+COPY --from=build_kernel /build/xradio/xradio_wlan.ko .
 
 WORKDIR /build/linux-build
 RUN make ARCH=riscv INSTALL_MOD_PATH=/port/rv64-port modules_install
+
 
 RUN ls /port/rv64-port/lib/modules/ > /kernel_ver
 RUN echo "export MODDIR=$(ls /port/rv64-port/lib/modules/)" > /moddef
 RUN ls /port/rv64-port/lib/modules/
 RUN . /moddef; echo "Creating wireless module in ${MODDIR}"
 RUN . /moddef; install -v -D -p -m 644 /build/8723ds.ko /port/rv64-port/lib/modules/${MODDIR}/kernel/drivers/net/wireless/8723ds.ko
+RUN . /moddef; install -v -D -p -m 644 /build/xradio_wlan.ko /port/rv64-port/lib/modules/${MODDIR}/kernel/drivers/net/wireless/xradio_wlan.ko
+
+
 
 RUN . /moddef; rm /port/rv64-port/lib/modules/${MODDIR}/build
 RUN . /moddef; rm /port/rv64-port/lib/modules/${MODDIR}/source
 
 RUN . /moddef; depmod -a -b /port/rv64-port "${MODDIR}"
 RUN echo '8723ds' >> /port/rv64-port/etc/modules
+RUN echo 'xradio_wlan' >> /port/rv64-port/etc/modules
 
 # This may not be needed as it should be done by the networking setup.
 # RUN cp /etc/resolv.conf /port/rv64-port/etc/resolv.conf

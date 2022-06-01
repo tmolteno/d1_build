@@ -23,7 +23,7 @@
             load = <0x40000000>;
             entry = <0x40000000>;
         };
-        fdt {
+        fdt-1 {
             description = "DTB";
             data = /incbin/("u-boot/arch/riscv/dts/sun20i-d1-lichee-rv-dock.dtb");
             type = "flat_dt";
@@ -32,14 +32,28 @@
             load = <0x44000000>;
             entry = <0x44000000>;
         };
+        fdt-2 {
+            description = "DTB";
+            data = /incbin/("mini_lcd_overlay.dtbo");
+            type = "flat_dt";
+            arch = "riscv";
+            load = <0x44000000>;
+        };
     };
 
     configurations {
         default = "standard";
-        standard {
+        standard.dtb {
             description = "Standard Boot";
             firmware = "opensbi";
             loadables = "uboot";
+            fdt = "fdt-1"
+        };
+        mini-lcd.dtb {
+            description = "Standard Boot";
+            firmware = "opensbi";
+            loadables = "uboot";
+            fdt = "fdt-1", "fdt-2"
         };
     };
 };

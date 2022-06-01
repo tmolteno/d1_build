@@ -23,7 +23,7 @@
             load = <0x40000000>;
             entry = <0x40000000>;
         };
-        fdt {
+        fdt-1 {
             description = "DTB";
             data = /incbin/("u-boot/arch/riscv/dts/sun20i-d1-lichee-rv-86-panel.dtb");
             type = "flat_dt";

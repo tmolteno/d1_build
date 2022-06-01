@@ -68,13 +68,13 @@ WORKDIR /build/linux
 #RUN git checkout riscv/d1-wip
 #RUN git checkout d1-wip-v5.18-rc4
 COPY kernel/update_kernel_config.sh .
-RUN ./update_kernel_config.sh
+RUN ./update_kernel_config.sh nezha_defconfig
 WORKDIR /build
 RUN make ARCH=riscv -C linux O=../linux-build nezha_defconfig
 RUN make -j `nproc` -C linux-build ARCH=riscv $CROSS V=0
 # Files reside in /build/linux-build/arch/riscv/boot/Image.gz
 RUN apt-get install -y kmod
-RUN make -j `nproc` -C linux-build ARCH=riscv $CROSS INSTALL_MOD_PATH=/build/modules modules_install
+# RUN make -j `nproc` -C linux-build ARCH=riscv $CROSS INSTALL_MOD_PATH=/build/modules modules_install
 
 
 
@@ -109,11 +109,14 @@ RUN apt-get install -y python3-setuptools git
 WORKDIR /build
 RUN git clone --depth 1 --branch ${UBOOT_TAG}  https://github.com/smaeul/u-boot.git
 WORKDIR /build/u-boot
+COPY kernel/update_kernel_config.sh .
 RUN if [ "$BOARD"  = "lichee_rv_86" ] ; then \
       echo "Building for the RV_86_Panel"; \
+      ./update_kernel_config.sh lichee_rv_86_panel_defconfig; \
       make $CROSS lichee_rv_86_panel_defconfig; \
     elif [ "$BOARD"  = "lichee_rv_dock" ] ; then \
       echo "Building for Lichee RV Dock"; \
+      ./update_kernel_config.sh lichee_rv_defconfig; \
       make $CROSS lichee_rv_defconfig; \
     else \
       echo "ERROR: unknown board"; \
@@ -143,7 +146,8 @@ RUN ./u-boot/tools/mkimage -T script -C none -O linux -A riscv -d bootscr.txt bo
 # Try device tree FIT format
 #
 RUN apt-get install -y device-tree-compiler
-
+COPY config/mini_lcd_overlay.dts .
+RUN dtc -@ -I dts -O dtb -o mini_lcd_overlay.dtbo mini_lcd_overlay.dts
 COPY config/${BOARD}_boot.its .
 RUN ./u-boot/tools/mkimage -f ${BOARD}_boot.its lichee_rv_boot.itb
 

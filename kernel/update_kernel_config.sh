@@ -3,7 +3,8 @@
 # Update the mainline kernel nezha_defconfig
 # TODO check this link... https://github.com/orangecms/linux/commit/1c493a6ef452189ae6820bb8282e8554e7527473#diff-21cd816c673272d3392dba0a524ec1a068e9229ee784cfb106c02aa89e26f7d1R179
 
-CONF_FILE=/build/linux/arch/riscv/configs/nezha_defconfig
+CONF_FILE=./arch/riscv/configs/$1
+
 function add_config() {
     fgrep -v $1 ${CONF_FILE} > tmp_conf
     echo "$1=$2" >> tmp_conf
@@ -101,6 +102,11 @@ add_config 'CONFIG_CRYPTO_CCM' 'y'
 add_config 'CONFIG_CRYPTO_GCM' 'y'
 add_config 'CONFIG_CRYPTO_CMAC' 'y'
 add_config 'CONFIG_CRC32' 'y'
+
+#
+#   Enable device tree overlays
+#
+add_config 'CONFIG_OF_LIBFDT_OVERLAY' 'y'
 
 echo "Config File Follows #####################"
 cat ${CONF_FILE}

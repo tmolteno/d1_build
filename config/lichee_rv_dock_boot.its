@@ -33,8 +33,8 @@
             entry = <0x44000000>;
         };
         fdt-2 {
-            description = "DTB";
-            data = /incbin/("mini_lcd_overlay.dtbo");
+            description = "Mini-LCD";
+            data = /incbin/("u-boot/arch/riscv/dts/ov_lichee_rv_mini_lcd.dtb");
             type = "flat_dt";
             arch = "riscv";
             load = <0x44000000>;
@@ -42,18 +42,18 @@
     };
 
     configurations {
-        default = "standard";
+        default = "standard.dtb";
         standard.dtb {
             description = "Standard Boot";
             firmware = "opensbi";
             loadables = "uboot";
-            fdt = "fdt-1"
+            fdt = "fdt-1";
         };
         mini-lcd.dtb {
-            description = "Standard Boot";
+            description = "Standard with Mini LCD";
             firmware = "opensbi";
             loadables = "uboot";
-            fdt = "fdt-1", "fdt-2"
+            fdt = "fdt-1", "fdt-2";
         };
     };
 };

@@ -1,0 +1,34 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Copyright (C) 2022 Tim Molteno
+ */
+#include <dt-bindings/gpio/gpio.h>
+
+/dts-v1/;
+/plugin/;
+
+
+&spi0 {
+    pinctrl-0 = <&spi0_pins>;
+    pinctrl-names = "default";
+    status = "okay";
+    num-cs = <1>;
+    panel@0 {
+        compatible = "sitronix,st7789v";
+        buswidth = <0x8>;
+        reg = <0>;
+        reset-gpios = <&gpio 2 6 GPIO_ACTIVE_LOW>; /* PC6 */
+        dc-gpios = <&gpio 2 5 GPIO_ACTIVE_HIGH>; /* PC5 */
+        led-gpios = <&gpio 3 18 GPIO_ACTIVE_HIGH>; /* PD18 */
+        spi-max-frequency = <32000000>;
+        // width = <135>;
+        // height = <240>;
+        txbuflen = <32768>;
+        spi-cpol;
+        spi-cpha;
+        rotate = <90>;
+        fps = <25>;
+        status = "okay";
+        debug = <0>;
+    };
+};

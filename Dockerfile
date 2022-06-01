@@ -109,7 +109,13 @@ RUN apt-get install -y python3-setuptools git
 WORKDIR /build
 RUN git clone --depth 1 --branch ${UBOOT_TAG}  https://github.com/smaeul/u-boot.git
 WORKDIR /build/u-boot
+
+# Make sure we update the device tree and add the overlays
 COPY kernel/update_uboot_config.sh .
+COPY config/ov_lichee_rv_mini_lcd.dts ./arch/riscv/dts/ov_lichee_rv_mini_lcd.dts
+RUN sed -i '3s/^/dtb-$(CONFIG_TARGET_SUNXI) += ov_lichee_rv_mini_lcd.dtb\n/' ./arch/riscv/dts/Makefile
+RUN cat ./arch/riscv/dts/Makefile
+
 RUN if [ "$BOARD"  = "lichee_rv_86" ] ; then \
       echo "Building for the RV_86_Panel"; \
       ./update_uboot_config.sh lichee_rv_86_panel_defconfig; \
@@ -146,8 +152,6 @@ RUN ./u-boot/tools/mkimage -T script -C none -O linux -A riscv -d bootscr.txt bo
 # Try device tree FIT format
 #
 RUN apt-get install -y device-tree-compiler
-COPY config/mini_lcd_overlay.dts .
-RUN dtc -@ -I dts -O dtb -o mini_lcd_overlay.dtbo mini_lcd_overlay.dts
 COPY config/${BOARD}_boot.its .
 RUN ./u-boot/tools/mkimage -f ${BOARD}_boot.its lichee_rv_boot.itb
 

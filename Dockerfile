@@ -154,6 +154,7 @@ RUN ./u-boot/tools/mkimage -T script -C none -O linux -A riscv -d bootscr.txt bo
 RUN apt-get install -y device-tree-compiler
 COPY config/${BOARD}_boot.its .
 RUN ./u-boot/tools/mkimage -f ${BOARD}_boot.its lichee_rv_boot.itb
+RUN ./u-boot/tools/mkimage -T script -C none -O linux -A riscv -d lichee_rv_boot.itb boot.scr
 
 
 

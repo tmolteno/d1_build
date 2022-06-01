@@ -109,14 +109,14 @@ RUN apt-get install -y python3-setuptools git
 WORKDIR /build
 RUN git clone --depth 1 --branch ${UBOOT_TAG}  https://github.com/smaeul/u-boot.git
 WORKDIR /build/u-boot
-COPY kernel/update_kernel_config.sh .
+COPY kernel/update_uboot_config.sh .
 RUN if [ "$BOARD"  = "lichee_rv_86" ] ; then \
       echo "Building for the RV_86_Panel"; \
-      ./update_kernel_config.sh lichee_rv_86_panel_defconfig; \
+      ./update_uboot_config.sh lichee_rv_86_panel_defconfig; \
       make $CROSS lichee_rv_86_panel_defconfig; \
     elif [ "$BOARD"  = "lichee_rv_dock" ] ; then \
       echo "Building for Lichee RV Dock"; \
-      ./update_kernel_config.sh lichee_rv_defconfig; \
+      ./update_uboot_config.sh lichee_rv_defconfig; \
       make $CROSS lichee_rv_defconfig; \
     else \
       echo "ERROR: unknown board"; \

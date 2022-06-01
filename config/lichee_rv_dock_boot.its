@@ -37,12 +37,11 @@
             data = /incbin/("u-boot/arch/riscv/dts/ov_lichee_rv_mini_lcd.dtb");
             type = "flat_dt";
             arch = "riscv";
-            load = <0x44000000>;
         };
     };
 
     configurations {
-        default = "standard.dtb";
+        default = "mini-lcd.dtb";
         standard.dtb {
             description = "Standard Boot";
             firmware = "opensbi";

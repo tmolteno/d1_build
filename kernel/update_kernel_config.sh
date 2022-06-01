@@ -106,6 +106,7 @@ add_config 'CONFIG_CRC32' 'y'
 #
 #   Enable device tree overlays
 #
+add_config 'CONFIG_USE_OF' 'y'
 add_config 'CONFIG_OF_LIBFDT_OVERLAY' 'y'
 
 echo "Config File Follows #####################"

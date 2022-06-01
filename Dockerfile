@@ -151,10 +151,11 @@ RUN ./u-boot/tools/mkimage -T script -C none -O linux -A riscv -d bootscr.txt bo
 #
 # Try device tree FIT format
 #
-RUN apt-get install -y device-tree-compiler
+# RUN apt-get install -y device-tree-compiler
+COPY --from=build_kernel /build/linux-build/ ./linux-build/
 COPY config/${BOARD}_boot.its .
-RUN ./u-boot/tools/mkimage -f ${BOARD}_boot.its lichee_rv_boot.itb
-RUN ./u-boot/tools/mkimage -T script -C none -O linux -A riscv -d lichee_rv_boot.itb boot.scr
+RUN PATH=/build/linux-build/scripts/dtc:$PATH ./u-boot/tools/mkimage -f ${BOARD}_boot.its boot.scr
+# RUN ./u-boot/tools/mkimage -f lichee_rv_boot.itb boot.scr
 
 
 

@@ -183,7 +183,8 @@ int xradio_queue_stats_init(struct xradio_queue_stats *stats,
 	spin_lock_init(&stats->lock);
 	init_waitqueue_head(&stats->wait_link_id_empty);
 	for (i = 0; i < XRWL_MAX_VIFS; i++) {
-		stats->link_map_cache[i] = kzalloc(sizeof(int[map_capacity]), GFP_KERNEL);
+// 		stats->link_map_cache[i] = kzalloc(sizeof(int[map_capacity]), GFP_KERNEL);
+		stats->link_map_cache[i] = kcalloc(map_capacity, sizeof(int), GFP_KERNEL);
 		if (!stats->link_map_cache[i]) {
 			for (; i >= 0; i--)
 				kfree(stats->link_map_cache[i]);
@@ -224,8 +225,10 @@ int xradio_queue_init(struct xradio_queue *queue,
 		return -ENOMEM;
 
 	for (i = 0; i < XRWL_MAX_VIFS; i++) {
+// 		queue->link_map_cache[i] =
+// 				kzalloc(sizeof(int[stats->map_capacity]), GFP_KERNEL);
 		queue->link_map_cache[i] =
-				kzalloc(sizeof(int[stats->map_capacity]), GFP_KERNEL);
+				kcalloc(stats->map_capacity, sizeof(int), GFP_KERNEL);
 		if (!queue->link_map_cache[i]) {
 			for (; i >= 0; i--)
 				kfree(queue->link_map_cache[i]);

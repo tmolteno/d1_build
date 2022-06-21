@@ -16,6 +16,10 @@ The username is rv, with password lichee. The root password is licheerv. In thes
 
 This will connect to a notwork called "MyWifi", with password "my-password"
 
+## Ethernet
+
+The builds currently contain a handful of standard USB Ethernet drivers, including those for Realtek 100M adapters. Upon connection, Debian will automatically configure the USB device and connect to the network, with no need for manual configuration.
+
 ## How to build your own image
 
 This is intended to be used on a debian system with docker, and docker-compose installed. Modify the parameters of the build in the file docker-compose.yml such as kernel version and board target. Then issue.
@@ -51,6 +55,7 @@ And everything will be rebulid (new kernel download e.t.c.). This is very slow (
 * Do NOT fix the GPT if you resize the root partition (second partition). This will cause boot errors.
 * WiFi on the RV 86 Panel does not work as the xr829 driver is missing. Issue here (https://github.com/tmolteno/d1_build/issues/7)
 * The tiny LCD screen is not going yet. (https://github.com/tmolteno/d1_build/issues/8)
+   
 
 ## Links
 

@@ -3,5 +3,9 @@ load mmc 0:1 ${kernel_addr_r} Image.gz
 setenv bootargs "earlycon=sbi console=ttyS0,115200n8 root=/dev/mmcblk0p2 cma=96M"
 setenv kernel_comp_addr_r 0x44000000
 setenv kernel_comp_size 0xb000000
+setenv fdtovaddr 0x87fc0000
+load mmc 0:1 ${fdtovaddr} ov_lichee_rv_mini_lcd.dtb
+fdt resize 8192
+fdt apply $fdtovaddr
 echo "Booting kernel with bootargs as $bootargs; and fdtcontroladdr is $fdtcontroladdr"
 booti ${kernel_addr_r} - ${fdtcontroladdr}

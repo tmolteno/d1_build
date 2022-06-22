@@ -1,5 +1,11 @@
 ## Changelog
 
+### Version 0.4
+
+- Remove backticks in Dockerfile (thanks NexusXe)
+- Add xradio driver code for the panel (work in progress - no firmware yet)
+
+
 ### Version 0.3
 
 - Smaller builds by removing apt caches.

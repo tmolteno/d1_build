@@ -120,7 +120,7 @@ RUN if [ "$BOARD"  = "lichee_rv_86" ] ; then \
       echo "Building for the RV_86_Panel"; \
       ./update_uboot_config.sh lichee_rv_86_panel_defconfig; \
       make $CROSS lichee_rv_86_panel_defconfig; \
-    elif [ "$BOARD"  = "lichee_rv_dock" ] ; then \
+    elif [ "$BOARD"  = "lichee_rv_dock" ] || [ "$BOARD"  = "lichee_rv_lcd" ] ; then \
       echo "Building for Lichee RV Dock"; \
       ./update_uboot_config.sh lichee_rv_defconfig; \
       make $CROSS lichee_rv_defconfig; \
@@ -131,7 +131,7 @@ RUN make -j `nproc` $CROSS all V=1
 RUN ls -l arch/riscv/dts/
 # The binary is located here: u-boot/arch/riscv/dts/sun20i-d1-lichee-rv-dock.dtb
 # The binary is located here: u-boot/arch/riscv/dts/sun20i-d1-lichee-rv-86-panel.dtb
-
+# The binary is located here: u-boot/arch/riscv/dts/ov_lichee_rv_mini_lcd.dtb
 #
 # Generate u-boot TOC
 #
@@ -144,8 +144,8 @@ RUN ./u-boot/tools/mkimage -A riscv -T sunxi_toc1 -d toc1_${BOARD}.cfg u-boot.to
 #
 # Create a boot script...
 #
-COPY config/bootscr.txt .
-RUN ./u-boot/tools/mkimage -T script -C none -O linux -A riscv -d bootscr.txt boot.scr
+COPY config/bootscr_${BOARD}.txt .
+RUN ./u-boot/tools/mkimage -T script -C none -O linux -A riscv -d bootscr_${BOARD}.txt boot.scr
 # The boot script is here: boot.scr
 
 #
@@ -154,7 +154,7 @@ RUN ./u-boot/tools/mkimage -T script -C none -O linux -A riscv -d bootscr.txt bo
 # RUN apt-get install -y device-tree-compiler
 COPY --from=build_kernel /build/linux-build/ ./linux-build/
 COPY config/${BOARD}_boot.its .
-RUN PATH=/build/linux-build/scripts/dtc:$PATH ./u-boot/tools/mkimage -f ${BOARD}_boot.its boot.scr
+RUN PATH=/build/linux-build/scripts/dtc:$PATH ./u-boot/tools/mkimage -f ${BOARD}_boot.its lichee_rv_boot.itb
 # RUN ./u-boot/tools/mkimage -f lichee_rv_boot.itb boot.scr
 
 
@@ -182,7 +182,6 @@ COPY --from=build_kernel /build/linux-build/ ./linux-build/
 COPY --from=build_kernel /build/linux/ ./linux/
 COPY --from=build_kernel /build/rtl8723ds/8723ds.ko .
 COPY --from=build_kernel /build/xradio/xradio_wlan.ko .
-
 WORKDIR /build/linux-build
 RUN make ARCH=riscv INSTALL_MOD_PATH=/port/rv64-port modules_install
 
@@ -235,6 +234,7 @@ COPY --from=build_kernel /build/linux/arch/riscv/configs/nezha_defconfig .
 COPY --from=build_boot0 /build/sun20i_d1_spl/nboot/boot0_sdcard_sun20iw1p1.bin .
 COPY --from=build_uboot /build/u-boot.toc1 .
 COPY --from=build_uboot /build/boot.scr .
+COPY --from=build_uboot /build/u-boot/arch/riscv/dts/ov_lichee_rv_mini_lcd.dtb .
 
 RUN ls -l
 RUN apt-get install -y kpartx openssl fdisk dosfstools e2fsprogs kmod parted

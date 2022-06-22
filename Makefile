@@ -17,6 +17,11 @@ dock:
 	docker-compose build dock
 	docker-compose up dock
 
+lcd:
+	sudo rm -rf ./lichee_rv_lcd/*
+	docker-compose build lcd
+	docker-compose up lcd
+
 clean:
 	sudo rm -rf ./lichee_rv_dock/*
 	sudo rm -rf ./lichee_rv_86/*

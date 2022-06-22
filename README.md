@@ -61,16 +61,19 @@ And everything will be rebulid (new kernel download e.t.c.). This is very slow (
 * https://github.com/sehraf/riscv-arch-image-builder/blob/main/1_compile.sh
 * https://github.com/DongshanPI/NezhaSTU-ReleaseLinux/tree/master/.github/workflows
 
-## Basic Flow
+## How Booting Works
 
-* Use a device tree which speficies the hardware
-* Compile uboot & friends
-* Then compile the kernel using the same device tree (kernel defconfig)
+### First Boot Stage
+* The first sun20i_d1_spl code is loaded. It looks for a u-boot toc1 file from the mmc drive (sd-card reader). This file is written directly onto the first part of the SDcard (not in a filesystem)
+* The TOC file contains a list of parts of the system. These are (in order) opensbi, dtb, u-boot.
+These parts are loaded into memory.
 
-The device tree is first found in the U-boot compile, and the Kernel compile should use this same device tree. In our case there are two of interest. These are found in uboot/configs/xxx
+### Second Boot stage
 
-    lichee_rv_86_panel_defconfig
-    lichee_rv_defconfig
+* The OpenSBI runs as the second boot stage. It is responsible for loading U-Boot
 
-These are for the RV 86 Panel (with built-in screen) and the dock/board respectively.
+### Third boot stage
+
+This is U-Boot. It mounts the boot partition on the mmc drive. Reads a file called 'boot.scr' and executes this script. This loads the kernel (Image.gz), uncompresses it and starts things running.
+
 

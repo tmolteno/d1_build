@@ -55,6 +55,7 @@ cp /builder/Image.gz "${BOOTPOINT}/"
 
 # install U-Boot
 cp /builder/boot.scr "${BOOTPOINT}/"
+cp /builder/ov_lichee_rv_mini_lcd.dtb "${BOOTPOINT}/"
 
 umount ${BOOTPOINT}
 rm -rf ${BOOTPOINT}

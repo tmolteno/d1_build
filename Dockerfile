@@ -14,7 +14,7 @@ RUN riscv64-linux-gnu-gcc --version | grep gcc | cut -d')' -f2
 # WORKDIR /build/riscv-gnu-toolchain
 # RUN git checkout ${GNU_TOOLS_TAG}
 # RUN ./configure --prefix=/opt/riscv64-unknown-linux-gnu --with-arch=rv64gc --with-abi=lp64d
-# RUN make linux -j `nproc`
+# RUN make linux -j $(nproc)
 # ENV PATH="/opt/riscv64-unknown-linux-gnu/bin:$PATH"
 
 # ARG CROSS=CROSS_COMPILE=/build/riscv64-unknown-linux-gnu/bin/riscv64-unknown-linux-gnu-
@@ -71,10 +71,10 @@ COPY kernel/update_kernel_config.sh .
 RUN ./update_kernel_config.sh nezha_defconfig
 WORKDIR /build
 RUN make ARCH=riscv -C linux O=../linux-build nezha_defconfig
-RUN make -j `nproc` -C linux-build ARCH=riscv $CROSS V=0
+RUN make -j $(nproc) -C linux-build ARCH=riscv $CROSS V=0
 # Files reside in /build/linux-build/arch/riscv/boot/Image.gz
 RUN apt-get install -y kmod
-# RUN make -j `nproc` -C linux-build ARCH=riscv $CROSS INSTALL_MOD_PATH=/build/modules modules_install
+# RUN make -j $(nproc) -C linux-build ARCH=riscv $CROSS INSTALL_MOD_PATH=/build/modules modules_install
 
 
 
@@ -84,7 +84,7 @@ RUN apt-get install -y kmod
 WORKDIR /build
 RUN git clone --depth 1 https://github.com/lwfinger/rtl8723ds.git
 WORKDIR /build/rtl8723ds
-RUN make -j `nproc` ARCH=riscv $CROSS KSRC=../linux-build modules
+RUN make -j $(nproc) ARCH=riscv $CROSS KSRC=../linux-build modules
 RUN ls -l
 # Module resides in /build/rtl8723ds/8723ds.ko
 
@@ -127,7 +127,7 @@ RUN if [ "$BOARD"  = "lichee_rv_86" ] ; then \
     else \
       echo "ERROR: unknown board"; \
     fi
-RUN make -j `nproc` $CROSS all V=1
+RUN make -j $(nproc) $CROSS all V=1
 RUN ls -l arch/riscv/dts/
 # The binary is located here: u-boot/arch/riscv/dts/sun20i-d1-lichee-rv-dock.dtb
 # The binary is located here: u-boot/arch/riscv/dts/sun20i-d1-lichee-rv-86-panel.dtb

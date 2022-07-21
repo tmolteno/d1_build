@@ -5,6 +5,8 @@
 #
 export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
 export LC_ALL=C LANGUAGE=C LANG=C
+/var/lib/dpkg/info/dash.preinst install
+/var/lib/dpkg/info/base-passwd.preinst install
 dpkg --configure -a
 mount proc -t proc /proc
 dpkg --configure -a

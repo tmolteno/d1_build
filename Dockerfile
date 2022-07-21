@@ -167,6 +167,7 @@ RUN PATH=/build/linux-build/scripts/dtc:$PATH ./u-boot/tools/mkimage -f ${BOARD}
 FROM builder as build_rootfs
 ARG BOARD
 
+
 RUN apt-get install -y mmdebstrap qemu-user-static binfmt-support debian-ports-archive-keyring
 RUN apt-get install -y multistrap systemd-container
 RUN apt-get install -y kmod
@@ -174,7 +175,9 @@ RUN apt-get install -y kmod
 WORKDIR /build
 COPY rootfs/multistrap_$BOARD.conf multistrap.conf
 
+RUN ls
 RUN multistrap -f multistrap.conf
+
 
 # Now install the kernel modules into the rootfs
 WORKDIR /build

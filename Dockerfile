@@ -122,8 +122,8 @@ RUN if [ "$BOARD"  = "lichee_rv_86" ] ; then \
       make $CROSS lichee_rv_86_panel_defconfig; \
     elif [ "$BOARD"  = "lichee_rv_dock" ] || [ "$BOARD"  = "lichee_rv_lcd" ] ; then \
       echo "Building for Lichee RV Dock"; \
-      ./update_uboot_config.sh lichee_rv_defconfig; \
-      make $CROSS lichee_rv_defconfig; \
+      ./update_uboot_config.sh lichee_rv_dock_defconfig; \
+      make $CROSS lichee_rv_dock_defconfig; \
     else \
       echo "ERROR: unknown board"; \
     fi

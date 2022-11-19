@@ -9,7 +9,7 @@ services:
         dockerfile: Dockerfile
         args:
             BOARD: lichee_rv_dock
-            DISK_MB: 8000
+            DISK_MB: 7300
             GNU_TOOLS_TAG: 10.2.1
             OPENSBI_TAG: d1-wip
             UBOOT_TAG: d1-wip
@@ -24,7 +24,7 @@ services:
         dockerfile: Dockerfile
         args:
             BOARD: lichee_rv_86
-            DISK_MB: 8000
+            DISK_MB: 7300
             GNU_TOOLS_TAG: 10.2.1
             OPENSBI_TAG: d1-wip
             UBOOT_TAG: d1-wip

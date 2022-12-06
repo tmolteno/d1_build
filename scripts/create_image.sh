@@ -9,6 +9,7 @@
 OUTPORT=$1
 
 
+KERNEL_TAG="$(echo ${KERNEL_TAG} | tr '/' '_')"
 IMG_NAME="${BOARD}_gcc_${GNU_TOOLS_TAG}_kernel_${KERNEL_TAG}.img"
 IMG=${OUTPORT}/${IMG_NAME}
 
@@ -37,11 +38,8 @@ mkswap /dev/mapper/${LOOP}p3
 # Burn U-boot
 echo "Burning u-boot to ${LOOPDEV}"
 
-dd if=/builder/boot0_sdcard_sun20iw1p1.bin of=${LOOPDEV} bs=8192 seek=16
-
 # Copy files https://linux-sunxi.org/Allwinner_Nezha
-dd if=/builder/u-boot.toc1 of=${LOOPDEV} bs=512 seek=32800
-
+dd if=/builder/u-boot-sunxi-with-spl.bin of=${LOOPDEV} bs=1024 seek=128
 
 # Copy Files, first the boot partition
 echo "Mounting  partitions ${LOOPDEV}"

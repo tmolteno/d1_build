@@ -16,6 +16,7 @@ add_config 'CONFIG_DEFAULT_HOSTNAME' '"lichee"'
 add_config 'CONFIG_WIRELESS' 'y'
 add_config 'CONFIG_CFG80211' 'y'
 add_config 'CONFIG_MAC80211' 'y'
+add_config 'CONFIG_XR829_WLAN' 'm'
 
 # enable /proc/config.gz
 add_config 'CONFIG_IKCONFIG_PROC' 'y'

@@ -11,9 +11,9 @@ services:
             BOARD: lichee_rv_dock
             DISK_MB: 7300
             GNU_TOOLS_TAG: 10.2.1
-            OPENSBI_TAG: d1-wip
             UBOOT_TAG: d1-wip
-            KERNEL_TAG: d1-wip-v5.18-rc4
+            KERNEL_TAG: d1/all
+            KERNEL_COMMIT: b466df9
     volumes:
         - './lichee_rv_dock:/outport'
 
@@ -26,9 +26,9 @@ services:
             BOARD: lichee_rv_86
             DISK_MB: 7300
             GNU_TOOLS_TAG: 10.2.1
-            OPENSBI_TAG: d1-wip
             UBOOT_TAG: d1-wip
-            KERNEL_TAG: d1-wip-v5.18-rc4
+            KERNEL_TAG: d1/all
+            KERNEL_COMMIT: b466df9
     volumes:
         - './lichee_rv_86:/outport'
 
@@ -41,8 +41,8 @@ services:
             #BOARD: lichee_rv_lcd
             #DISK_MB: 8000
             #GNU_TOOLS_TAG: 10.2.1
-            #OPENSBI_TAG: d1-wip
             #UBOOT_TAG: d1-wip
-            #KERNEL_TAG: d1-wip-v5.18-rc4
+            #KERNEL_TAG: d1/all
+            #KERNEL_COMMIT: b466df9
     #volumes:
         #- './lichee_rv_lcd:/outport'

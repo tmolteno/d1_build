@@ -11,6 +11,12 @@ function add_config() {
     mv tmp_conf ${CONF_FILE}
 }
 
+function unset_config() {
+    fgrep -v $1 ${CONF_FILE} > tmp_conf
+    echo "# $1 is not set" >> tmp_conf
+    mv tmp_conf ${CONF_FILE}
+}
+
 add_config 'CONFIG_DEFAULT_HOSTNAME' '"lichee"'
 # enable WiFi
 add_config 'CONFIG_WIRELESS' 'y'

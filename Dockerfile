@@ -9,7 +9,9 @@ RUN apt-get update \
                            bison flex texinfo gperf libtool patchutils bc zlib1g-dev \
                            libexpat-dev swig libssl-dev python3-distutils python3-dev \
                            git gcc-riscv64-linux-gnu g++-riscv64-linux-gnu cpio kmod \
-                           python3-setuptools
+                           python3-setuptools mmdebstrap qemu-user-static binfmt-support \
+                           debian-ports-archive-keyring multistrap systemd-container kmod
+
 ENV CROSS="CROSS_COMPILE=riscv64-linux-gnu-"
 RUN riscv64-linux-gnu-gcc --version | grep gcc | cut -d')' -f2
 # WORKDIR /build
@@ -141,11 +143,6 @@ RUN eatmydata ./u-boot/tools/mkimage -T script -C none -O linux -A riscv -d boot
 #
 FROM builder as build_rootfs
 ARG BOARD
-
-
-RUN eatmydata apt-get install -y mmdebstrap qemu-user-static binfmt-support debian-ports-archive-keyring
-RUN eatmydata apt-get install -y multistrap systemd-container
-RUN eatmydata apt-get install -y kmod
 
 WORKDIR /build
 COPY rootfs/multistrap_$BOARD.conf multistrap.conf

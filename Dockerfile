@@ -174,10 +174,9 @@ WORKDIR /builder
 COPY --from=build_rootfs /kernel_ver /port/rv64-port ./
 COPY --from=build_kernel /build/linux-build/arch/riscv/boot/Image.gz /build/linux/arch/riscv/configs/defconfig ./
 COPY --from=build_uboot /build/boot.scr /build/u-boot/u-boot-sunxi-with-spl.bin /build/u-boot/arch/riscv/dts/ov_lichee_rv_mini_lcd.dtb ./
-COPY rootfs/setup_rootfs.sh ./rv64-port/setup_rootfs.sh
+
+COPY rootfs/setup_rootfs.sh ./rv64-port/
+COPY scripts/build.sh scripts/create_image.sh ./
 RUN ls -l
 
-
-COPY scripts/build.sh .
-COPY scripts/create_image.sh .
 CMD eatmydata /builder/build.sh

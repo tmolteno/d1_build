@@ -4,14 +4,15 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
     && apt-get install -y eatmydata \
-    && eatmydata apt-get install -y autoconf automake autotools-dev curl python3 \
-                           libmpc-dev libmpfr-dev libgmp-dev gawk build-essential \
-                           bison flex texinfo gperf libtool patchutils bc zlib1g-dev \
-                           libexpat-dev swig libssl-dev python3-distutils python3-dev \
-                           git gcc-riscv64-linux-gnu g++-riscv64-linux-gnu cpio kmod \
-                           python3-setuptools mmdebstrap qemu-user-static binfmt-support \
-                           debian-ports-archive-keyring multistrap systemd-container \
-                           kpartx parted openssl fdisk dosfstools e2fsprogs
+    && eatmydata apt-get install -y autoconf automake autotools-dev bc binfmt-support \
+                                   bison build-essential cpio curl debian-ports-archive-keyring \
+                                   dosfstools e2fsprogs fdisk flex gawk gcc-riscv64-linux-gnu \
+                                   git gperf g++-riscv64-linux-gnu kmod kpartx libexpat-dev \
+                                   libgmp-dev libmpc-dev libmpfr-dev libssl-dev \
+                                   libtool mmdebstrap multistrap openssl parted \
+                                   patchutils python3 python3-dev python3-distutils \
+                                   python3-setuptools qemu-user-static swig \
+                                   systemd-container texinfo zlib1g-dev
 
 ENV CROSS="CROSS_COMPILE=riscv64-linux-gnu-"
 RUN riscv64-linux-gnu-gcc --version | grep gcc | cut -d')' -f2

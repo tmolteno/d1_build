@@ -90,4 +90,4 @@ losetup -d ${LOOPDEV}
 # Now compress the image
 echo "Compressing the image: ${IMG}"
 
-(cd ${OUTPORT}; xz -9 ${IMG})
+(cd ${OUTPORT}; xz -T0 -9 ${IMG})

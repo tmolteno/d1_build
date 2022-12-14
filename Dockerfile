@@ -10,7 +10,7 @@ RUN apt-get update \
                            libexpat-dev swig libssl-dev python3-distutils python3-dev \
                            git gcc-riscv64-linux-gnu g++-riscv64-linux-gnu cpio kmod \
                            python3-setuptools mmdebstrap qemu-user-static binfmt-support \
-                           debian-ports-archive-keyring multistrap systemd-container kmod
+                           debian-ports-archive-keyring multistrap systemd-container
 
 ENV CROSS="CROSS_COMPILE=riscv64-linux-gnu-"
 RUN riscv64-linux-gnu-gcc --version | grep gcc | cut -d')' -f2

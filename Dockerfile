@@ -16,22 +16,6 @@ RUN apt-get update \
 
 ENV CROSS="CROSS_COMPILE=riscv64-linux-gnu-"
 RUN riscv64-linux-gnu-gcc --version | grep gcc | cut -d')' -f2
-# WORKDIR /build
-# ARG GNU_TOOLS_TAG
-# RUN git config --global advice.detachedHead false
-# RUN git clone --recursive --depth 1 --branch ${GNU_TOOLS_TAG} https://github.com/riscv/riscv-gnu-toolchain
-# WORKDIR /build/riscv-gnu-toolchain
-# RUN git checkout ${GNU_TOOLS_TAG}
-# RUN ./configure --prefix=/opt/riscv64-unknown-linux-gnu --with-arch=rv64gc --with-abi=lp64d
-# RUN make linux -j $(nproc)
-# ENV PATH="/opt/riscv64-unknown-linux-gnu/bin:$PATH"
-
-# ARG CROSS=CROSS_COMPILE=/build/riscv64-unknown-linux-gnu/bin/riscv64-unknown-linux-gnu-
-# ENV CROSS=CROSS_COMPILE=riscv64-unknown-linux-gnu-
-
-# Clean up
-# WORKDIR /build
-# RUN rm -rf riscv-gnu-toolchain
 
 
 ############################################################################################

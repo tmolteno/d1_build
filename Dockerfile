@@ -9,7 +9,7 @@ RUN apt-get update \
                            bison flex texinfo gperf libtool patchutils bc zlib1g-dev \
                            libexpat-dev swig libssl-dev python3-distutils python3-dev \
                            git gcc-riscv64-linux-gnu g++-riscv64-linux-gnu cpio kmod \
-                           python3-setuptools git
+                           python3-setuptools
 ENV CROSS="CROSS_COMPILE=riscv64-linux-gnu-"
 RUN riscv64-linux-gnu-gcc --version | grep gcc | cut -d')' -f2
 # WORKDIR /build

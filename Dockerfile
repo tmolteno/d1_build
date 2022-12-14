@@ -127,7 +127,6 @@ ARG BOARD
 WORKDIR /build
 COPY rootfs/multistrap_$BOARD.conf multistrap.conf
 
-RUN ls
 RUN eatmydata multistrap -f multistrap.conf
 
 # Now install the kernel modules into the rootfs

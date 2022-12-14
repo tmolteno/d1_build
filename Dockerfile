@@ -2,9 +2,7 @@ FROM debian:bullseye as builder
 MAINTAINER Tim Molteno "tim@molteno.net"
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y eatmydata && eatmydata apt-get install -y autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev swig libssl-dev python3-distutils python3-dev git
-
-RUN eatmydata apt-get install -y gcc-riscv64-linux-gnu g++-riscv64-linux-gnu
+RUN apt-get update && apt-get install -y eatmydata && eatmydata apt-get install -y autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev swig libssl-dev python3-distutils python3-dev git gcc-riscv64-linux-gnu g++-riscv64-linux-gnu
 ENV CROSS="CROSS_COMPILE=riscv64-linux-gnu-"
 RUN riscv64-linux-gnu-gcc --version | grep gcc | cut -d')' -f2
 # WORKDIR /build

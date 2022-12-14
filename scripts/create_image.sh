@@ -74,9 +74,9 @@ rm "${MNTPOINT}/setup_rootfs.sh"
 # Set up fstab
 cat >> "${MNTPOINT}/etc/fstab" <<EOF
 # <device>        <dir>        <type>        <options>            <dump> <pass>
-/dev/mmcblk0p1    /boot        ext2          rw,defaults,noatime  1      1
-/dev/mmcblk0p2    /            ext4          rw,defaults,noatime  1      1
-/dev/mmcblk0p3    none         swap          sw                   0      0
+/dev/mmcblk0p1    /boot        ext2          rw,defaults,noatime,discard  1      1
+/dev/mmcblk0p2    /            ext4          rw,defaults,noatime,discard  1      1
+/dev/mmcblk0p3    none         swap          sw,discard                   0      0
 EOF
 
 # Clean Up

@@ -140,13 +140,13 @@ RUN eatmydata make ARCH=riscv INSTALL_MOD_PATH=/port/rv64-port modules_install
 RUN ls /port/rv64-port/lib/modules/ > /kernel_ver
 RUN echo "export MODDIR=$(ls /port/rv64-port/lib/modules/)" > /moddef
 RUN ls /port/rv64-port/lib/modules/
-RUN . /moddef; echo "Creating wireless module in ${MODDIR}"
-RUN . /moddef; install -v -D -p -m 644 /build/8723ds.ko /port/rv64-port/lib/modules/${MODDIR}/kernel/drivers/net/wireless/8723ds.ko
+RUN . /moddef && echo "Creating wireless module in ${MODDIR}"
+RUN . /moddef && install -v -D -p -m 644 /build/8723ds.ko /port/rv64-port/lib/modules/${MODDIR}/kernel/drivers/net/wireless/8723ds.ko
 
-RUN . /moddef; rm /port/rv64-port/lib/modules/${MODDIR}/build
-RUN . /moddef; rm /port/rv64-port/lib/modules/${MODDIR}/source
+RUN . /moddef && rm /port/rv64-port/lib/modules/${MODDIR}/build
+RUN . /moddef && rm /port/rv64-port/lib/modules/${MODDIR}/source
 
-RUN . /moddef; depmod -a -b /port/rv64-port "${MODDIR}"
+RUN . /moddef && depmod -a -b /port/rv64-port "${MODDIR}"
 RUN echo '8723ds' >> /port/rv64-port/etc/modules
 RUN echo 'xr829' >> /port/rv64-port/etc/modules
 

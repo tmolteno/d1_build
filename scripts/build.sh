@@ -2,7 +2,7 @@
 # Author. Tim Molteno tim@molteno.net
 # (C) 2022.
 
-cp /etc/resolv.conf /builder/rv64-port/etc/resolv.conf
+cp -av /etc/resolv.conf /builder/rv64-port/etc/resolv.conf
 
 
 # Run the script to create the disk image

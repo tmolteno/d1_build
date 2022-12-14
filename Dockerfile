@@ -10,7 +10,8 @@ RUN apt-get update \
                            libexpat-dev swig libssl-dev python3-distutils python3-dev \
                            git gcc-riscv64-linux-gnu g++-riscv64-linux-gnu cpio kmod \
                            python3-setuptools mmdebstrap qemu-user-static binfmt-support \
-                           debian-ports-archive-keyring multistrap systemd-container
+                           debian-ports-archive-keyring multistrap systemd-container \
+                           kpartx parted kpartx openssl fdisk dosfstools e2fsprogs kmod parted
 
 ENV CROSS="CROSS_COMPILE=riscv64-linux-gnu-"
 RUN riscv64-linux-gnu-gcc --version | grep gcc | cut -d')' -f2
@@ -195,8 +196,6 @@ ENV GNU_TOOLS_TAG=$GNU_TOOLS_TAG
 ENV DISK_MB=$DISK_MB
 ENV BOARD=$BOARD
 
-RUN eatmydata apt-get install -y kpartx parted
-
 WORKDIR /builder
 COPY --from=build_rootfs /kernel_ver ./kernel_ver
 COPY --from=build_rootfs /port/rv64-port/ ./rv64-port/
@@ -207,9 +206,7 @@ COPY --from=build_kernel /build/linux/arch/riscv/configs/defconfig .
 COPY --from=build_uboot /build/boot.scr .
 COPY --from=build_uboot /build/u-boot/u-boot-sunxi-with-spl.bin .
 COPY --from=build_uboot /build/u-boot/arch/riscv/dts/ov_lichee_rv_mini_lcd.dtb .
-
 RUN ls -l
-RUN eatmydata apt-get install -y kpartx openssl fdisk dosfstools e2fsprogs kmod parted
 
 COPY rootfs/setup_rootfs.sh ./rv64-port/setup_rootfs.sh
 

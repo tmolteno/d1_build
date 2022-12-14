@@ -34,7 +34,6 @@ RUN riscv64-linux-gnu-gcc --version | grep gcc | cut -d')' -f2
 # RUN rm -rf riscv-gnu-toolchain
 
 
-
 ############################################################################################
 #
 # Build opensbi
@@ -72,7 +71,6 @@ RUN eatmydata make -j $(nproc) -C linux-build ARCH=riscv $CROSS V=0
 # RUN make -j $(nproc) -C linux-build ARCH=riscv $CROSS INSTALL_MOD_PATH=/build/modules modules_install
 
 
-
 #
 # Build wifi modules
 #
@@ -89,8 +87,6 @@ RUN ls -l
 ## RUN make ARCH=riscv $CROSS -C /build/linux-build M=$PWD modules; exit 1
 ## RUN ls -l
 # Module resides in /build/xr829/xr829.ko
-
-
 
 
 ############################################################################################
@@ -137,8 +133,6 @@ RUN eatmydata ./u-boot/tools/mkimage -T script -C none -O linux -A riscv -d boot
 # The boot script is here: boot.scr
 
 
-
-
 ############################################################################################
 #
 #   Build the root filesystem
@@ -152,7 +146,6 @@ COPY rootfs/multistrap_$BOARD.conf multistrap.conf
 RUN ls
 RUN eatmydata multistrap -f multistrap.conf
 
-
 # Now install the kernel modules into the rootfs
 WORKDIR /build
 COPY --from=build_kernel /build/linux-build/ ./linux-build/
@@ -161,14 +154,11 @@ COPY --from=build_kernel /build/rtl8723ds/8723ds.ko .
 WORKDIR /build/linux-build
 RUN eatmydata make ARCH=riscv INSTALL_MOD_PATH=/port/rv64-port modules_install
 
-
 RUN ls /port/rv64-port/lib/modules/ > /kernel_ver
 RUN echo "export MODDIR=$(ls /port/rv64-port/lib/modules/)" > /moddef
 RUN ls /port/rv64-port/lib/modules/
 RUN . /moddef; echo "Creating wireless module in ${MODDIR}"
 RUN . /moddef; install -v -D -p -m 644 /build/8723ds.ko /port/rv64-port/lib/modules/${MODDIR}/kernel/drivers/net/wireless/8723ds.ko
-
-
 
 RUN . /moddef; rm /port/rv64-port/lib/modules/${MODDIR}/build
 RUN . /moddef; rm /port/rv64-port/lib/modules/${MODDIR}/source
@@ -179,7 +169,6 @@ RUN echo 'xr829' >> /port/rv64-port/etc/modules
 
 # This may not be needed as it should be done by the networking setup.
 # RUN cp /etc/resolv.conf /port/rv64-port/etc/resolv.conf
-
 
 
 ############################################################################################

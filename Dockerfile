@@ -11,7 +11,7 @@ RUN apt-get update \
                            git gcc-riscv64-linux-gnu g++-riscv64-linux-gnu cpio kmod \
                            python3-setuptools mmdebstrap qemu-user-static binfmt-support \
                            debian-ports-archive-keyring multistrap systemd-container \
-                           kpartx parted kpartx openssl fdisk dosfstools e2fsprogs kmod parted
+                           kpartx parted openssl fdisk dosfstools e2fsprogs
 
 ENV CROSS="CROSS_COMPILE=riscv64-linux-gnu-"
 RUN riscv64-linux-gnu-gcc --version | grep gcc | cut -d')' -f2

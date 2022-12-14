@@ -8,7 +8,7 @@ RUN apt-get update \
                            libmpc-dev libmpfr-dev libgmp-dev gawk build-essential \
                            bison flex texinfo gperf libtool patchutils bc zlib1g-dev \
                            libexpat-dev swig libssl-dev python3-distutils python3-dev \
-                           git gcc-riscv64-linux-gnu g++-riscv64-linux-gnu
+                           git gcc-riscv64-linux-gnu g++-riscv64-linux-gnu cpio kmod
 ENV CROSS="CROSS_COMPILE=riscv64-linux-gnu-"
 RUN riscv64-linux-gnu-gcc --version | grep gcc | cut -d')' -f2
 # WORKDIR /build
@@ -49,7 +49,6 @@ RUN eatmydata make $CROSS PLATFORM=generic FW_PIC=y FW_OPTIONS=0x2
 FROM builder as build_kernel
 ARG KERNEL_TAG
 ARG KERNEL_COMMIT
-RUN eatmydata apt-get install -y cpio  # Required for kernel build
 WORKDIR /build
 RUN eatmydata git clone --depth 1 --branch ${KERNEL_TAG} https://github.com/smaeul/linux
 RUN cd linux && eatmydata git checkout ${KERNEL_COMMIT} && cd -
@@ -65,7 +64,6 @@ WORKDIR /build
 RUN eatmydata make ARCH=riscv -C linux O=../linux-build defconfig
 RUN eatmydata make -j $(nproc) -C linux-build ARCH=riscv $CROSS V=0
 # Files reside in /build/linux-build/arch/riscv/boot/Image.gz
-RUN eatmydata apt-get install -y kmod
 # RUN make -j $(nproc) -C linux-build ARCH=riscv $CROSS INSTALL_MOD_PATH=/build/modules modules_install
 
 

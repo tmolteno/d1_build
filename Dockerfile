@@ -171,18 +171,12 @@ ENV DISK_MB=$DISK_MB
 ENV BOARD=$BOARD
 
 WORKDIR /builder
-COPY --from=build_rootfs /kernel_ver ./kernel_ver
-COPY --from=build_rootfs /port/rv64-port/ ./rv64-port/
-
-COPY --from=build_kernel /build/linux-build/arch/riscv/boot/Image.gz .
-COPY --from=build_kernel /build/linux/arch/riscv/configs/defconfig .
-
-COPY --from=build_uboot /build/boot.scr .
-COPY --from=build_uboot /build/u-boot/u-boot-sunxi-with-spl.bin .
-COPY --from=build_uboot /build/u-boot/arch/riscv/dts/ov_lichee_rv_mini_lcd.dtb .
+COPY --from=build_rootfs /kernel_ver /port/rv64-port ./
+COPY --from=build_kernel /build/linux-build/arch/riscv/boot/Image.gz /build/linux/arch/riscv/configs/defconfig ./
+COPY --from=build_uboot /build/boot.scr /build/u-boot/u-boot-sunxi-with-spl.bin /build/u-boot/arch/riscv/dts/ov_lichee_rv_mini_lcd.dtb ./
+COPY rootfs/setup_rootfs.sh ./rv64-port/setup_rootfs.sh
 RUN ls -l
 
-COPY rootfs/setup_rootfs.sh ./rv64-port/setup_rootfs.sh
 
 COPY scripts/build.sh .
 COPY scripts/create_image.sh .

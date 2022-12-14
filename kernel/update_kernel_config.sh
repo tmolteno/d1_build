@@ -116,5 +116,11 @@ add_config 'CONFIG_CRC32' 'y'
 add_config 'CONFIG_USE_OF' 'y'
 add_config 'CONFIG_OF_LIBFDT_OVERLAY' 'y'
 
+#
+#   Disable irrelevant time consuming modules build
+#
+unset_config 'CONFIG_DRM_RADEON'
+unset_config 'CONFIG_DRM_NOUVEAU'
+
 echo "Config File Follows #####################"
 cat ${CONF_FILE}

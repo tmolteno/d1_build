@@ -19,7 +19,7 @@ chmod 0666 /dev/null
 #
 # Change root password to 'licheerv'
 #
-usermod --password $(echo licheerv | openssl passwd -1 -stdin) root
+usermod --password "$(echo licheerv | openssl passwd -1 -stdin)" root
 
 #
 # Add a new user rv
@@ -30,7 +30,7 @@ useradd --password dummy \
     --home-dir /home/rv --shell /bin/bash rv
 chown rv:rv /home/rv
 # Set password to 'lichee'
-usermod --password $(echo lichee | openssl passwd -1 -stdin) rv
+usermod --password "$(echo lichee | openssl passwd -1 -stdin)" rv
 
 # 
 # Enable system services

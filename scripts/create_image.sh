@@ -68,8 +68,9 @@ mount "/dev/mapper/${LOOP}p2" "${MNTPOINT}"
 cp -a /builder/rv64-port/* "${MNTPOINT}"
 
 # Set up the rootfs
-chroot "${MNTPOINT}" /setup_rootfs.sh
-rm "${MNTPOINT}/setup_rootfs.sh"
+cp /usr/bin/qemu-riscv64-static "${MNTPOINT}/usr/bin/"
+chroot "${MNTPOINT}" qemu-riscv64-static /bin/sh /setup_rootfs.sh
+rm "${MNTPOINT}/setup_rootfs.sh" "${MNTPOINT}/usr/bin/qemu-riscv64-static"
 
 # Set up fstab
 cat >> "${MNTPOINT}/etc/fstab" <<EOF

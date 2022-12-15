@@ -41,5 +41,5 @@ systemctl enable systemd-resolved.service
 # Clean apt cache on the system
 #
 apt-get clean
-rm -rf /var/lib/apt/lists/*
-
+rm -rf /var/lib/apt/lists/* /var/cache/*
+find /var/log -type f -print0 | xargs -0 truncate --size=0

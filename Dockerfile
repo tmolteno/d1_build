@@ -48,6 +48,7 @@ ARG KERNEL_COMMIT
 RUN apt-get install -y cpio  # Required for kernel build
 WORKDIR /build
 RUN git clone --depth 1 --branch ${KERNEL_TAG} https://github.com/smaeul/linux
+WORKDIR /build/linux
 RUN git checkout ${KERNEL_COMMIT}
 WORKDIR /build/linux/drivers/net/wireless
 RUN git clone --depth 1 https://github.com/YuzukiHD/Xradio-XR829.git

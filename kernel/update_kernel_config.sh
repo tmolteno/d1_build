@@ -6,9 +6,15 @@
 CONF_FILE=./arch/riscv/configs/$1
 
 function add_config() {
-    fgrep -v $1 ${CONF_FILE} > tmp_conf
+    grep -F -v "$1" "${CONF_FILE}" > tmp_conf
     echo "$1=$2" >> tmp_conf
-    mv tmp_conf ${CONF_FILE}
+    mv tmp_conf "${CONF_FILE}"
+}
+
+function unset_config() {
+    grep -F -v "$1" "${CONF_FILE}" > tmp_conf
+    echo "# $1 is not set" >> tmp_conf
+    mv tmp_conf "${CONF_FILE}"
 }
 
 add_config 'CONFIG_DEFAULT_HOSTNAME' '"lichee"'
@@ -110,5 +116,11 @@ add_config 'CONFIG_CRC32' 'y'
 add_config 'CONFIG_USE_OF' 'y'
 add_config 'CONFIG_OF_LIBFDT_OVERLAY' 'y'
 
+#
+#   Disable irrelevant time consuming modules build
+#
+unset_config 'CONFIG_DRM_RADEON'
+unset_config 'CONFIG_DRM_NOUVEAU'
+
 echo "Config File Follows #####################"
-cat ${CONF_FILE}
+cat "${CONF_FILE}"

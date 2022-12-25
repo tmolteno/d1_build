@@ -25,8 +25,8 @@ echo "Partitioning loopback device ${LOOPDEV}"
 
 # dd if=/dev/zero of=${LOOPDEV} bs=1M count=200
 parted -s -a optimal -- "${LOOPDEV}" mklabel gpt
-parted -s -a optimal -- "${LOOPDEV}" mkpart boot ext2 40MiB 100MiB
-parted -s -a optimal -- "${LOOPDEV}" mkpart root ext4 100MiB -1GiB
+parted -s -a optimal -- "${LOOPDEV}" mkpart boot ext2 40MiB 300MiB
+parted -s -a optimal -- "${LOOPDEV}" mkpart root ext4 300MiB -1GiB
 parted -s -a optimal -- "${LOOPDEV}" mkpart swap linux-swap -1GiB 100%
 
 kpartx -av "${LOOPDEV}"

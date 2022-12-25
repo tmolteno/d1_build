@@ -1,7 +1,9 @@
 FROM debian:bullseye as builder
 MAINTAINER Tim Molteno "tim@molteno.net"
 ARG DEBIAN_FRONTEND=noninteractive
+ARG DEBIAN_PROXY=""
 
+RUN echo "Acquire::http::Proxy \"${DEBIAN_PROXY}\";" >/etc/apt/apt.conf.d/00proxy
 RUN apt-get update \
     && apt-get install -y eatmydata \
     && eatmydata apt-get install -y autoconf automake autotools-dev bc binfmt-support \

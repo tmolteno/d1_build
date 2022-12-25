@@ -15,7 +15,7 @@ IMG="${OUTPORT}/${IMG_NAME}"
 
 echo "Creating Blank Image ${IMG}"
 
-dd if=/dev/zero "of=${IMG}" bs=1M "count=${DISK_MB}"
+truncate -s "${DISK_MB}M" "${IMG}"
 
 # Setup Loopback device
 LOOP="$(losetup -f --show "${IMG}" | cut -d'/' -f3)"

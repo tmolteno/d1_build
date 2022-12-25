@@ -12,6 +12,7 @@ OUTPORT="$1"
 KERNEL_TAG="$(echo "${KERNEL_TAG}" | tr '/' '_')"
 IMG_NAME="${BOARD}_gcc_${GNU_TOOLS_TAG}_kernel_${KERNEL_TAG}.img"
 IMG="${OUTPORT}/${IMG_NAME}"
+MKFS_COMMON_OPTS="-b 4096 -E stride=32,stripe_width=32,lazy_itable_init,lazy_journal_init,packed_meta_blocks=1,discard"
 
 echo "Creating Blank Image ${IMG}"
 
@@ -31,8 +32,10 @@ parted -s -a optimal -- "${LOOPDEV}" mkpart swap linux-swap -1GiB 100%
 
 kpartx -av "${LOOPDEV}"
 
-mkfs.ext2 "/dev/mapper/${LOOP}p1"
-mkfs.ext4 "/dev/mapper/${LOOP}p2"
+# shellcheck disable=SC2086
+mkfs.ext2 -L lichee_rv_boot ${MKFS_COMMON_OPTS} "/dev/mapper/${LOOP}p1"
+# shellcheck disable=SC2086
+mkfs.ext4 -L lichee_rv_root ${MKFS_COMMON_OPTS} "/dev/mapper/${LOOP}p2"
 mkswap "/dev/mapper/${LOOP}p3"
 
 # Burn U-boot
@@ -62,7 +65,7 @@ rm -rf "${BOOTPOINT}"
 # Now create the root partition
 MNTPOINT=/sdcard_rootfs
 mkdir -p "${MNTPOINT}"
-mount "/dev/mapper/${LOOP}p2" "${MNTPOINT}"
+mount "/dev/mapper/${LOOP}p2" -o discard,noatime "${MNTPOINT}"
 
 # Copy the rootfs
 cp -a /builder/rv64-port/* "${MNTPOINT}"
@@ -82,6 +85,7 @@ EOF
 
 # Clean Up
 echo "Cleaning Up..."
+fstrim --verbose "${MNTPOINT}"
 umount "${MNTPOINT}"
 rm -rf "${MNTPOINT}"
 

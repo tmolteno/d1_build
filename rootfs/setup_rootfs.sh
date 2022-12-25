@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-#  Author: Tim Molteno tim@molteno.net 
+#  Author: Tim Molteno tim@molteno.net
 #  (c) 2022
 #
 export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
@@ -41,5 +41,6 @@ systemctl enable systemd-resolved.service
 # Clean apt cache on the system
 #
 apt-get clean
-rm -rf /var/lib/apt/lists/* /var/cache/*
+rm -rf /var/cache/*
+find /var/lib/apt/lists -type f -not -name '*.gpg' -print0 | xargs -0 rm -f
 find /var/log -type f -print0 | xargs -0 truncate --size=0

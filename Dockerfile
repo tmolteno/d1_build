@@ -1,8 +1,14 @@
 FROM debian:bullseye as builder
 MAINTAINER Tim Molteno "tim@molteno.net"
 ARG DEBIAN_FRONTEND=noninteractive
+ARG DEBIAN_PROXY=""
 
-RUN apt-get update \
+RUN echo "Acquire::http::Proxy \"${DEBIAN_PROXY}\";" >/etc/apt/apt.conf.d/00proxy
+RUN --mount=type=cache,sharing=shared,target=/var/cache \
+    --mount=type=cache,sharing=shared,target=/var/lib/apt/lists \
+    --mount=type=tmpfs,target=/usr/share/man \
+    --mount=type=tmpfs,target=/usr/share/doc \
+    apt-get update \
     && apt-get install -y eatmydata \
     && eatmydata apt-get install -y autoconf automake autotools-dev bc binfmt-support \
                                    bison build-essential cpio curl debian-ports-archive-keyring \
@@ -127,7 +133,11 @@ ARG BOARD
 WORKDIR /build
 COPY rootfs/multistrap_$BOARD.conf multistrap.conf
 
-RUN eatmydata multistrap -f multistrap.conf
+RUN --mount=type=cache,sharing=shared,target=/var/cache \
+    --mount=type=cache,sharing=shared,target=/var/lib/apt/lists \
+    --mount=type=tmpfs,target=/usr/share/man \
+    --mount=type=tmpfs,target=/usr/share/doc \
+    eatmydata multistrap -f multistrap.conf
 
 # Now install the kernel modules into the rootfs
 WORKDIR /build

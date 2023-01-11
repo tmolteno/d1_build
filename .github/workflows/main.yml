@@ -19,14 +19,17 @@ jobs:
             mkdir -p lichee_rv_dock
         - name: Build
           run: |
+            export DOCKER_BUILDKIT=1 COMPOSE_DOCKER_CLI_BUILD=1
             docker-compose build
 
         - name: Create Lichee RV Dock Image
           run: |
+            export DOCKER_BUILDKIT=1 COMPOSE_DOCKER_CLI_BUILD=1
             docker-compose up dock
             ls -l lichee_rv_dock/*
         - name: Create Lichee RV 86 panel Image
           run: |
+            export DOCKER_BUILDKIT=1 COMPOSE_DOCKER_CLI_BUILD=1
             docker-compose up panel
             ls -l lichee_rv_86/*
         - name: Release

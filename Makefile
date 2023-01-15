@@ -9,23 +9,23 @@ all: panel dock
 
 panel:
 	sudo rm -rf ./lichee_rv_86/*
-	docker-compose build panel
+	DOCKER_BUILDKIT=1 docker-compose build panel
 	docker-compose up panel
 
 dock:
 	sudo rm -rf ./lichee_rv_dock/*
-	docker-compose build dock
+	DOCKER_BUILDKIT=1 docker-compose build dock
 	docker-compose up dock
 
 lcd:
 	sudo rm -rf ./lichee_rv_lcd/*
-	docker-compose build lcd
+	DOCKER_BUILDKIT=1 docker-compose build lcd
 	docker-compose up lcd
 
 clean:
 	sudo rm -rf ./lichee_rv_dock/*
 	sudo rm -rf ./lichee_rv_86/*
-	docker-compose build --no-cache
+	DOCKER_BUILDKIT=1 docker-compose build --no-cache
 	docker-compose up
 
 serial:

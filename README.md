@@ -24,7 +24,7 @@ The builds currently contain a handful of standard USB Ethernet drivers, includi
 
 This is intended to be used on a debian system with docker, and docker-compose installed. Modify the parameters of the build in the file docker-compose.yml such as kernel version and board target. Then issue.
 
-    docker-compose build
+    DOCKER_BUILDKIT=1 docker-compose build
     docker-compose up
 
 The build stage does a lot of the work (compiling kernels e.t.c and takes quite a bit of time). Once this is done it will be cached by Docker, so should run faster. The execution stage (docker-compose up) runs a script that does more of the image building using a series of scripts (build.sh, create_image.sh).
@@ -46,7 +46,7 @@ where /dev/sdX is the name of the sdcard device (check dmesg output).
 
 Just issue,
 
-    docker-compose build --no-cache
+    DOCKER_BUILDKIT=1 docker-compose build --no-cache
 
 And everything will be rebulid (new kernel download e.t.c.). This is very slow (on my laptop)
 

@@ -1,4 +1,4 @@
-FROM debian:bullseye as builder
+FROM debian:bookworm as builder
 MAINTAINER Tim Molteno "tim@molteno.net"
 ARG DEBIAN_FRONTEND=noninteractive
 ARG DEBIAN_PROXY=""
@@ -18,7 +18,7 @@ RUN --mount=type=cache,sharing=shared,target=/var/cache \
                                    libtool mmdebstrap multistrap openssl parted \
                                    patchutils python3 python3-dev python3-distutils \
                                    python3-setuptools qemu-user-static swig \
-                                   systemd-container texinfo zlib1g-dev
+                                   systemd-container texinfo zlib1g-dev wget
 
 ENV CROSS="CROSS_COMPILE=riscv64-linux-gnu-"
 RUN riscv64-linux-gnu-gcc --version | grep gcc | cut -d')' -f2

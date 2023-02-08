@@ -12,8 +12,8 @@ services:
             DISK_MB: 7300
             GNU_TOOLS_TAG: 10.2.1
             UBOOT_TAG: d1-wip
-            KERNEL_TAG: d1/all
-            KERNEL_COMMIT: b466df9
+            KERNEL_TAG: d1-wip-v5.18-rc4
+            KERNEL_COMMIT: ""
     volumes:
         - './lichee_rv_dock:/outport'
 
@@ -27,8 +27,8 @@ services:
             DISK_MB: 7300
             GNU_TOOLS_TAG: 10.2.1
             UBOOT_TAG: d1-wip
-            KERNEL_TAG: d1/all
-            KERNEL_COMMIT: b466df9
+            KERNEL_TAG: d1-wip-v5.18-rc4
+            KERNEL_COMMIT: ""
     volumes:
         - './lichee_rv_86:/outport'
 

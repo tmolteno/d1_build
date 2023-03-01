@@ -32,7 +32,7 @@ FROM builder as build_opensbi
 WORKDIR /build
 RUN git clone --depth 1 --branch v1.2 https://github.com/riscv-software-src/opensbi
 WORKDIR /build/opensbi
-RUN eatmydata make $CROSS PLATFORM=generic FW_PIC=y BUILD_INFO=y
+RUN eatmydata make $CROSS PLATFORM=generic FW_PIC=y FW_OPTIONS=0x2
 # The binary is located here: /build/opensbi/build/platform/generic/firmware/fw_dynamic.bin
 
 

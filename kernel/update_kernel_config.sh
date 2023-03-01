@@ -109,7 +109,6 @@ add_config 'CONFIG_CRYPTO_CCM' 'y'
 add_config 'CONFIG_CRYPTO_GCM' 'y'
 add_config 'CONFIG_CRYPTO_CMAC' 'y'
 add_config 'CONFIG_CRC32' 'y'
-
 #
 #   Enable device tree overlays
 #
